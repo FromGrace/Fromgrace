@@ -60,7 +60,7 @@
       background-color: var(--metal-dark);
     }
     
-    /* Hintergrundlogo - FIXED und immer sichtbar */
+    /* Hintergrundlogo - OPTIMIZED für Mobile */
     .background-logo {
       position: fixed;
       top: 0;
@@ -70,8 +70,8 @@
       background-image: url('https://storage.googleapis.com/leitmotiv-multi/regio-image-2025-05/4025223/xtralarge/avatar.png');
       background-position: center center;
       background-repeat: no-repeat;
-      background-size: contain;
-      background-attachment: fixed;
+      background-size: cover;
+      background-attachment: scroll; /* Better for mobile */
       opacity: var(--metal-bg-opacity);
       z-index: -2;
       pointer-events: none;
@@ -222,81 +222,104 @@
       opacity: 0;
     }
     .mobile-menu.active {
-      max-height: 500px; /* Etwas höher als der erwartete Inhalt */
+      max-height: 500px;
       opacity: 1;
       overflow: visible;
     }
 
     /* Mobile Link Styling */
     .mobile-nav-link {
-      min-height: 44px; /* Apple Touch Target Guideline */
+      min-height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    /* Social Icons in Mobile Menu */
-    .social-icon-mobile {
-      min-width: 40px;
-      min-height: 40px;
+    /* Social Icons in Header */
+    .header-social-icon {
+      min-width: 36px;
+      min-height: 36px;
+      font-size: 0.8rem;
     }
     
-    /* Mobile Navigation Styles */
+    /* Mobile Optimization */
     @media (max-width: 768px) {
-      nav {
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
+      /* Optimiertes Background für Mobile */
+      .background-logo {
+        background-size: contain;
+        background-position: center 60%;
+        opacity: 0.3;
       }
       
-      .nav-container {
-        padding-left: 1rem;
-        padding-right: 1rem;
+      /* Header Anpassung */
+      header {
+        padding-top: 5rem;
+        padding-bottom: 2rem;
       }
       
-      .nav-links {
-        gap: 0.5rem;
+      /* Größere Touch-Targets */
+      button, .mobile-nav-link, .header-social-icon {
+        min-height: 44px;
+        min-width: 44px;
       }
       
-      .nav-link {
-        font-size: 0.7rem;
-        padding: 0.25rem 0.5rem;
+      /* Kompaktere Section Paddings */
+      section {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
       }
       
-      /* Kompaktere Social Media Sidebar für Mobile */
+      /* Optimierte Typografie für Mobile */
+      #band-name {
+        font-size: 3.5rem !important;
+        line-height: 1.1;
+      }
+      
+      #tagline {
+        font-size: 1.5rem !important;
+      }
+      
+      h2 {
+        font-size: 2.5rem !important;
+      }
+      
+      /* Optimierte Grids */
+      .grid-cols-2 {
+        gap: 0.75rem;
+      }
+      
+      .member-card, .album-card, .merch-card {
+        padding: 1rem !important;
+      }
+      
+      /* Tour Dates optimiert */
+      .tour-date {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem !important;
+      }
+      
+      .tour-date > div {
+        margin-bottom: 1rem;
+      }
+    }
+    
+    /* Desktop Optimization */
+    @media (min-width: 769px) {
+      .mobile-menu {
+        display: none;
+      }
+      
+      /* Desktop Navigation verstecken */
+      .desktop-nav {
+        display: none;
+      }
+      
+      /* Social Media Sidebar entfernt */
       .social-sidebar {
         display: none;
-      }
-      
-      /* Angepasste Header-Padding für Mobile */
-      header {
-        padding-top: 4.5rem;
-      }
-      
-      /* Größere Touch-Targets für Mobile */
-      .nav-link, .social-icon, button {
-        min-height: 2.5rem;
-        min-width: 2.5rem;
-      }
-      
-      /* Mobile-Performance: fixed background auf scroll ändern */
-      .background-logo {
-        background-attachment: scroll;
-        background-size: cover;
-      }
-    }
-    
-    /* Desktop Navigation */
-    @media (min-width: 769px) {
-      .menu-toggle {
-        display: none;
-      }
-      
-      .mobile-nav {
-        display: none;
-      }
-      
-      .desktop-nav {
-        display: flex;
       }
     }
     
@@ -372,48 +395,43 @@
   </style>
 </head>
 <body class="h-full">
-  <!-- Hintergrundlogo (immer sichtbar) -->
+  <!-- Hintergrundlogo -->
   <div class="background-logo" aria-hidden="true"></div>
   <div class="background-overlay" aria-hidden="true"></div>
   
   <!-- Hauptinhalt -->
   <div class="content-container w-full h-full overflow-auto">
     
-    <!-- Navigation -->
+    <!-- Mobile Navigation -->
     <nav class="fixed top-0 w-full z-50 bg-black/95 backdrop-blur-sm border-b border-red-900/30">
-      <!-- Desktop Navigation -->
-      <div class="desktop-nav max-w-7xl mx-auto px-4 sm:px-6 py-4">
-        <div class="flex items-center justify-center gap-6 lg:gap-8 flex-wrap">
-          <a href="#home" class="text-gray-300 hover:text-red-500 transition-colors font-bold text-sm tracking-wider elegant-text">HOME</a>
-          <a href="#band" class="text-gray-300 hover:text-red-500 transition-colors font-bold text-sm tracking-wider elegant-text">BAND</a>
-          <a href="#music" class="text-gray-300 hover:text-red-500 transition-colors font-bold text-sm tracking-wider elegant-text">MUSIC</a>
-          <a href="#tour" class="text-gray-300 hover:text-red-500 transition-colors font-bold text-sm tracking-wider elegant-text">TOUR</a>
-          <a href="#merch" class="text-gray-300 hover:text-red-500 transition-colors font-bold text-sm tracking-wider elegant-text">MERCH</a>
-          <a href="#past" class="text-gray-300 hover:text-red-500 transition-colors font-bold text-sm tracking-wider elegant-text">PAST</a>
-          <a href="#impressum" class="text-gray-300 hover:text-red-500 transition-colors font-bold text-sm tracking-wider elegant-text">IMPRESSUM</a>
-          <a href="#contact" class="text-gray-300 hover:text-red-500 transition-colors font-bold text-sm tracking-wider elegant-text">CONTACT</a>
-        </div>
-      </div>
-      
-      <!-- Mobile Navigation -->
-      <div class="mobile-nav md:hidden">
+      <div class="mobile-nav">
         <div class="flex justify-between items-center px-4 py-3">
-          <!-- Bandname links -->
-          <div class="text-red-600 font-bold text-xl metal-text tracking-tight">FROM GRACE</div>
+          <!-- Bandname links - IN WEISS -->
+          <div class="text-white font-bold text-xl metal-text tracking-tight">FROM GRACE</div>
           
-          <!-- Hamburger Button -->
-          <button class="hamburger p-2 focus:outline-none focus:ring-2 focus:ring-red-700 rounded" 
-                  id="menuToggle" 
-                  aria-label="Hauptmenü öffnen oder schließen"
-                  aria-expanded="false"
-                  aria-controls="mobileNav">
-            <span class="hamburger-line block w-6 h-0.5 bg-gray-300 mb-1.5 transition-all duration-300"></span>
-            <span class="hamburger-line block w-6 h-0.5 bg-gray-300 mb-1.5 transition-all duration-300"></span>
-            <span class="hamburger-line block w-6 h-0.5 bg-gray-300 transition-all duration-300"></span>
-          </button>
+          <!-- Social Icons und Hamburger rechts -->
+          <div class="flex items-center gap-2">
+            <!-- Social Media Icons (klein in der Mitte) -->
+            <div class="flex gap-1">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="header-social-icon w-8 h-8 flex items-center justify-center bg-zinc-900/80 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs" aria-label="Visit Facebook">f</a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="header-social-icon w-8 h-8 flex items-center justify-center bg-zinc-900/80 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs" aria-label="Visit Instagram">IG</a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="header-social-icon w-8 h-8 flex items-center justify-center bg-zinc-900/80 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs" aria-label="Visit YouTube">YT</a>
+            </div>
+            
+            <!-- Hamburger Button -->
+            <button class="hamburger p-2 focus:outline-none focus:ring-2 focus:ring-red-700 rounded" 
+                    id="menuToggle" 
+                    aria-label="Hauptmenü öffnen oder schließen"
+                    aria-expanded="false"
+                    aria-controls="mobileNav">
+              <span class="hamburger-line block w-6 h-0.5 bg-gray-300 mb-1.5 transition-all duration-300"></span>
+              <span class="hamburger-line block w-6 h-0.5 bg-gray-300 mb-1.5 transition-all duration-300"></span>
+              <span class="hamburger-line block w-6 h-0.5 bg-gray-300 transition-all duration-300"></span>
+            </button>
+          </div>
         </div>
         
-        <!-- Mobile Menü (ausgeblendet) -->
+        <!-- Mobile Menü (ohne Impressum) -->
         <div class="mobile-menu hidden px-4 pb-4" id="mobileNav" aria-hidden="true">
           <div class="grid grid-cols-2 gap-3 pt-4 border-t border-red-900/20">
             <a href="#home" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 transition-all font-bold text-xs tracking-wider elegant-text text-center py-3 px-2 rounded border border-red-900/30">HOME</a>
@@ -422,33 +440,17 @@
             <a href="#tour" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 transition-all font-bold text-xs tracking-wider elegant-text text-center py-3 px-2 rounded border border-red-900/30">TOUR</a>
             <a href="#merch" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 transition-all font-bold text-xs tracking-wider elegant-text text-center py-3 px-2 rounded border border-red-900/30">MERCH</a>
             <a href="#past" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 transition-all font-bold text-xs tracking-wider elegant-text text-center py-3 px-2 rounded border border-red-900/30">PAST</a>
-            <a href="#impressum" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 transition-all font-bold text-xs tracking-wider elegant-text text-center py-3 px-2 rounded border border-red-900/30">IMPRESSUM</a>
+            <!-- CONTACT BEIBEHALTEN -->
             <a href="#contact" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 transition-all font-bold text-xs tracking-wider elegant-text text-center py-3 px-2 rounded border border-red-900/30">CONTACT</a>
-          </div>
-          <!-- Social Icons im Mobile Menü (optional) -->
-          <div class="flex justify-center gap-4 mt-6 pt-4 border-t border-red-900/20">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-icon-mobile w-10 h-10 flex items-center justify-center bg-zinc-900 text-white rounded-full hover:bg-red-700 transition-all font-bold text-sm">f</a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon-mobile w-10 h-10 flex items-center justify-center bg-zinc-900 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs">IG</a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-icon-mobile w-10 h-10 flex items-center justify-center bg-zinc-900 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs">YT</a>
           </div>
         </div>
       </div>
     </nav>
     
-    <!-- Social Media Sidebar -->
-    <div class="social-sidebar fixed top-32 right-6 flex flex-col gap-4 z-50">
-      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 flex items-center justify-center bg-black border-2 border-red-900 text-white rounded-full hover:bg-red-700 hover:border-red-700 transition-all font-bold text-sm" aria-label="Visit Facebook"> f </a>
-      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 flex items-center justify-center bg-black border-2 border-red-900 text-white rounded-full hover:bg-red-700 hover:border-red-700 transition-all font-bold text-xs" aria-label="Visit Instagram"> IG </a>
-      <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 flex items-center justify-center bg-black border-2 border-red-900 text-white rounded-full hover:bg-red-700 hover:border-red-700 transition-all font-bold text-xs" aria-label="Visit YouTube"> YT </a>
-      <a href="https://spotify.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 flex items-center justify-center bg-black border-2 border-red-900 text-white rounded-full hover:bg-red-700 hover:border-red-700 transition-all font-bold text-xs" aria-label="Visit Spotify"> SP </a>
-      <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 flex items-center justify-center bg-black border-2 border-red-900 text-white rounded-full hover:bg-red-700 hover:border-red-700 transition-all font-bold text-xs" aria-label="Visit Apple Music"> 🍎 </a>
-      <a href="https://bandcamp.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 flex items-center justify-center bg-black border-2 border-red-900 text-white rounded-full hover:bg-red-700 hover:border-red-700 transition-all font-bold text-xs" aria-label="Visit Bandcamp"> BC </a>
-    </div>
-    
     <!-- Header / Home Section -->
-    <header id="home" class="min-h-screen flex items-center justify-center text-center px-6 pt-16 md:pt-20">
+    <header id="home" class="min-h-screen flex items-center justify-center text-center px-4 pt-16 pb-8">
       <div>
-        <!-- Bandname mit verbessertem Schwebe-Effekt -->
+        <!-- Bandname mit Schwebe-Effekt -->
         <h1 id="band-name" class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-widest uppercase metal-text text-white mb-4 float-animation">From Grace</h1>
         <p id="tagline" class="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-red-700 metal-text mb-8">Death Metal forged in fire and despair</p>
         <div class="section-divider mt-8 md:mt-12 max-w-2xl"></div>
@@ -461,13 +463,13 @@
     </header>
     
     <!-- Band Section -->
-    <section id="band" class="py-16 md:py-20 px-4 sm:px-6 md:px-20 text-center">
+    <section id="band" class="py-12 md:py-20 px-4 sm:px-6 text-center">
       <h2 class="text-4xl md:text-5xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">THE BAND</h2>
       <p id="band-intro" class="text-base md:text-lg text-gray-400 max-w-3xl mx-auto mt-6 md:mt-8 elegant-text leading-relaxed">
         Five souls bound by darkness, channeling rage and despair into sonic devastation. From Grace emerged from the shadows to deliver uncompromising death metal.
       </p>
       
-      <!-- Desktop: Pentagram Layout mit CSS-Klassen -->
+      <!-- Desktop: Pentagram Layout -->
       <div class="pentagram-container hidden md:block">
         <!-- Vocals - Bottom Center -->
         <div class="member-card bg-zinc-900 p-6 rounded-lg glow-border pentagram-vocals">
@@ -531,64 +533,64 @@
       </div>
       
       <!-- Mobile: Grid Layout -->
-      <div class="grid grid-cols-2 md:hidden gap-4 sm:gap-6 max-w-xl mx-auto mt-10">
+      <div class="grid grid-cols-2 md:hidden gap-4 max-w-xl mx-auto mt-10">
         <!-- Vocals -->
-        <div class="member-card bg-zinc-900 p-4 sm:p-6 rounded-lg glow-border col-span-2">
-          <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-3 sm:mb-4 rounded-full overflow-hidden border-4 border-red-900">
+        <div class="member-card bg-zinc-900 p-4 rounded-lg glow-border col-span-2">
+          <div class="w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden border-4 border-red-900">
             <div class="w-full h-full bg-gradient-to-br from-red-900 to-black flex items-center justify-center" aria-hidden="true">
-              <span class="text-3xl sm:text-4xl">🎤</span>
+              <span class="text-3xl">🎤</span>
             </div>
           </div>
-          <h3 class="text-white font-bold elegant-text text-base sm:text-lg">Jan</h3>
-          <p class="text-red-700 text-xs sm:text-sm mt-1">Vocals</p>
+          <h3 class="text-white font-bold elegant-text text-base">Jan</h3>
+          <p class="text-red-700 text-xs mt-1">Vocals</p>
           <p class="text-gray-500 text-xs italic mt-1">The Voice</p>
         </div>
         
         <!-- Lead Guitar -->
-        <div class="member-card bg-zinc-900 p-4 sm:p-6 rounded-lg glow-border">
-          <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-3 sm:mb-4 rounded-full overflow-hidden border-4 border-red-900">
+        <div class="member-card bg-zinc-900 p-4 rounded-lg glow-border">
+          <div class="w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden border-4 border-red-900">
             <div class="w-full h-full bg-gradient-to-br from-red-900 to-black flex items-center justify-center" aria-hidden="true">
-              <span class="text-3xl sm:text-4xl">🎸</span>
+              <span class="text-3xl">🎸</span>
             </div>
           </div>
-          <h3 class="text-white font-bold elegant-text text-base sm:text-lg">Jessy</h3>
-          <p class="text-red-700 text-xs sm:text-sm mt-1">Lead Guitar</p>
+          <h3 class="text-white font-bold elegant-text text-base">Jessy</h3>
+          <p class="text-red-700 text-xs mt-1">Lead Guitar</p>
           <p class="text-gray-500 text-xs italic mt-1">Riffmaster</p>
         </div>
         
         <!-- Rhythm Guitar -->
-        <div class="member-card bg-zinc-900 p-4 sm:p-6 rounded-lg glow-border">
-          <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-3 sm:mb-4 rounded-full overflow-hidden border-4 border-red-900">
+        <div class="member-card bg-zinc-900 p-4 rounded-lg glow-border">
+          <div class="w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden border-4 border-red-900">
             <div class="w-full h-full bg-gradient-to-br from-red-900 to-black flex items-center justify-center" aria-hidden="true">
-              <span class="text-3xl sm:text-4xl">🎸</span>
+              <span class="text-3xl">🎸</span>
             </div>
           </div>
-          <h3 class="text-white font-bold elegant-text text-base sm:text-lg">Viktor</h3>
-          <p class="text-red-700 text-xs sm:text-sm mt-1">Rhythm Guitar</p>
+          <h3 class="text-white font-bold elegant-text text-base">Viktor</h3>
+          <p class="text-red-700 text-xs mt-1">Rhythm Guitar</p>
           <p class="text-gray-500 text-xs italic mt-1">The Shredder</p>
         </div>
         
         <!-- Bass -->
-        <div class="member-card bg-zinc-900 p-4 sm:p-6 rounded-lg glow-border">
-          <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-3 sm:mb-4 rounded-full overflow-hidden border-4 border-red-900">
+        <div class="member-card bg-zinc-900 p-4 rounded-lg glow-border">
+          <div class="w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden border-4 border-red-900">
             <div class="w-full h-full bg-gradient-to-br from-red-900 to-black flex items-center justify-center" aria-hidden="true">
-              <span class="text-3xl sm:text-4xl">🎸</span>
+              <span class="text-3xl">🎸</span>
             </div>
           </div>
-          <h3 class="text-white font-bold elegant-text text-base sm:text-lg">Enrico</h3>
-          <p class="text-red-700 text-xs sm:text-sm mt-1">Bass</p>
+          <h3 class="text-white font-bold elegant-text text-base">Enrico</h3>
+          <p class="text-red-700 text-xs mt-1">Bass</p>
           <p class="text-gray-500 text-xs italic mt-1">Low End Thunder</p>
         </div>
         
         <!-- Drums -->
-        <div class="member-card bg-zinc-900 p-4 sm:p-6 rounded-lg glow-border">
-          <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-3 sm:mb-4 rounded-full overflow-hidden border-4 border-red-900">
+        <div class="member-card bg-zinc-900 p-4 rounded-lg glow-border">
+          <div class="w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden border-4 border-red-900">
             <div class="w-full h-full bg-gradient-to-br from-red-900 to-black flex items-center justify-center" aria-hidden="true">
-              <span class="text-3xl sm:text-4xl">🥁</span>
+              <span class="text-3xl">🥁</span>
             </div>
           </div>
-          <h3 class="text-white font-bold elegant-text text-base sm:text-lg">Martin</h3>
-          <p class="text-red-700 text-xs sm:text-sm mt-1">Drums</p>
+          <h3 class="text-white font-bold elegant-text text-base">Martin</h3>
+          <p class="text-red-700 text-xs mt-1">Drums</p>
           <p class="text-gray-500 text-xs italic mt-1">Chaos Keeper</p>
         </div>
       </div>
@@ -596,43 +598,43 @@
     </section>
     
     <!-- Music Section -->
-    <section id="music" class="py-16 md:py-20 px-4 sm:px-6 md:px-20 text-center">
+    <section id="music" class="py-12 md:py-20 px-4 sm:px-6 text-center">
       <h2 class="text-4xl md:text-5xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">DISCOGRAPHY</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 max-w-6xl mx-auto mt-10 md:mt-16">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-10">
         <div class="album-card bg-zinc-900 rounded-lg overflow-hidden glow-border">
-          <div class="w-full h-48 sm:h-56 md:h-64 bg-gradient-to-br from-red-950 via-black to-zinc-900 flex items-center justify-center">
-            <span class="text-6xl sm:text-7xl" aria-hidden="true">💀</span>
+          <div class="w-full h-48 md:h-64 bg-gradient-to-br from-red-950 via-black to-zinc-900 flex items-center justify-center">
+            <span class="text-6xl" aria-hidden="true">💀</span>
           </div>
-          <div class="p-4 sm:p-6">
-            <h3 class="text-xl sm:text-2xl font-bold text-white metal-text mb-2">Descent Into Madness</h3>
+          <div class="p-4">
+            <h3 class="text-xl font-bold text-white metal-text mb-2">Descent Into Madness</h3>
             <p class="text-red-700 elegant-text">2023</p>
-            <button class="mt-3 sm:mt-4 bg-red-700 hover:bg-red-800 text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded font-bold elegant-text transition-colors text-xs sm:text-sm" aria-label="Listen to Descent Into Madness">
+            <button class="mt-4 bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded font-bold elegant-text transition-colors text-sm w-full" aria-label="Listen to Descent Into Madness">
               LISTEN NOW
             </button>
           </div>
         </div>
         
         <div class="album-card bg-zinc-900 rounded-lg overflow-hidden glow-border">
-          <div class="w-full h-48 sm:h-56 md:h-64 bg-gradient-to-br from-red-950 via-black to-zinc-900 flex items-center justify-center">
-            <span class="text-6xl sm:text-7xl" aria-hidden="true">⚔️</span>
+          <div class="w-full h-48 md:h-64 bg-gradient-to-br from-red-950 via-black to-zinc-900 flex items-center justify-center">
+            <span class="text-6xl" aria-hidden="true">⚔️</span>
           </div>
-          <div class="p-4 sm:p-6">
-            <h3 class="text-xl sm:text-2xl font-bold text-white metal-text mb-2">Shadows of War</h3>
+          <div class="p-4">
+            <h3 class="text-xl font-bold text-white metal-text mb-2">Shadows of War</h3>
             <p class="text-red-700 elegant-text">2021</p>
-            <button class="mt-3 sm:mt-4 bg-red-700 hover:bg-red-800 text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded font-bold elegant-text transition-colors text-xs sm:text-sm" aria-label="Listen to Shadows of War">
+            <button class="mt-4 bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded font-bold elegant-text transition-colors text-sm w-full" aria-label="Listen to Shadows of War">
               LISTEN NOW
             </button>
           </div>
         </div>
         
         <div class="album-card bg-zinc-900 rounded-lg overflow-hidden glow-border">
-          <div class="w-full h-48 sm:h-56 md:h-64 bg-gradient-to-br from-red-950 via-black to-zinc-900 flex items-center justify-center">
-            <span class="text-6xl sm:text-7xl" aria-hidden="true">🔥</span>
+          <div class="w-full h-48 md:h-64 bg-gradient-to-br from-red-950 via-black to-zinc-900 flex items-center justify-center">
+            <span class="text-6xl" aria-hidden="true">🔥</span>
           </div>
-          <div class="p-4 sm:p-6">
-            <h3 class="text-xl sm:text-2xl font-bold text-white metal-text mb-2">Ashes of Eden</h3>
+          <div class="p-4">
+            <h3 class="text-xl font-bold text-white metal-text mb-2">Ashes of Eden</h3>
             <p class="text-red-700 elegant-text">2019</p>
-            <button class="mt-3 sm:mt-4 bg-red-700 hover:bg-red-800 text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded font-bold elegant-text transition-colors text-xs sm:text-sm" aria-label="Listen to Ashes of Eden">
+            <button class="mt-4 bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded font-bold elegant-text transition-colors text-sm w-full" aria-label="Listen to Ashes of Eden">
               LISTEN NOW
             </button>
           </div>
@@ -642,44 +644,44 @@
     </section>
     
     <!-- Tour Section -->
-    <section id="tour" class="py-16 md:py-20 px-4 sm:px-6 md:px-20 text-center">
+    <section id="tour" class="py-12 md:py-20 px-4 sm:px-6 text-center">
       <h2 class="text-4xl md:text-5xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">TOUR DATES</h2>
-      <div class="max-w-4xl mx-auto mt-10 md:mt-16 space-y-4 md:space-y-6">
-        <div class="tour-date bg-zinc-900 p-4 sm:p-6 rounded-lg glow-border flex flex-col md:flex-row justify-between items-center">
-          <div class="text-left mb-4 md:mb-0">
-            <p class="text-red-700 font-bold elegant-text text-base sm:text-lg">15.06.2024</p>
-            <p class="text-white text-lg sm:text-xl metal-text mb-1">Berlin • Abyss Club</p>
-            <p class="text-gray-400 elegant-text text-xs sm:text-sm">Doors open: 19:00</p>
+      <div class="max-w-4xl mx-auto mt-10 space-y-4">
+        <div class="tour-date bg-zinc-900 p-4 rounded-lg glow-border">
+          <div class="text-center mb-4">
+            <p class="text-red-700 font-bold elegant-text text-lg">15.06.2024</p>
+            <p class="text-white text-xl metal-text mb-1">Berlin • Abyss Club</p>
+            <p class="text-gray-400 elegant-text text-sm">Doors open: 19:00</p>
           </div>
-          <button class="bg-red-700 hover:bg-red-800 text-white px-6 sm:px-8 py-2 sm:py-3 rounded font-bold elegant-text transition-colors transform hover:scale-105 text-sm" aria-label="Buy tickets for Berlin concert">
+          <button class="bg-red-700 hover:bg-red-800 text-white px-6 py-3 rounded font-bold elegant-text transition-colors transform hover:scale-105 text-sm w-full" aria-label="Buy tickets for Berlin concert">
             TICKETS
           </button>
         </div>
         
-        <div class="tour-date bg-zinc-900 p-4 sm:p-6 rounded-lg glow-border flex flex-col md:flex-row justify-between items-center">
-          <div class="text-left mb-4 md:mb-0">
-            <p class="text-red-700 font-bold elegant-text text-base sm:text-lg">22.06.2024</p>
-            <p class="text-white text-lg sm:text-xl metal-text mb-1">Hamburg • Dark Fortress</p>
-            <p class="text-gray-400 elegant-text text-xs sm:text-sm">Doors open: 20:00</p>
+        <div class="tour-date bg-zinc-900 p-4 rounded-lg glow-border">
+          <div class="text-center mb-4">
+            <p class="text-red-700 font-bold elegant-text text-lg">22.06.2024</p>
+            <p class="text-white text-xl metal-text mb-1">Hamburg • Dark Fortress</p>
+            <p class="text-gray-400 elegant-text text-sm">Doors open: 20:00</p>
           </div>
-          <button class="bg-red-700 hover:bg-red-800 text-white px-6 sm:px-8 py-2 sm:py-3 rounded font-bold elegant-text transition-colors transform hover:scale-105 text-sm" aria-label="Buy tickets for Hamburg concert">
+          <button class="bg-red-700 hover:bg-red-800 text-white px-6 py-3 rounded font-bold elegant-text transition-colors transform hover:scale-105 text-sm w-full" aria-label="Buy tickets for Hamburg concert">
             TICKETS
           </button>
         </div>
         
-        <div class="tour-date bg-zinc-900 p-4 sm:p-6 rounded-lg glow-border flex flex-col md:flex-row justify-between items-center">
-          <div class="text-left mb-4 md:mb-0">
-            <p class="text-red-700 font-bold elegant-text text-base sm:text-lg">29.06.2024</p>
-            <p class="text-white text-lg sm:text-xl metal-text mb-1">München • Metalhead Arena</p>
-            <p class="text-gray-400 elegant-text text-xs sm:text-sm">Doors open: 18:00</p>
+        <div class="tour-date bg-zinc-900 p-4 rounded-lg glow-border">
+          <div class="text-center mb-4">
+            <p class="text-red-700 font-bold elegant-text text-lg">29.06.2024</p>
+            <p class="text-white text-xl metal-text mb-1">München • Metalhead Arena</p>
+            <p class="text-gray-400 elegant-text text-sm">Doors open: 18:00</p>
           </div>
-          <button class="bg-red-700 hover:bg-red-800 text-white px-6 sm:px-8 py-2 sm:py-3 rounded font-bold elegant-text transition-colors transform hover:scale-105 text-sm" aria-label="Buy tickets for München concert">
+          <button class="bg-red-700 hover:bg-red-800 text-white px-6 py-3 rounded font-bold elegant-text transition-colors transform hover:scale-105 text-sm w-full" aria-label="Buy tickets for München concert">
             TICKETS
           </button>
         </div>
       </div>
-      <div class="mt-8 md:mt-10">
-        <button class="bg-transparent border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white px-6 sm:px-8 py-2 sm:py-3 rounded font-bold elegant-text transition-colors text-sm" aria-label="View all tour dates">
+      <div class="mt-8">
+        <button class="bg-transparent border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white px-6 py-3 rounded font-bold elegant-text transition-colors text-sm w-full md:w-auto" aria-label="View all tour dates">
           VIEW ALL DATES
         </button>
       </div>
@@ -687,50 +689,50 @@
     </section>
     
     <!-- Merch Section -->
-    <section id="merch" class="py-16 md:py-20 px-4 sm:px-6 md:px-20 text-center">
+    <section id="merch" class="py-12 md:py-20 px-4 sm:px-6 text-center">
       <h2 class="text-4xl md:text-5xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">MERCHANDISE</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 max-w-6xl mx-auto mt-10 md:mt-16">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-10">
         <div class="merch-card bg-zinc-900 rounded-lg overflow-hidden glow-border">
-          <div class="w-full h-48 sm:h-56 md:h-64 bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center">
-            <span class="text-6xl sm:text-7xl" aria-hidden="true">👕</span>
+          <div class="w-full h-48 md:h-64 bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center">
+            <span class="text-6xl" aria-hidden="true">👕</span>
           </div>
-          <div class="p-4 sm:p-6">
-            <h3 class="text-lg sm:text-xl font-bold text-white elegant-text mb-2">Band T-Shirt</h3>
-            <p class="text-red-700 font-bold text-xl sm:text-2xl mb-3 sm:mb-4">25€</p>
-            <button class="bg-red-700 hover:bg-red-800 text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded font-bold elegant-text transition-colors text-xs sm:text-sm w-full" aria-label="Add Band T-Shirt to cart">
+          <div class="p-4">
+            <h3 class="text-lg font-bold text-white elegant-text mb-2">Band T-Shirt</h3>
+            <p class="text-red-700 font-bold text-2xl mb-4">25€</p>
+            <button class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded font-bold elegant-text transition-colors text-sm w-full" aria-label="Add Band T-Shirt to cart">
               ADD TO CART
             </button>
           </div>
         </div>
         
         <div class="merch-card bg-zinc-900 rounded-lg overflow-hidden glow-border">
-          <div class="w-full h-48 sm:h-56 md:h-64 bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center">
-            <span class="text-6xl sm:text-7xl" aria-hidden="true">🧢</span>
+          <div class="w-full h-48 md:h-64 bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center">
+            <span class="text-6xl" aria-hidden="true">🧢</span>
           </div>
-          <div class="p-4 sm:p-6">
-            <h3 class="text-lg sm:text-xl font-bold text-white elegant-text mb-2">Snapback Cap</h3>
-            <p class="text-red-700 font-bold text-xl sm:text-2xl mb-3 sm:mb-4">20€</p>
-            <button class="bg-red-700 hover:bg-red-800 text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded font-bold elegant-text transition-colors text-xs sm:text-sm w-full" aria-label="Add Snapback Cap to cart">
+          <div class="p-4">
+            <h3 class="text-lg font-bold text-white elegant-text mb-2">Snapback Cap</h3>
+            <p class="text-red-700 font-bold text-2xl mb-4">20€</p>
+            <button class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded font-bold elegant-text transition-colors text-sm w-full" aria-label="Add Snapback Cap to cart">
               ADD TO CART
             </button>
           </div>
         </div>
         
         <div class="merch-card bg-zinc-900 rounded-lg overflow-hidden glow-border">
-          <div class="w-full h-48 sm:h-56 md:h-64 bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center">
-            <span class="text-6xl sm:text-7xl" aria-hidden="true">🎸</span>
+          <div class="w-full h-48 md:h-64 bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center">
+            <span class="text-6xl" aria-hidden="true">🎸</span>
           </div>
-          <div class="p-4 sm:p-6">
-            <h3 class="text-lg sm:text-xl font-bold text-white elegant-text mb-2">Guitar Picks Set</h3>
-            <p class="text-red-700 font-bold text-xl sm:text-2xl mb-3 sm:mb-4">10€</p>
-            <button class="bg-red-700 hover:bg-red-800 text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded font-bold elegant-text transition-colors text-xs sm:text-sm w-full" aria-label="Add Guitar Picks Set to cart">
+          <div class="p-4">
+            <h3 class="text-lg font-bold text-white elegant-text mb-2">Guitar Picks Set</h3>
+            <p class="text-red-700 font-bold text-2xl mb-4">10€</p>
+            <button class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded font-bold elegant-text transition-colors text-sm w-full" aria-label="Add Guitar Picks Set to cart">
               ADD TO CART
             </button>
           </div>
         </div>
       </div>
-      <div class="mt-8 md:mt-10">
-        <button class="bg-transparent border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white px-6 sm:px-8 py-2 sm:py-3 rounded font-bold elegant-text transition-colors text-sm" aria-label="View all merchandise">
+      <div class="mt-8">
+        <button class="bg-transparent border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white px-6 py-3 rounded font-bold elegant-text transition-colors text-sm w-full md:w-auto" aria-label="View all merchandise">
           VIEW ALL MERCH
         </button>
       </div>
@@ -738,28 +740,28 @@
     </section>
     
     <!-- Past Section -->
-    <section id="past" class="py-16 md:py-20 px-4 sm:px-6 md:px-20 text-center">
+    <section id="past" class="py-12 md:py-20 px-4 sm:px-6 text-center">
       <h2 class="text-4xl md:text-5xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">THE PAST</h2>
-      <div class="max-w-4xl mx-auto mt-10 md:mt-16">
-        <p class="text-base md:text-lg text-gray-400 elegant-text leading-relaxed mb-8 md:mb-10">
+      <div class="max-w-4xl mx-auto mt-10">
+        <p class="text-base md:text-lg text-gray-400 elegant-text leading-relaxed mb-8">
           Born from the ashes of forgotten dreams, From Grace has walked the path of darkness for over a decade. Through lineup changes, countless shows, and the weight of existence, we've forged our sound in the fires of adversity.
         </p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-          <div class="bg-zinc-900 p-6 md:p-8 rounded-lg glow-border">
-            <h3 class="text-xl md:text-2xl font-bold text-red-700 metal-text mb-3">2012</h3>
-            <p class="text-gray-400 elegant-text text-sm md:text-base">Formation and first EP release</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-zinc-900 p-6 rounded-lg glow-border">
+            <h3 class="text-xl font-bold text-red-700 metal-text mb-3">2012</h3>
+            <p class="text-gray-400 elegant-text">Formation and first EP release</p>
           </div>
-          <div class="bg-zinc-900 p-6 md:p-8 rounded-lg glow-border">
-            <h3 class="text-xl md:text-2xl font-bold text-red-700 metal-text mb-3">2015</h3>
-            <p class="text-gray-400 elegant-text text-sm md:text-base">First European tour</p>
+          <div class="bg-zinc-900 p-6 rounded-lg glow-border">
+            <h3 class="text-xl font-bold text-red-700 metal-text mb-3">2015</h3>
+            <p class="text-gray-400 elegant-text">First European tour</p>
           </div>
-          <div class="bg-zinc-900 p-6 md:p-8 rounded-lg glow-border">
-            <h3 class="text-xl md:text-2xl font-bold text-red-700 metal-text mb-3">2019</h3>
-            <p class="text-gray-400 elegant-text text-sm md:text-base">Debut album "Ashes of Eden"</p>
+          <div class="bg-zinc-900 p-6 rounded-lg glow-border">
+            <h3 class="text-xl font-bold text-red-700 metal-text mb-3">2019</h3>
+            <p class="text-gray-400 elegant-text">Debut album "Ashes of Eden"</p>
           </div>
-          <div class="bg-zinc-900 p-6 md:p-8 rounded-lg glow-border">
-            <h3 class="text-xl md:text-2xl font-bold text-red-700 metal-text mb-3">2023</h3>
-            <p class="text-gray-400 elegant-text text-sm md:text-base">Latest release and festival appearances</p>
+          <div class="bg-zinc-900 p-6 rounded-lg glow-border">
+            <h3 class="text-xl font-bold text-red-700 metal-text mb-3">2023</h3>
+            <p class="text-gray-400 elegant-text">Latest release and festival appearances</p>
           </div>
         </div>
       </div>
@@ -767,56 +769,50 @@
     </section>
     
     <!-- Contact Section -->
-    <section id="contact" class="py-16 md:py-20 px-4 sm:px-6 md:px-20 text-center">
+    <section id="contact" class="py-12 md:py-20 px-4 sm:px-6 text-center">
       <h2 class="text-4xl md:text-5xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">CONTACT</h2>
-      <div class="max-w-2xl mx-auto mt-10 md:mt-16">
-        <p class="text-base md:text-lg text-gray-400 elegant-text mb-8 md:mb-10">For bookings, press inquiries, or to summon the darkness:</p>
-        <div class="bg-zinc-900 p-6 md:p-10 rounded-lg glow-border">
-          <div class="mb-6 md:mb-8">
-            <p class="text-white elegant-text text-lg md:text-xl mb-1">📧 booking@fromgrace-metal.com</p>
-            <p class="text-gray-400 elegant-text text-xs md:text-sm">Booking & Management</p>
+      <div class="max-w-2xl mx-auto mt-10">
+        <p class="text-base md:text-lg text-gray-400 elegant-text mb-8">For bookings, press inquiries, or to summon the darkness:</p>
+        <div class="bg-zinc-900 p-6 rounded-lg glow-border">
+          <div class="mb-6">
+            <p class="text-white elegant-text text-lg mb-1">📧 booking@fromgrace-metal.com</p>
+            <p class="text-gray-400 elegant-text text-sm">Booking & Management</p>
           </div>
-          <div class="mb-6 md:mb-8">
-            <p class="text-white elegant-text text-lg md:text-xl mb-1">📧 press@fromgrace-metal.com</p>
-            <p class="text-gray-400 elegant-text text-xs md:text-sm">Press & Media</p>
+          <div class="mb-6">
+            <p class="text-white elegant-text text-lg mb-1">📧 press@fromgrace-metal.com</p>
+            <p class="text-gray-400 elegant-text text-sm">Press & Media</p>
           </div>
           <div>
-            <p class="text-white elegant-text text-lg md:text-xl mb-1">📱 +49 (0) 123 456789</p>
-            <p class="text-gray-400 elegant-text text-xs md:text-sm">Phone (Mon-Fri 10-18)</p>
+            <p class="text-white elegant-text text-lg mb-1">📱 +49 (0) 123 456789</p>
+            <p class="text-gray-400 elegant-text text-sm">Phone (Mon-Fri 10-18)</p>
           </div>
         </div>
       </div>
       <div class="section-divider mt-10 md:mt-16"></div>
     </section>
     
-    <!-- Impressum Section -->
-    <section id="impressum" class="py-16 md:py-20 px-4 sm:px-6 md:px-20 text-center">
+    <!-- Impressum Section (nur für Desktop/Scrollen) -->
+    <section id="impressum" class="py-12 md:py-20 px-4 sm:px-6 text-center">
       <h2 class="text-4xl md:text-5xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">IMPRESSUM</h2>
-      <div class="max-w-3xl mx-auto mt-10 md:mt-16">
-        <div class="bg-zinc-900 p-6 md:p-10 rounded-lg glow-border text-left">
-          <div class="space-y-6 md:space-y-8 text-gray-400 elegant-text">
+      <div class="max-w-3xl mx-auto mt-10">
+        <div class="bg-zinc-900 p-6 rounded-lg glow-border text-left">
+          <div class="space-y-6 text-gray-400 elegant-text">
             <div>
-              <h3 class="text-white font-bold text-lg md:text-xl mb-3 md:mb-4 metal-text">Angaben gemäß § 5 TMG</h3>
-              <p class="text-base md:text-lg text-white">From Grace</p>
-              <p class="text-sm md:text-base">Vertreten durch: Jan Mustermann</p>
+              <h3 class="text-white font-bold text-lg mb-3 metal-text">Angaben gemäß § 5 TMG</h3>
+              <p class="text-white">From Grace</p>
+              <p>Vertreten durch: Jan Mustermann</p>
             </div>
             <div>
-              <h3 class="text-white font-bold text-base md:text-lg mb-2 md:mb-3">Kontakt</h3>
-              <p class="text-sm md:text-base">Musterstraße 123</p>
-              <p class="text-sm md:text-base">12345 Berlin</p>
-              <p class="text-sm md:text-base">Deutschland</p>
-              <p class="mt-2 md:mt-3 text-sm md:text-base">Telefon: +49 (0) 123 456789</p>
-              <p class="text-sm md:text-base">E-Mail: info@fromgrace-metal.com</p>
+              <h3 class="text-white font-bold text-base mb-2">Kontakt</h3>
+              <p>Musterstraße 123</p>
+              <p>12345 Berlin</p>
+              <p>Deutschland</p>
+              <p class="mt-2">Telefon: +49 (0) 123 456789</p>
+              <p>E-Mail: info@fromgrace-metal.com</p>
             </div>
             <div>
-              <h3 class="text-white font-bold text-base md:text-lg mb-2 md:mb-3">Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h3>
-              <p class="text-sm md:text-base">Jan Mustermann</p>
-              <p class="text-sm md:text-base">Musterstraße 123</p>
-              <p class="text-sm md:text-base">12345 Berlin</p>
-            </div>
-            <div>
-              <h3 class="text-white font-bold text-base md:text-lg mb-2 md:mb-3">Haftungsausschluss</h3>
-              <p class="text-xs md:text-sm leading-relaxed">
+              <h3 class="text-white font-bold text-base mb-2">Haftungsausschluss</h3>
+              <p class="text-sm leading-relaxed">
                 Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.
               </p>
             </div>
@@ -826,22 +822,23 @@
     </section>
     
     <!-- Footer -->
-    <footer class="bg-black/90 py-12 px-4 sm:px-6 text-center border-t border-red-700/20">
-      <div class="flex justify-center gap-4 sm:gap-6 mb-6 flex-wrap">
+    <footer class="bg-black/90 py-8 px-4 text-center border-t border-red-700/20">
+      <div class="flex justify-center gap-3 mb-6 flex-wrap">
         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-zinc-900 text-white rounded-full hover:bg-red-700 transition-all font-bold text-sm">f</a>
         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-zinc-900 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs">IG</a>
         <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-zinc-900 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs">YT</a>
         <a href="https://spotify.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-zinc-900 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs">SP</a>
         <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-zinc-900 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs">🍎</a>
-        <a href="https://bandcamp.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-zinc-900 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs">BC</a>
       </div>
-      <div class="mb-6 flex justify-center gap-4 sm:gap-6 flex-wrap">
-        <a href="#impressum" class="text-gray-500 hover:text-red-700 elegant-text text-xs sm:text-sm transition-colors">Impressum</a>
-        <a href="#contact" class="text-gray-500 hover:text-red-700 elegant-text text-xs sm:text-sm transition-colors">Contact</a>
-        <a href="#" class="text-gray-500 hover:text-red-700 elegant-text text-xs sm:text-sm transition-colors">Privacy Policy</a>
-        <a href="#" class="text-gray-500 hover:text-red-700 elegant-text text-xs sm:text-sm transition-colors">Terms of Service</a>
+      <div class="mb-6 flex justify-center gap-4 flex-wrap">
+        <a href="#home" class="text-gray-500 hover:text-red-700 elegant-text text-sm transition-colors">Home</a>
+        <a href="#band" class="text-gray-500 hover:text-red-700 elegant-text text-sm transition-colors">Band</a>
+        <a href="#music" class="text-gray-500 hover:text-red-700 elegant-text text-sm transition-colors">Music</a>
+        <a href="#tour" class="text-gray-500 hover:text-red-700 elegant-text text-sm transition-colors">Tour</a>
+        <a href="#impressum" class="text-gray-500 hover:text-red-700 elegant-text text-sm transition-colors">Impressum</a>
+        <a href="#contact" class="text-gray-500 hover:text-red-700 elegant-text text-sm transition-colors">Contact</a>
       </div>
-      <p class="text-gray-600 elegant-text text-xs sm:text-sm">© 2024 From Grace. All rights reserved. | Crafted in darkness.</p>
+      <p class="text-gray-600 elegant-text text-sm">© 2024 From Grace. All rights reserved. | Crafted in darkness.</p>
       <p class="text-gray-700 elegant-text text-xs mt-2">Death Metal forged in fire and despair</p>
     </footer>
   </div>
@@ -881,29 +878,30 @@
       });
     }
 
-    // ===== Mobile Menu Toggle with Animation =====
+    // ===== Mobile Menu Toggle =====
     const menuToggle = document.getElementById('menuToggle');
     const mobileNav = document.getElementById('mobileNav');
     const hamburgerLines = document.querySelectorAll('.hamburger-line');
 
     if (menuToggle && mobileNav) {
-      menuToggle.addEventListener('click', function() {
+      menuToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
         const isExpanded = this.getAttribute('aria-expanded') === 'true';
         
-        // Toggle Menu Visibility
+        // Toggle Menu
         mobileNav.classList.toggle('active');
         mobileNav.classList.toggle('hidden');
         mobileNav.setAttribute('aria-hidden', !isExpanded);
         
-        // Toggle Hamburger Animation
+        // Toggle Hamburger
         this.classList.toggle('active');
         this.setAttribute('aria-expanded', !isExpanded);
         
-        // Prevent body scroll when menu is open
+        // Toggle body scroll
         document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
       });
       
-      // Close menu when clicking on a link
+      // Close menu when clicking links
       mobileNav.querySelectorAll('.mobile-nav-link').forEach(link => {
         link.addEventListener('click', () => {
           mobileNav.classList.remove('active');
@@ -911,7 +909,7 @@
           mobileNav.setAttribute('aria-hidden', 'true');
           menuToggle.classList.remove('active');
           menuToggle.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = ''; // Restore scroll
+          document.body.style.overflow = '';
         });
       });
       
@@ -930,22 +928,22 @@
       });
     }
 
-    // ===== Background Logo Opacity (optimiert) =====
-    const logo = document.querySelector('.background-logo');
-    if (logo) {
-      window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY;
-        const windowHeight = window.innerHeight;
-        const documentHeight = document.documentElement.scrollHeight;
+    // ===== Smooth Scroll für Anchor Links =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
         
-        // Simple opacity calculation
-        let opacity = 0.4;
-        if (scrollY > windowHeight * 0.5) {
-          opacity = Math.max(0.15, 0.4 - (scrollY / documentHeight) * 0.8);
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
         }
-        logo.style.setProperty('--metal-bg-opacity', opacity);
-      }, { passive: true }); // Performance optimization
-    }
+      });
+    });
   </script>
 </body>
 </html>
