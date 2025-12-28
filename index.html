@@ -70,8 +70,8 @@
       background-image: url('https://storage.googleapis.com/leitmotiv-multi/regio-image-2025-05/4025223/xtralarge/avatar.png');
       background-position: center center;
       background-repeat: no-repeat;
-      background-size: cover;
-      background-attachment: scroll; /* Better for mobile */
+      background-size: contain;
+      background-attachment: scroll;
       opacity: var(--metal-bg-opacity);
       z-index: -2;
       pointer-events: none;
@@ -217,9 +217,9 @@
     /* Mobile Menu Animation */
     .mobile-menu {
       max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease-out, opacity 0.3s ease;
       opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
     }
     .mobile-menu.active {
       max-height: 500px;
@@ -237,16 +237,19 @@
 
     /* Social Icons in Header */
     .header-social-icon {
-      min-width: 36px;
-      min-height: 36px;
-      font-size: 0.8rem;
+      min-width: 30px;
+      min-height: 30px;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     /* Mobile Optimization */
     @media (max-width: 768px) {
       /* Optimiertes Background für Mobile */
       .background-logo {
-        background-size: contain;
+        background-size: cover;
         background-position: center 60%;
         opacity: 0.3;
       }
@@ -261,6 +264,28 @@
       button, .mobile-nav-link, .header-social-icon {
         min-height: 44px;
         min-width: 44px;
+      }
+      
+      /* Social Icons im Header anpassen */
+      .mobile-social-container {
+        display: flex;
+        gap: 2px;
+        margin-right: 10px;
+      }
+      
+      .header-social-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.6rem;
+      }
+      
+      /* Bandname anpassen */
+      .band-name-mobile {
+        font-size: 1.1rem !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 120px;
       }
       
       /* Kompaktere Section Paddings */
@@ -306,11 +331,6 @@
       }
     }
     
-    /* Desktop Optimization */
-    @media (min-width: 769px) {
-      .mobile-menu {
-        display: none;
-      }
       
       /* Desktop Navigation verstecken */
       .desktop-nav {
@@ -402,37 +422,38 @@
   <!-- Hauptinhalt -->
   <div class="content-container w-full h-full overflow-auto">
     
-    <!-- Mobile Navigation -->
+    <!-- Mobile Navigation (KORRIGIERT) -->
     <nav class="fixed top-0 w-full z-50 bg-black/95 backdrop-blur-sm border-b border-red-900/30">
       <div class="mobile-nav">
-        <div class="flex justify-between items-center px-4 py-3">
-          <!-- Bandname links - IN WEISS -->
-          <div class="text-white font-bold text-xl metal-text tracking-tight">FROM GRACE</div>
+        <div class="flex justify-between items-center px-3 py-2">
+          <!-- Bandname links -->
+          <div class="text-white font-bold metal-text tracking-tight band-name-mobile">FROM GRACE</div>
           
           <!-- Social Icons und Hamburger rechts -->
-          <div class="flex items-center gap-2">
-            <!-- Social Media Icons (klein in der Mitte) -->
-            <div class="flex gap-1">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="header-social-icon w-8 h-8 flex items-center justify-center bg-zinc-900/80 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs" aria-label="Visit Facebook">f</a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="header-social-icon w-8 h-8 flex items-center justify-center bg-zinc-900/80 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs" aria-label="Visit Instagram">IG</a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="header-social-icon w-8 h-8 flex items-center justify-center bg-zinc-900/80 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs" aria-label="Visit YouTube">YT</a>
+          <div class="flex items-center gap-0">
+            <!-- Social Media Icons -->
+            <div class="mobile-social-container flex items-center">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="header-social-icon w-7 h-7 flex items-center justify-center bg-zinc-900/80 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs mr-1" aria-label="Visit Facebook">f</a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="header-social-icon w-7 h-7 flex items-center justify-center bg-zinc-900/80 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs mr-1" aria-label="Visit Instagram">IG</a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="header-social-icon w-7 h-7 flex items-center justify-center bg-zinc-900/80 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs mr-1" aria-label="Visit YouTube">YT</a>
             </div>
             
             <!-- Hamburger Button -->
-            <button class="hamburger p-2 focus:outline-none focus:ring-2 focus:ring-red-700 rounded" 
+            <button class="hamburger p-2 focus:outline-none focus:ring-2 focus:ring-red-700 rounded ml-1" 
                     id="menuToggle" 
                     aria-label="Hauptmenü öffnen oder schließen"
-                    aria-expanded="false"
-                    aria-controls="mobileNav">
-              <span class="hamburger-line block w-6 h-0.5 bg-gray-300 mb-1.5 transition-all duration-300"></span>
-              <span class="hamburger-line block w-6 h-0.5 bg-gray-300 mb-1.5 transition-all duration-300"></span>
-              <span class="hamburger-line block w-6 h-0.5 bg-gray-300 transition-all duration-300"></span>
+                    aria-expanded="false">
+              <span class="hamburger-line block w-5 h-0.5 bg-gray-300 mb-1.5 transition-all duration-300"></span>
+              <span class="hamburger-line block w-5 h-0.5 bg-gray-300 mb-1.5 transition-all duration-300"></span>
+              <span class="hamburger-line block w-5 h-0.5 bg-gray-300 transition-all duration-300"></span>
             </button>
           </div>
         </div>
         
-        <!-- Mobile Menü (ohne Impressum) -->
-        <div class="mobile-menu hidden px-4 pb-4" id="mobileNav" aria-hidden="true">
+        <!-- Mobile Menü (KORRIGIERT: Ohne "hidden" Klasse) -->
+        <div class="mobile-menu px-4 pb-4" id="mobileNav" aria-hidden="true">
+
+
           <div class="grid grid-cols-2 gap-3 pt-4 border-t border-red-900/20">
             <a href="#home" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 transition-all font-bold text-xs tracking-wider elegant-text text-center py-3 px-2 rounded border border-red-900/30">HOME</a>
             <a href="#band" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 transition-all font-bold text-xs tracking-wider elegant-text text-center py-3 px-2 rounded border border-red-900/30">BAND</a>
@@ -440,7 +461,6 @@
             <a href="#tour" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 transition-all font-bold text-xs tracking-wider elegant-text text-center py-3 px-2 rounded border border-red-900/30">TOUR</a>
             <a href="#merch" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 transition-all font-bold text-xs tracking-wider elegant-text text-center py-3 px-2 rounded border border-red-900/30">MERCH</a>
             <a href="#past" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 transition-all font-bold text-xs tracking-wider elegant-text text-center py-3 px-2 rounded border border-red-900/30">PAST</a>
-            <!-- CONTACT BEIBEHALTEN -->
             <a href="#contact" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 transition-all font-bold text-xs tracking-wider elegant-text text-center py-3 px-2 rounded border border-red-900/30">CONTACT</a>
           </div>
         </div>
@@ -791,7 +811,7 @@
       <div class="section-divider mt-10 md:mt-16"></div>
     </section>
     
-    <!-- Impressum Section (nur für Desktop/Scrollen) -->
+    <!-- Impressum Section -->
     <section id="impressum" class="py-12 md:py-20 px-4 sm:px-6 text-center">
       <h2 class="text-4xl md:text-5xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">IMPRESSUM</h2>
       <div class="max-w-3xl mx-auto mt-10">
@@ -829,6 +849,7 @@
         <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-zinc-900 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs">YT</a>
         <a href="https://spotify.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-zinc-900 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs">SP</a>
         <a href="https://music.apple.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-zinc-900 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs">🍎</a>
+        <a href="https://bandcamp.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center bg-zinc-900 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs">BC</a>
       </div>
       <div class="mb-6 flex justify-center gap-4 flex-wrap">
         <a href="#home" class="text-gray-500 hover:text-red-700 elegant-text text-sm transition-colors">Home</a>
@@ -878,52 +899,48 @@
       });
     }
 
-    // ===== Mobile Menu Toggle =====
+    // ===== Mobile Menu Toggle (KORRIGIERT) =====
     const menuToggle = document.getElementById('menuToggle');
     const mobileNav = document.getElementById('mobileNav');
-    const hamburgerLines = document.querySelectorAll('.hamburger-line');
+
+    function closeMenu() {
+      mobileNav.classList.remove('active');
+      menuToggle.classList.remove('active');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
 
     if (menuToggle && mobileNav) {
-      menuToggle.addEventListener('click', function(e) {
+      menuToggle.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isExpanded = this.getAttribute('aria-expanded') === 'true';
         
-        // Toggle Menu
+        const isOpen = mobileNav.classList.contains('active');
+        
         mobileNav.classList.toggle('active');
-        mobileNav.classList.toggle('hidden');
-        mobileNav.setAttribute('aria-hidden', !isExpanded);
+        menuToggle.classList.toggle('active');
         
-        // Toggle Hamburger
-        this.classList.toggle('active');
-        this.setAttribute('aria-expanded', !isExpanded);
-        
-        // Toggle body scroll
-        document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        menuToggle.setAttribute('aria-expanded', !isOpen);
+        mobileNav.setAttribute('aria-hidden', isOpen);
+        document.body.style.overflow = !isOpen ? 'hidden' : '';
       });
       
-      // Close menu when clicking links
+      // Close on link click
       mobileNav.querySelectorAll('.mobile-nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-          mobileNav.classList.remove('active');
-          mobileNav.classList.add('hidden');
-          mobileNav.setAttribute('aria-hidden', 'true');
-          menuToggle.classList.remove('active');
-          menuToggle.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
-        });
+        link.addEventListener('click', closeMenu);
       });
       
-      // Close menu when clicking outside
-      document.addEventListener('click', (event) => {
-        if (mobileNav.classList.contains('active') && 
-            !mobileNav.contains(event.target) && 
-            !menuToggle.contains(event.target)) {
-          mobileNav.classList.remove('active');
-          mobileNav.classList.add('hidden');
-          mobileNav.setAttribute('aria-hidden', 'true');
-          menuToggle.classList.remove('active');
-          menuToggle.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
+      // Close on ESC
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+          closeMenu();
+        }
+      });
+      
+      // Close on outside click
+      document.addEventListener('click', (e) => {
+        if (!mobileNav.contains(e.target) && !menuToggle.contains(e.target)) {
+          closeMenu();
         }
       });
     }
@@ -938,9 +955,16 @@
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
           window.scrollTo({
-            top: targetElement.offsetTop - 80,
+            top: targetElement.offsetTop - 70,
             behavior: 'smooth'
           });
+          
+          // Mobile Menü schließen
+          if (window.innerWidth <= 768) {
+            if (mobileNav && mobileNav.classList.contains('active')) {
+              closeMenu();
+            }
+          }
         }
       });
     });
