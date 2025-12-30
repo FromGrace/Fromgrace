@@ -406,6 +406,18 @@
       transform: translateY(-50%);
       width: 180px;
     }
+.header-logo {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px rgba(179,0,0,.6));
+}
+
+@media (min-width: 768px) {
+  .header-logo {
+    height: 40px;
+  }
+}
   </style>
 </head>
 <body class="h-full">
@@ -422,9 +434,16 @@
     <div class="flex justify-between items-center px-3 py-2">
 
       <!-- Bandname -->
-      <div class="text-white font-bold metal-text tracking-tight band-name-mobile">
-        FROM GRACE
-      </div>
+      <div class="flex items-center gap-2">
+  
+  <!-- kleines Header-Logo -->
+  <img 
+    src="https://storage.googleapis.com/leitmotiv-multi/regio-image-2025-05/4025223/xtralarge/avatar.png"
+    alt="From Grace Logo"
+    class="header-logo"
+  >
+
+</div>
 
       <!-- Social Icons + Hamburger -->
       <div class="flex items-center gap-0">
@@ -572,10 +591,9 @@
         <img src="images/Jan.jpg" alt="Vocals" class="w-full h-full object-cover"
              onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
       </div>
-      <h3 class="text-white font-bold elegant-text text-sm tracking-wide">NAME_VOCALS</h3>
+      <h3 class="text-white font-bold elegant-text text-sm tracking-wide">Jan</h3>
       <p class="text-red-700 text-[10px] mt-1 uppercase">Vocals</p>
-      <p class="text-gray-500 text-[9px] italic">SPITZNAME_VOCALS</p>
-    </div>
+         </div>
 
     <!-- Rhythm Guitar (Mitte) -->
     <div class="member-card flex flex-col items-center">
@@ -583,9 +601,8 @@
         <img src="images/Jessy.jpg" alt="Rhythm Guitar" class="w-full h-full object-cover"
              onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
       </div>
-      <h3 class="text-white font-bold elegant-text text-sm tracking-wide">NAME_RHYTHM</h3>
+      <h3 class="text-white font-bold elegant-text text-sm tracking-wide">Jessi</h3>
       <p class="text-red-700 text-[10px] mt-1 uppercase">Rhythm Guitar</p>
-      <p class="text-gray-500 text-[9px] italic">SPITZNAME_RHYTHM</p>
     </div>
 
     <!-- Bass & Drums nebeneinander - WEITER AUSEINANDER -->
@@ -597,9 +614,8 @@
           <img src="images/Rico.jpg" alt="Bass" class="w-full h-full object-cover"
                onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
         </div>
-        <h3 class="text-white font-bold elegant-text text-sm tracking-wide">NAME_BASS</h3>
+        <h3 class="text-white font-bold elegant-text text-sm tracking-wide">Enrico</h3>
         <p class="text-red-700 text-[10px] mt-1 uppercase">Bass</p>
-        <p class="text-gray-500 text-[9px] italic">SPITZNAME_BASS</p>
       </div>
 
       <!-- Drums (rechts) -->
@@ -608,9 +624,8 @@
           <img src="images/Martin.jpg" alt="Drums" class="w-full h-full object-cover"
                onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
         </div>
-        <h3 class="text-white font-bold elegant-text text-sm tracking-wide">NAME_DRUMS</h3>
+        <h3 class="text-white font-bold elegant-text text-sm tracking-wide">Martin</h3>
         <p class="text-red-700 text-[10px] mt-1 uppercase">Drums</p>
-        <p class="text-gray-500 text-[9px] italic">SPITZNAME_DRUMS</p>
       </div>
 
     </div>
@@ -621,9 +636,8 @@
         <img src="images/Viktor.jpg" alt="Lead Guitar" class="w-full h-full object-cover"
              onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
       </div>
-      <h3 class="text-white font-bold elegant-text text-sm tracking-wide">NAME_LEAD</h3>
+      <h3 class="text-white font-bold elegant-text text-sm tracking-wide">Viktor</h3>
       <p class="text-red-700 text-[10px] mt-1 uppercase">Lead Guitar</p>
-      <p class="text-gray-500 text-[9px] italic">SPITZNAME_LEAD</p>
     </div>
 
   </div>
