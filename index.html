@@ -980,9 +980,10 @@
         
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
-          window.scrollTo({
-            top: targetElement.offsetTop - 70,
-            behavior: 'smooth'
+          const scroller = document.querySelector('.content-container');
+          scroller.scrollTo({
+          top: targetElement.offsetTop - 70,
+          behavior: 'smooth'
           });
           
           // Mobile Menü schließen
