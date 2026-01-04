@@ -519,8 +519,14 @@ function fg_checkMarketingConsent(e) {
 
   // Wenn erlaubt → Videos sofort laden
   if (fg_hasMarketingConsent) {
-    fg_loadAllYouTubeVideos();
-  }
+  fg_loadAllYouTubeVideos();
+}
+
+function fg_loadAllYouTubeVideos() {
+  document.querySelectorAll(".yt-wrapper").forEach(wrapper => {
+    const videoId = wrapper.dataset.video;
+    fg_loadYouTubeVideo(wrapper, videoId, false);
+  });
 }
 
 /* Initial + Update */
@@ -1326,19 +1332,6 @@ if (player) {
   playBtn.setAttribute('aria-pressed', 'false');
 });
 }
-
-// ===== YouTube Video Click Handler =====
-document.addEventListener("DOMContentLoaded", function() {
-  // Event-Listener für Play-Buttons
-  document.addEventListener("click", e => {
-    const playBtn = e.target.closest(".yt-play-btn");
-    if (playBtn) {
-      const wrapper = playBtn.closest(".yt-wrapper");
-      const videoId = wrapper.dataset.video;
-      fg_loadYouTubeVideo(wrapper, videoId, true);
-    }
-  });
-});
 </script>
 
 </body>
