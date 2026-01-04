@@ -260,6 +260,56 @@
       justify-content: center;
     }
     
+    /* ===== YouTube Video Styles ===== */
+    .yt-wrapper {
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .yt-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.3s ease;
+    }
+
+    .yt-play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(179, 0, 0, 0.8);
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+
+    .yt-play-btn:hover {
+      background: rgba(179, 0, 0, 1);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .yt-wrapper:hover img {
+      opacity: 0.8;
+    }
+
+    .yt-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    
     /* Mobile Optimization */
     @media (max-width: 768px) {
       .background-logo {
@@ -340,6 +390,17 @@
       
       .social-sidebar {
         display: none;
+      }
+      
+      /* Mobile YouTube adjustments */
+      .yt-play-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+      }
+      
+      .yt-wrapper {
+        height: 200px;
       }
     }
     
@@ -424,6 +485,10 @@
       .header-logo {
         height: 40px;
       }
+      
+      .yt-wrapper {
+        height: 256px;
+      }
     }
   </style>
 
@@ -431,40 +496,131 @@
 <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/7c88634c424efa288ea74a4df1974814/script.js"></script>
 <!-- End cookieyes banner -->
 
-<!-- Reload YouTube after consent -->
+<!-- Verbesserte YouTube Cookie Consent Logik -->
 <script>
+// Globale Variable für Marketing-Consent
+let fg_hasMarketingConsent = false;
+
+// Cookie-Consent Events
+document.addEventListener("cookieyes_consent_initialized", function(e){
+  if (e.detail?.accepted?.includes("marketing")) {
+    fg_hasMarketingConsent = true;
+    fg_loadAllYouTubeVideos();
+  }
+});
+
+document.addEventListener("cookieyes_consent_update", function(e){
+  if (e.detail?.accepted?.includes("marketing")) {
+    fg_hasMarketingConsent = true;
+    fg_loadAllYouTubeVideos();
+  } else {
+    fg_hasMarketingConsent = false;
+  }
+});
+
+// Funktion zum Laden aller YouTube-Videos
+function fg_loadAllYouTubeVideos() {
+  document.querySelectorAll(".yt-wrapper").forEach(wrapper => {
+    if (!wrapper.querySelector("iframe")) {
+      const videoId = wrapper.dataset.video;
+      fg_loadYouTubeVideo(wrapper, videoId);
+    }
+  });
+}
+
+// Funktion zum Laden eines einzelnen YouTube-Videos
+function fg_loadYouTubeVideo(wrapper, videoId, autoplay = false) {
+  if (!fg_hasMarketingConsent) {
+    // Zeige Hinweis an
+    wrapper.innerHTML = `
+      <div class="w-full h-full flex items-center justify-center bg-black">
+        <div class="text-center p-4">
+          <p class="text-red-700 font-bold mb-2 elegant-text">Marketing-Cookies Required</p>
+          <p class="text-gray-400 text-sm elegant-text">Please accept marketing cookies to watch this video.</p>
+          <button onclick="fg_showCookieSettings()" class="mt-3 px-4 py-2 bg-red-700 text-white rounded text-sm hover:bg-red-800 transition-colors">
+            Cookie Settings
+          </button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  const iframe = document.createElement('iframe');
+  iframe.className = 'w-full h-full';
+  iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1${autoplay ? '&autoplay=1' : ''}`;
+  iframe.title = 'YouTube Video Player';
+  iframe.frameBorder = '0';
+  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  iframe.allowFullscreen = true;
+  iframe.setAttribute('data-cookieyes', 'target');
+  iframe.setAttribute('loading', 'lazy');
+
+  wrapper.innerHTML = '';
+  wrapper.appendChild(iframe);
+}
+
+// Funktion zum Anzeigen der Cookie-Einstellungen
+function fg_showCookieSettings() {
+  if (typeof window.CookieYes !== 'undefined' && window.CookieYes.show) {
+    window.CookieYes.show();
+  } else {
+    // Fallback: Cookie-Banner anzeigen
+    const cookieBanner = document.querySelector('#cookieyes-banner');
+    if (cookieBanner) {
+      cookieBanner.style.display = 'block';
+    }
+  }
+}
+
+// CookieYes Initialisierung prüfen
+function fg_checkCookieYesLoaded() {
+  return new Promise((resolve) => {
+    if (typeof window.CookieYes !== 'undefined') {
+      resolve(true);
+    } else {
+      let attempts = 0;
+      const interval = setInterval(() => {
+        attempts++;
+        if (typeof window.CookieYes !== 'undefined') {
+          clearInterval(interval);
+          resolve(true);
+        } else if (attempts > 10) {
+          clearInterval(interval);
+          resolve(false);
+        }
+      }, 500);
+    }
+  });
+}
+
+// Initialisierung beim Laden
+fg_checkCookieYesLoaded().then((loaded) => {
+  if (loaded && window.CookieYes.getConsent) {
+    const consent = window.CookieYes.getConsent();
+    if (consent && consent.marketing) {
+      fg_hasMarketingConsent = true;
+      fg_loadAllYouTubeVideos();
+    }
+  }
+});
+
+// Reload YouTube after consent (für alte Iframes)
 function fg_reload_youtube_iframes() {
-
   document.querySelectorAll("iframe[data-cookieyes='target']").forEach(function(oldFrame) {
-
     if (oldFrame.src) return;
     if (!oldFrame.dataset.src) return;
 
     const newFrame = document.createElement("iframe");
-
     Array.from(oldFrame.attributes).forEach(attr => {
       if (attr.name === "data-src") return;
       newFrame.setAttribute(attr.name, attr.value);
     });
 
     newFrame.src = oldFrame.dataset.src;
-
     oldFrame.parentNode.replaceChild(newFrame, oldFrame);
   });
-
 }
-
-document.addEventListener("cookieyes_consent_initialized", function(e){
-  if (e.detail?.accepted?.includes("marketing")) {
-    fg_reload_youtube_iframes();
-  }
-});
-
-document.addEventListener("cookieyes_consent_update", function(e){
-  if (e.detail?.accepted?.includes("marketing")) {
-    fg_reload_youtube_iframes();
-  }
-});
 </script>
 
 </head>
@@ -734,9 +890,11 @@ document.addEventListener("cookieyes_consent_update", function(e){
 
         <img class="w-full h-full object-cover opacity-70"
              src="https://img.youtube.com/vi/q9Nexejm-5o/hqdefault.jpg"
-             alt="Blutadler Live Preview">
+             alt="Blutadler Live Preview"
+             loading="lazy"
+             onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
 
-        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded">
+        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors">
           ▶ PLAY
         </button>
       </div>
@@ -759,9 +917,11 @@ document.addEventListener("cookieyes_consent_update", function(e){
 
         <img class="w-full h-full object-cover opacity-70"
              src="https://img.youtube.com/vi/Pjw2ulJiAPw/hqdefault.jpg"
-             alt="Possessed Live Preview">
+             alt="Possessed Live Preview"
+             loading="lazy"
+             onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
 
-        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded">
+        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors">
           ▶ PLAY
         </button>
       </div>
@@ -784,9 +944,11 @@ document.addEventListener("cookieyes_consent_update", function(e){
 
         <img class="w-full h-full object-cover opacity-70"
              src="https://img.youtube.com/vi/ImkffSWZFWw/hqdefault.jpg"
-             alt="DMA Live Preview">
+             alt="DMA Live Preview"
+             loading="lazy"
+             onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
 
-        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded">
+        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors">
           ▶ PLAY
         </button>
       </div>
@@ -1204,36 +1366,17 @@ if (player) {
   playBtn.setAttribute('aria-pressed', 'false');
 });
 }
-</script>
 
-<!-- YOUTUBE Lazy Load -->
-<script>
-function fg_load_youtube(box) {
-  const id = box.dataset.video;
-
-  box.innerHTML = `
-    <iframe class="w-full h-full"
-      src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1"
-      title="YouTube Video Player"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>`;
-}
-
-// Laden bei Klick
-document.addEventListener("click", e => {
-  if (e.target.classList.contains("yt-play-btn")) {
-    fg_load_youtube(e.target.closest(".yt-wrapper"));
-  }
-});
-
-// Laden nach Cookie-Zustimmung
-document.addEventListener("cookieyes_consent_update", e => {
-  if (!e.detail?.accepted?.includes("marketing")) return;
-
-  document.querySelectorAll(".yt-wrapper").forEach(box => {
-    if (!box.querySelector("iframe")) fg_load_youtube(box);
+// ===== YouTube Video Click Handler =====
+document.addEventListener("DOMContentLoaded", function() {
+  // Event-Listener für Play-Buttons
+  document.addEventListener("click", e => {
+    const playBtn = e.target.closest(".yt-play-btn");
+    if (playBtn) {
+      const wrapper = playBtn.closest(".yt-wrapper");
+      const videoId = wrapper.dataset.video;
+      fg_loadYouTubeVideo(wrapper, videoId, true);
+    }
   });
 });
 </script>
