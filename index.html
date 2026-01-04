@@ -431,15 +431,38 @@
 <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/7c88634c424efa288ea74a4df1974814/script.js"></script>
 <!-- End cookieyes banner -->
 
-<!-- Auto-load YouTube after consent -->
+<!-- Reload YouTube after consent -->
 <script>
-document.addEventListener("cookieyes_consent_update", function (event) {
-  if (event.detail && event.detail.accepted && event.detail.accepted.includes("marketing")) {
-    document.querySelectorAll("iframe[data-cookieyes='target']").forEach(function(el) {
-      if (!el.src && el.dataset.src) {
-        el.src = el.dataset.src;
-      }
+function fg_reload_youtube_iframes() {
+
+  document.querySelectorAll("iframe[data-cookieyes='target']").forEach(function(oldFrame) {
+
+    if (oldFrame.src) return;
+    if (!oldFrame.dataset.src) return;
+
+    const newFrame = document.createElement("iframe");
+
+    Array.from(oldFrame.attributes).forEach(attr => {
+      if (attr.name === "data-src") return;
+      newFrame.setAttribute(attr.name, attr.value);
     });
+
+    newFrame.src = oldFrame.dataset.src;
+
+    oldFrame.parentNode.replaceChild(newFrame, oldFrame);
+  });
+
+}
+
+document.addEventListener("cookieyes_consent_initialized", function(e){
+  if (e.detail?.accepted?.includes("marketing")) {
+    fg_reload_youtube_iframes();
+  }
+});
+
+document.addEventListener("cookieyes_consent_update", function(e){
+  if (e.detail?.accepted?.includes("marketing")) {
+    fg_reload_youtube_iframes();
   }
 });
 </script>
@@ -1192,3 +1215,4 @@ if (player) {
 
 </script>
 </body>
+</html>
