@@ -11,26 +11,26 @@
   <link rel="icon" href="/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="/favicon.png">
   
-  <!-- Canonical Tag (VERBESSERT) -->
+  <!-- Canonical Tag -->
   <link rel="canonical" href="https://from-grace.com/">
   
   <!-- Open Graph / Social Meta -->
-<meta property="og:title" content="From Grace – Death Metal Band">
-<meta property="og:description" content="Death Metal forged in fire and despair">
-<meta property="og:image" content="https://from-grace.com/images/LogoFromGrace.webp">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:locale" content="en_US">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://from-grace.com/">
+  <meta property="og:title" content="From Grace – Death Metal Band">
+  <meta property="og:description" content="Death Metal forged in fire and despair">
+  <meta property="og:image" content="https://from-grace.com/images/LogoFromGrace.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://from-grace.com/">
   
-  <!-- Twitter Card (VERBESSERT) -->
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="From Grace – Death Metal">
   <meta name="twitter:description" content="Death Metal forged in fire and despair">
   <meta name="twitter:image" content="https://from-grace.com/images/LogoFromGrace.webp">
   
-  <!-- Schema.org Structured Data (NEU) -->
+  <!-- Schema.org Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -83,7 +83,7 @@
       background-color: var(--metal-dark);
     }
     
-    /* Hintergrundlogo - OPTIMIZED für Mobile */
+    /* Background Logo - OPTIMIZED for Mobile */
     .background-logo {
       position: fixed;
       top: 0;
@@ -95,12 +95,12 @@
       background-repeat: no-repeat;
       background-size: contain;
       background-attachment: scroll;
-      opacity: var(--metal-bg-opacity);
+      opacity: 0.1;
       z-index: -2;
       pointer-events: none;
     }
     
-    /* Farbverlauf Overlay */
+    /* Gradient Overlay */
     .background-overlay {
       position: fixed;
       top: 0;
@@ -154,6 +154,7 @@
     .member-card {
       transition: all 0.3s ease;
       backdrop-filter: blur(10px);
+      cursor: pointer;
     }
     
     .member-card:hover {
@@ -314,10 +315,15 @@
       border: 0;
     }
     
+    /* Utility Classes */
+    .hidden {
+      display: none;
+    }
+    
     /* Mobile Optimization */
     @media (max-width: 768px) {
       .background-logo {
-        opacity: 0.8 !important;
+        opacity: 0.08 !important;
       }
       
       header {
@@ -429,55 +435,6 @@
       }
     }
     
-    /* Band Member Layout - Desktop Pentagram */
-    .pentagram-container {
-      position: relative;
-      width: 100%;
-      max-width: 42rem;
-      margin-left: auto;
-      margin-right: auto;
-      margin-top: 4rem;
-      height: 550px;
-    }
-    
-    .pentagram-vocals {
-      position: absolute;
-      left: 50%;
-      bottom: 0;
-      transform: translateX(-50%);
-      width: 180px;
-    }
-    
-    .pentagram-lead-guitar {
-      position: absolute;
-      left: 10%;
-      top: 0;
-      width: 180px;
-    }
-    
-    .pentagram-rhythm-guitar {
-      position: absolute;
-      right: 10%;
-      top: 0;
-      width: 180px;
-    }
-    
-    .pentagram-bass {
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 180px;
-    }
-    
-    .pentagram-drums {
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 180px;
-    }
-    
     .header-logo {
       height: 28px;
       width: auto;
@@ -504,15 +461,15 @@
 
 <!-- YouTube Consent + Click-to-Load -->
 <script>
-// speichert ob Marketing-Cookies erlaubt sind
+// stores whether marketing cookies are allowed
 let fg_hasMarketingConsent = false;
 
-// Warte bis DOM geladen ist
+// Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
     
-    /* CookieYes – wenn Nutzer ändert */
+    /* CookieYes – when user changes consent */
     function fg_checkMarketingConsent(e) {
-        // Liste möglicher Kategorien, die CookieYes verwenden kann
+        // List of possible categories that CookieYes might use
         const accepted = (e?.detail?.accepted || [])
             .map(c => c.toLowerCase());
         
@@ -525,11 +482,11 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Marketing Consent:", fg_hasMarketingConsent); // Debug
     }
     
-    /* Alle YouTube Videos laden (falls erlaubt) */
+    /* Load all YouTube videos (if allowed) */
     function fg_loadAllYouTubeVideos() {
         document.querySelectorAll(".yt-wrapper").forEach(wrapper => {
             const videoId = wrapper.dataset.video;
-            // Nur Thumbnail anzeigen, nicht automatisch laden
+            // Only show thumbnail, don't load automatically
             const thumbnail = wrapper.querySelector('img');
             if (thumbnail) {
                 thumbnail.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
@@ -537,11 +494,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    /* Einzelnes YouTube Video laden */
+    /* Load individual YouTube video */
     function fg_loadYouTubeVideo(wrapper, videoId, autoplay = true) {
         console.log("Loading video:", videoId, "Consent:", fg_hasMarketingConsent); // Debug
         
-        // Keine Zustimmung → Hinweis anzeigen
+        // No consent → show message
         if (!fg_hasMarketingConsent) {
             wrapper.innerHTML = `
                 <div class="w-full h-full flex items-center justify-center bg-black">
@@ -562,7 +519,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Zustimmung vorhanden → iframe einfügen
+        // Consent given → insert iframe
         const iframe = document.createElement("iframe");
         iframe.className = "w-full h-full";
         iframe.src = 
@@ -578,12 +535,12 @@ document.addEventListener('DOMContentLoaded', function() {
         wrapper.appendChild(iframe);
     }
     
-    /* Cookie-Einstellungen öffnen */
+    /* Open cookie settings */
     window.fg_showCookieSettings = function() {
         if (window.CookieYes?.show) window.CookieYes.show();
     }
     
-    /* Click-Event für alle PLAY-Buttons */
+    /* Click event for all PLAY buttons */
     document.addEventListener("click", function(e) {
         const btn = e.target.closest(".yt-play-btn");
         if (!btn) return;
@@ -604,7 +561,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener("cookieyes_consent_initialized", fg_checkMarketingConsent);
     document.addEventListener("cookieyes_consent_update", fg_checkMarketingConsent);
     
-    // Fallback: Wenn CookieYes nach 3 Sekunden nicht geladen
+    // Fallback: If CookieYes not loaded after 3 seconds
     setTimeout(() => {
         if (typeof CookieYes === 'undefined') {
             console.log("CookieYes not loaded, assuming no consent");
@@ -615,11 +572,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </head>
 <body class="h-full">
-  <!-- Hintergrundlogo -->
+  <!-- Background Logo -->
   <div class="background-logo" aria-hidden="true"></div>
   <div class="background-overlay" aria-hidden="true"></div>
   
-  <!-- Hauptinhalt -->
+  <!-- Main Content -->
   <div class="content-container w-full h-full overflow-auto">
     
     <!-- Mobile Navigation -->
@@ -627,7 +584,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="mobile-nav">
     <div class="flex justify-between items-center px-3 py-2">
 
-      <!-- Bandname -->
+      <!-- Band Logo -->
       <div class="flex items-center gap-2">
         <img 
           src="images/LogoFromGrace.webp"
@@ -655,7 +612,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </svg>
           </a>
 
-          <!-- INSTAGRAM (KONSISTENT MIT FOOTER) -->
+          <!-- INSTAGRAM -->
           <a href="https://www.instagram.com/from.graceofficial"
              target="_blank" rel="noopener noreferrer"
              class="header-social-icon w-7 h-7 flex items-center justify-center bg-zinc-900/80 text-white rounded-full hover:bg-red-700 transition-all font-bold text-xs mr-1"
@@ -710,7 +667,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <!-- HAMBURGER -->
         <button class="hamburger p-2 focus:outline-none focus:ring-2 focus:ring-red-700 rounded ml-1"
                 id="menuToggle"
-                aria-label="Hauptmenü öffnen oder schließen"
+                aria-label="Open or close main menu"
                 aria-expanded="false">
           <span class="hamburger-line block w-5 h-0.5 bg-gray-300 mb-1.5 transition-all duration-300"></span>
           <span class="hamburger-line block w-5 h-0.5 bg-gray-300 mb-1.5 transition-all duration-300"></span>
@@ -731,225 +688,321 @@ document.addEventListener('DOMContentLoaded', function() {
         <a href="#merch" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 font-bold text-xs elegant-text rounded border border-red-900/30 py-3">MERCHANDISE</a>
         <a href="#past" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 font-bold text-xs elegant-text rounded border border-red-900/30 py-3">THE PAST</a>
         <a href="#contact" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 font-bold text-xs elegant-text rounded border border-red-900/30 py-3">CONTACT</a>
-        <a href="#impressum" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 font-bold text-xs elegant-text rounded border border-red-900/30 py-3">IMPRESSUM</a>
+        <a href="#impressum" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 font-bold text-xs elegant-text rounded border border-red-900/30 py-3">IMPRINT</a>
       </div>
 
     </div>
   </div>
 </nav>
-    
-    <!-- Header / Home Section -->
-    <header id="home" class="min-h-screen flex items-center justify-center text-center px-4 pt-16 pb-8">
-      <div>
-        <!-- Bandname mit Schwebe-Effekt -->
-        <h1 id="band-name" class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-widest uppercase metal-text text-white mb-4 float-animation">From Grace</h1>
-        <p id="tagline" class="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-red-700 metal-text mb-8">Death Metal forged in fire and despair</p>
-        <div class="section-divider mt-8 md:mt-12 max-w-2xl"></div>
-        <div class="mt-8 md:mt-12">
-          <a href="#live-performances" class="inline-block bg-red-700 hover:bg-red-800 text-white px-6 py-3 md:px-8 md:py-4 rounded font-bold elegant-text transition-colors transform hover:scale-105 text-sm md:text-base" aria-label="Listen to our music">
-            ENTER THE DARKNESS
-          </a>
+
+<header id="home" class="relative min-h-screen flex items-center justify-center text-center px-4 pt-16 pb-8 overflow-hidden">
+
+  <div class="relative mb-8">
+
+    <!-- LOGO -->
+    <img src="images/LogoFromGrace.webp" alt="From Grace Logo"
+      class="w-full max-w-[80vw] max-h-[60vh] sm:max-h-[70vh] md:max-h-[80vh]
+             object-contain mx-auto float-animation" />
+
+    <!-- OVERLAY -->
+    <div class="absolute inset-0 flex flex-col items-center">
+
+      <!-- TEXT -->
+      <p class="text-lg sm:text-2xl md:text-3xl lg:text-4xl
+                text-red-700 metal-text mt-4">
+        Death Metal forged in fire and despair
+      </p>
+
+      <!-- CTA + PLAYER -->
+      <div
+        class="absolute left-0 right-0 flex flex-col items-center space-y-6
+               bottom-4 sm:bottom-0
+               translate-y-0 sm:translate-y-1/2">
+
+        <a href="#live-performances"
+          class="inline-block bg-red-700 hover:bg-red-800 text-white
+                 px-6 py-3 md:px-8 md:py-4 rounded font-bold elegant-text
+                 transition transform hover:scale-105 text-sm md:text-base">
+          ENTER THE DARKNESS
+        </a>
+
+        <div class="flex flex-col items-center">
+          <audio id="fg-player" src="audio/01_FromGrace.mp3"></audio>
+
+          <button id="fg-play-btn"
+            class="bg-zinc-900 border border-red-700 text-white
+                   px-5 py-2 rounded font-bold elegant-text
+                   hover:bg-red-700 transition-colors">
+            ▶ PLAY TRACK
+          </button>
+
+          <p class="text-gray-400 elegant-text text-sm mt-2">
+            Demo Track — From Grace
+          </p>
         </div>
-<!-- MUSIC PLAYER -->
-<div class="mt-8 flex flex-col items-center">
 
-  <audio id="fg-player" src="audio/01_FromGrace.mp3"></audio>
-
-  <button id="fg-play-btn"
-    class="bg-zinc-900 border border-red-700 text-white px-5 py-2 rounded font-bold elegant-text hover:bg-red-700 transition-colors"
-    aria-pressed="false"
-    aria-label="Play or pause demo track">
-    ▶ PLAY TRACK
-  </button>
-
-  <p class="text-gray-400 elegant-text text-sm mt-2">
-    Demo Track — From Grace
-  </p>
-
-</div>
       </div>
-    </header>
+    </div>
+  </div>
+</header>
 
- <!-- Band Section -->
+<!-- Band Section -->
 <section id="band" class="py-10 md:py-16 px-4 sm:px-6 text-center">
+
   <h2 class="text-3xl md:text-4xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">
     THE BAND
   </h2>
+
   <p id="band-intro" class="text-sm md:text-base text-gray-400 max-w-2xl mx-auto mt-4 md:mt-6 elegant-text leading-relaxed">
-    Five souls bound by darkness, channeling rage and despair into sonic devastation. From Grace emerged from the shadows to deliver uncompromising death metal.
+    Five souls bound by darkness, channeling rage and despair into sonic devastation.
+    From Grace emerged from the shadows to deliver uncompromising death metal.
   </p>
 
-  <div class="relative flex flex-col items-center space-y-2">
+  <!-- ===== MEMBER LAYOUT ===== -->
+  <div class="relative flex flex-col items-center space-y-2 mt-10">
 
-    <!-- Vocals (oben) -->
-    <div class="member-card flex flex-col items-center">
-      <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 shadow-md shadow-red-900/40 bg-gray-700">
-        <img src="images/Jan.webp" 
-             alt="Jan – Vocals | From Grace Death Metal Band" 
-             class="w-full h-full object-cover"
-             width="80"
-             height="80"
-             loading="lazy"
-             onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
+    <!-- Vocals -->
+    <div class="member-card flex flex-col items-center" data-member="jan">
+      <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
+        <img src="images/Jan.webp" class="w-full h-full object-cover" alt="Jan - Vocals">
       </div>
-      <h3 class="text-white font-bold elegant-text text-sm tracking-wide">Jan</h3>
-      <p class="text-red-700 text-[10px] mt-1 uppercase">Vocals</p>
+      <h3 class="text-white font-bold elegant-text text-sm">Jan</h3>
+      <p class="text-red-700 text-[10px] uppercase">Vocals</p>
     </div>
 
-    <!-- Rhythm Guitar (Mitte) -->
-    <div class="member-card flex flex-col items-center">
-      <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 shadow-md shadow-red-900/40 bg-gray-700">
-        <img src="images/Jessy.webp" 
-             alt="Jessi – Rhythm Guitar | From Grace Death Metal Band" 
-             class="w-full h-full object-cover"
-             width="80"
-             height="80"
-             loading="lazy"
-             onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
+    <!-- Rhythm Guitar -->
+    <div class="member-card flex flex-col items-center" data-member="jessi">
+      <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
+        <img src="images/Jessy.webp" class="w-full h-full object-cover" alt="Jessi - Rhythm Guitar">
       </div>
-      <h3 class="text-white font-bold elegant-text text-sm tracking-wide">Jessi</h3>
-      <p class="text-red-700 text-[10px] mt-1 uppercase">Rhythm Guitar</p>
+      <h3 class="text-white font-bold elegant-text text-sm">Jessi</h3>
+      <p class="text-red-700 text-[10px] uppercase">Rhythm Guitar</p>
     </div>
 
-    <!-- Bass & Drums nebeneinander -->
+    <!-- Bass & Drums -->
     <div class="flex justify-between w-80 sm:w-96">
 
-      <!-- Bass (links) -->
-      <div class="member-card flex flex-col items-center">
-        <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 shadow-md shadow-red-900/40 bg-gray-700">
-          <img src="images/Rico.webp" 
-               alt="Enrico – Bass | From Grace Death Metal Band" 
-               class="w-full h-full object-cover"
-               width="80"
-               height="80"
-               loading="lazy"
-               onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
+      <div class="member-card flex flex-col items-center" data-member="enrico">
+        <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
+          <img src="images/Rico.webp" class="w-full h-full object-cover" alt="Enrico - Bass">
         </div>
-        <h3 class="text-white font-bold elegant-text text-sm tracking-wide">Enrico</h3>
-        <p class="text-red-700 text-[10px] mt-1 uppercase">Bass</p>
+        <h3 class="text-white font-bold elegant-text text-sm">Enrico</h3>
+        <p class="text-red-700 text-[10px] uppercase">Bass</p>
       </div>
 
-      <!-- Drums (rechts) -->
-      <div class="member-card flex flex-col items-center">
-        <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 shadow-md shadow-red-900/40 bg-gray-700">
-          <img src="images/Martin.webp" 
-               alt="Martin – Drums | From Grace Death Metal Band" 
-               class="w-full h-full object-cover"
-               width="80"
-               height="80"
-               loading="lazy"
-               onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
+      <div class="member-card flex flex-col items-center" data-member="martin">
+        <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
+          <img src="images/Martin.webp" class="w-full h-full object-cover" alt="Martin - Drums">
         </div>
-        <h3 class="text-white font-bold elegant-text text-sm tracking-wide">Martin</h3>
-        <p class="text-red-700 text-[10px] mt-1 uppercase">Drums</p>
+        <h3 class="text-white font-bold elegant-text text-sm">Martin</h3>
+        <p class="text-red-700 text-[10px] uppercase">Drums</p>
       </div>
 
     </div>
 
-    <!-- Lead Guitar (unten) -->
-    <div class="member-card flex flex-col items-center">
-      <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 shadow-md shadow-red-900/40 bg-gray-700">
-        <img src="images/Viktor.webp" 
-             alt="Viktor – Lead Guitar | From Grace Death Metal Band" 
-             class="w-full h-full object-cover"
-             width="80"
-             height="80"
-             loading="lazy"
-             onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
+    <!-- Lead Guitar -->
+    <div class="member-card flex flex-col items-center" data-member="viktor">
+      <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
+        <img src="images/Viktor.webp" class="w-full h-full object-cover" alt="Viktor - Lead Guitar">
       </div>
-      <h3 class="text-white font-bold elegant-text text-sm tracking-wide">Viktor</h3>
-      <p class="text-red-700 text-[10px] mt-1 uppercase">Lead Guitar</p>
+      <h3 class="text-white font-bold elegant-text text-sm">Viktor</h3>
+      <p class="text-red-700 text-[10px] uppercase">Lead Guitar</p>
     </div>
 
   </div>
+
+  <!-- ===== EXPANDABLE DETAILS ===== -->
+  <div class="max-w-3xl mx-auto mt-10 space-y-6">
+
+    <div id="member-jan" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left">
+      <p class="text-gray-400 elegant-text text-sm mb-4">
+        Jan – Vocals. Brutal growls, dark lyrics, relentless presence.
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+        <img src="images/Jan1.webp" class="rounded" alt="Jan Image 1">
+        <img src="images/Jan2.webp" class="rounded" alt="Jan Image 2">
+        <img src="images/Jan3.webp" class="rounded" alt="Jan Image 3">
+        <img src="images/Jan4.webp" class="rounded" alt="Jan Image 4">
+        <img src="images/Jan5.webp" class="rounded" alt="Jan Image 5">
+      </div>
+    </div>
+
+    <div id="member-jessi" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left">
+      <p class="text-gray-400 elegant-text text-sm mb-4">
+        Jessi – Rhythm Guitar. Crushing riffs and dark foundations.
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+        <img src="images/placeholder.webp" class="rounded" alt="Jessi Image 1">
+        <img src="images/placeholder.webp" class="rounded" alt="Jessi Image 2">
+        <img src="images/placeholder.webp" class="rounded" alt="Jessi Image 3">
+        <img src="images/placeholder.webp" class="rounded" alt="Jessi Image 4">
+        <img src="images/placeholder.webp" class="rounded" alt="Jessi Image 5">
+      </div>
+    </div>
+
+    <div id="member-enrico" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left">
+      <p class="text-gray-400 elegant-text text-sm mb-4">
+        Enrico – Bass. Weight, groove and low-end darkness.
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+        <img src="images/placeholder.webp" class="rounded" alt="Enrico Image 1">
+        <img src="images/placeholder.webp" class="rounded" alt="Enrico Image 2">
+        <img src="images/placeholder.webp" class="rounded" alt="Enrico Image 3">
+        <img src="images/placeholder.webp" class="rounded" alt="Enrico Image 4">
+        <img src="images/placeholder.webp" class="rounded" alt="Enrico Image 5">
+      </div>
+    </div>
+
+    <div id="member-martin" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left">
+      <p class="text-gray-400 elegant-text text-sm mb-4">
+        Martin – Drums. Precision, power and relentless drive.
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+        <img src="images/placeholder.webp" class="rounded" alt="Martin Image 1">
+        <img src="images/placeholder.webp" class="rounded" alt="Martin Image 2">
+        <img src="images/placeholder.webp" class="rounded" alt="Martin Image 3">
+        <img src="images/placeholder.webp" class="rounded" alt="Martin Image 4">
+        <img src="images/placeholder.webp" class="rounded" alt="Martin Image 5">
+      </div>
+    </div>
+
+    <div id="member-viktor" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left">
+      <p class="text-gray-400 elegant-text text-sm mb-4">
+        Viktor – Lead Guitar. Atmosphere, melody and sharp leads.
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+        <img src="images/placeholder.webp" class="rounded" alt="Viktor Image 1">
+        <img src="images/placeholder.webp" class="rounded" alt="Viktor Image 2">
+        <img src="images/placeholder.webp" class="rounded" alt="Viktor Image 3">
+        <img src="images/placeholder.webp" class="rounded" alt="Viktor Image 4">
+        <img src="images/placeholder.webp" class="rounded" alt="Viktor Image 5">
+      </div>
+    </div>
+
+  </div>
+
 </section>
 
-    
-   <!-- Live Performances Section -->
+<!-- Live Performances Section -->
 <section id="live-performances" class="py-12 md:py-20 px-4 sm:px-6 text-center">
+
   <h2 class="text-4xl md:text-5xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">
     LIVE PERFORMANCES
   </h2>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-10">
 
-    <!-- Performance 1 -->
+    <!-- Video 1 -->
+    <div class="bg-zinc-900 rounded-lg overflow-hidden glow-border">
+      <div class="yt-wrapper w-full h-48 md:h-64 bg-black flex items-center justify-center relative"
+           data-video="PtSvVaCoM9k">
+        <img class="w-full h-full object-cover opacity-70"
+             src="https://img.youtube.com/vi/PtSvVaCoM9k/hqdefault.jpg"
+             alt="Blutadler Seesen"
+             loading="lazy">
+        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors">
+          ▶ PLAY
+        </button>
+      </div>
+      <div class="p-4">
+        <h3 class="text-xl font-bold text-white metal-text mb-2">
+          Blutadler – Seesen
+        </h3>
+        <p class="text-red-700 elegant-text mb-2">20.12.2025</p>
+        <p class="text-gray-400 text-sm elegant-text">
+          Full performance in Seesen.
+        </p>
+      </div>
+    </div>
+
+    <!-- Video 2 -->
+    <div class="bg-zinc-900 rounded-lg overflow-hidden glow-border">
+      <div class="yt-wrapper w-full h-48 md:h-64 bg-black flex items-center justify-center relative"
+           data-video="aiwmarC6qDs">
+        <img class="w-full h-full object-cover opacity-70"
+             src="https://img.youtube.com/vi/aiwmarC6qDs/hqdefault.jpg"
+             alt="Johnny B. Seesen"
+             loading="lazy">
+        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors">
+          ▶ PLAY
+        </button>
+      </div>
+      <div class="p-4">
+        <h3 class="text-xl font-bold text-white metal-text mb-2">
+          Johnny B. – Seesen
+        </h3>
+        <p class="text-red-700 elegant-text mb-2">20.12.2025</p>
+        <p class="text-gray-400 text-sm elegant-text">
+          Performance at Christmas Rock.
+        </p>
+      </div>
+    </div>
+
+    <!-- Video 3 -->
     <div class="bg-zinc-900 rounded-lg overflow-hidden glow-border">
       <div class="yt-wrapper w-full h-48 md:h-64 bg-black flex items-center justify-center relative"
            data-video="q9Nexejm-5o">
-
         <img class="w-full h-full object-cover opacity-70"
              src="https://img.youtube.com/vi/q9Nexejm-5o/hqdefault.jpg"
-             alt="Blutadler Live Preview"
-             loading="lazy"
-             onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
-
+             alt="Blutadler Bandbattle Moringen"
+             loading="lazy">
         <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors">
           ▶ PLAY
         </button>
       </div>
-
       <div class="p-4">
         <h3 class="text-xl font-bold text-white metal-text mb-2">
-          Blutadler - Live @ Bandbattle Moringen
+          Blutadler – Bandbattle Moringen
         </h3>
-        <p class="text-red-700 elegant-text mb-2">13.09.25</p>
+        <p class="text-red-700 elegant-text mb-2">13.09.2025</p>
         <p class="text-gray-400 text-sm elegant-text">
-          From Grace performing “Blutadler” live at Bandbattle Moringen – raw energy and dark intensity.
+          Raw energy and dark intensity on stage.
         </p>
       </div>
     </div>
 
-    <!-- Performance 2 -->
+    <!-- Video 4 -->
     <div class="bg-zinc-900 rounded-lg overflow-hidden glow-border">
       <div class="yt-wrapper w-full h-48 md:h-64 bg-black flex items-center justify-center relative"
            data-video="Pjw2ulJiAPw">
-
         <img class="w-full h-full object-cover opacity-70"
              src="https://img.youtube.com/vi/Pjw2ulJiAPw/hqdefault.jpg"
-             alt="Possessed Live Preview"
-             loading="lazy"
-             onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
-
+             alt="Possessed Seesen"
+             loading="lazy">
         <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors">
           ▶ PLAY
         </button>
       </div>
-
       <div class="p-4">
         <h3 class="text-xl font-bold text-white metal-text mb-2">
-          Possessed - Live SZ
+          Possessed – Seesen
         </h3>
-        <p class="text-red-700 elegant-text mb-2">Date not specified</p>
+        <p class="text-red-700 elegant-text mb-2">27.06.2025</p>
         <p class="text-gray-400 text-sm elegant-text">
-          Ferocious live performance of “Possessed” — shredding riffs and dark atmospheres.
+          Ferocious performance in Seesen.
         </p>
       </div>
     </div>
 
-    <!-- Performance 3 -->
+    <!-- Video 5 -->
     <div class="bg-zinc-900 rounded-lg overflow-hidden glow-border">
       <div class="yt-wrapper w-full h-48 md:h-64 bg-black flex items-center justify-center relative"
            data-video="ImkffSWZFWw">
-
         <img class="w-full h-full object-cover opacity-70"
              src="https://img.youtube.com/vi/ImkffSWZFWw/hqdefault.jpg"
-             alt="DMA Live Preview"
-             loading="lazy"
-             onerror="this.onerror=null; this.src='data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"%236b7280\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><text x=\"12\" y=\"15\" font-family=\"Arial\" font-size=\"12\" fill=\"%239ca3af\" text-anchor=\"middle\">?</text></svg>';">
-
+             alt="DMA Seesen"
+             loading="lazy">
         <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors">
           ▶ PLAY
         </button>
       </div>
-
       <div class="p-4">
         <h3 class="text-xl font-bold text-white metal-text mb-2">
-          DMA - Live Seesen
+          DMA – Seesen
         </h3>
-        <p class="text-red-700 elegant-text mb-2">02.03.24</p>
+        <p class="text-red-700 elegant-text mb-2">02.03.2024</p>
         <p class="text-gray-400 text-sm elegant-text">
-          Crushing riffs and haunting melodies — DMA live in Seesen.
+          Crushing riffs and haunting melodies.
         </p>
       </div>
     </div>
@@ -957,8 +1010,41 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </section>
 
+
+<!-- Tour Section -->
+<section id="tour" class="py-12 md:py-20 px-4 sm:px-6 text-center">
+  <h2 class="text-4xl md:text-5xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">TOUR DATES</h2>
+  
+  <p class="text-gray-400 elegant-text text-lg max-w-2xl mx-auto mt-4">
+    No tour dates are confirmed yet. Stay tuned for announcements and upcoming shows!  
+    Follow us on <a href="https://www.instagram.com/from.graceofficial" class="text-red-700 hover:text-red-800 font-bold">Instagram</a> and 
+    <a href="https://www.facebook.com/share/17ioNDJqh5/" class="text-red-700 hover:text-red-800 font-bold">Facebook</a> for the latest updates.
+  </p>
+
+  <div class="mt-8">
+    <button class="bg-red-700 hover:bg-red-800 text-white px-6 py-3 rounded font-bold elegant-text transition-colors text-sm w-full md:w-auto" aria-label="Subscribe for updates">
+      SUBSCRIBE FOR UPDATES
+    </button>
+  </div>
+
+  <div class="section-divider mt-10 md:mt-16"></div>
+</section>
+
+<!-- The Past Section -->
+<section id="past" class="py-12 md:py-20 px-4 sm:px-6 text-center">
+  <h2 class="text-4xl md:text-5xl mb-6 metal-text text-white border-b-4 border-red-700 inline-block pb-2">
+    THE PAST
+  </h2>
+
+  <div class="max-w-3xl mx-auto mt-10 bg-zinc-900 p-6 rounded-lg glow-border">
+    <p class="text-gray-400 elegant-text leading-relaxed">
+      From Grace was forged in darkness.  
+      Early rehearsals, lineup changes and relentless songwriting shaped the band.
+    </p>
+  </div>
+</section>
     
- <!-- Merch Section -->
+<!-- Merch Section -->
 <section id="merch" class="py-12 md:py-20 px-4 sm:px-6 text-center">
   <h2 class="text-4xl md:text-5xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">
     MERCHANDISE
@@ -968,7 +1054,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <div class="merch-card bg-zinc-900 rounded-lg overflow-hidden glow-border">
 
-      <!-- Produktbild -->
+      <!-- Product Image -->
       <div class="w-full h-72 md:h-[22rem] bg-black overflow-hidden">
         <img
           src="https://f4.bcbits.com/img/0041067187_10.jpg"
@@ -980,7 +1066,7 @@ document.addEventListener('DOMContentLoaded', function() {
         >
       </div>
 
-      <!-- Inhalt -->
+      <!-- Content -->
       <div class="p-6">
         <h3 class="text-2xl font-bold text-white elegant-text mb-2">
           Official From Grace T-Shirt
@@ -1010,7 +1096,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <div class="section-divider mt-10 md:mt-16 pointer-events-none"></div>
 </section>
-   <!-- Contact Section -->
+  
+<!-- Contact Section -->
 <section id="contact" class="py-12 md:py-20 px-4 sm:px-6 text-center">
   <h2 class="text-4xl md:text-5xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">
     CONTACT
@@ -1046,12 +1133,11 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="section-divider mt-10 md:mt-16"></div>
 </section>
   
-    
-  <!-- Impressum Section -->
+<!-- Imprint Section -->
 <section id="impressum" class="py-12 md:py-20 px-4 sm:px-6 text-center">
 
   <h2 class="text-3xl md:text-4xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">
-    IMPRESSUM
+    IMPRINT
   </h2>
 
   <div class="max-w-3xl mx-auto mt-10">
@@ -1060,70 +1146,69 @@ document.addEventListener('DOMContentLoaded', function() {
 
       <div class="space-y-5 text-gray-300 elegant-text">
 
-        <!-- Anbieterkennzeichnung -->
+        <!-- Provider Identification -->
         <div>
           <h3 class="text-white font-bold text-base md:text-lg mb-2 metal-text">
-            Anbieterkennzeichnung gemäß § 5 TMG
+            Provider Identification according to § 5 TMG
           </h3>
 
           <p class="text-white">
             From Grace<br>
-            Vertreten durch: Enrico Wendt
+            Represented by: Enrico Wendt
           </p>
 
           <p class="mt-2">
-  Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br>
+  Responsible for content according to § 55 para. 2 RStV:<br>
   Enrico Wendt
 </p>
 
           <p class="mt-1">
-            E-Mail:
+            Email:
             <a href="mailto:fromgraceofficial@gmail.com" class="underline">
               fromgraceofficial@gmail.com
             </a>
           </p>
         </div>
 
-        <!-- Haftung Inhalte -->
+        <!-- Liability for Content -->
         <div>
           <h3 class="text-white font-bold text-base mb-2">
-            Haftung für Inhalte
+            Liability for Content
           </h3>
           <p>
-            Die Inhalte unserer Website wurden mit größter Sorgfalt erstellt.
-            Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte
-            können wir jedoch keine Gewähr übernehmen.
-            Gemäß § 7 Abs. 1 TMG sind wir für eigene Inhalte verantwortlich,
-            nach §§ 8–10 TMG jedoch nicht verpflichtet,
-            übermittelte oder gespeicherte fremde Informationen zu überwachen.
+            The contents of our website were created with the greatest care.
+            However, we cannot guarantee the accuracy, completeness, and timeliness of the content.
+            According to § 7 para. 1 TMG, we are responsible for our own content,
+            but according to §§ 8-10 TMG, we are not obligated to monitor transmitted
+            or stored third-party information.
           </p>
         </div>
 
-        <!-- Haftung Links -->
+        <!-- Liability for Links -->
         <div>
           <h3 class="text-white font-bold text-base mb-2">
-            Haftung für Links
+            Liability for Links
           </h3>
           <p>
-            Unsere Website enthält Links zu externen Webseiten Dritter,
-            auf deren Inhalte wir keinen Einfluss haben.
-            Für diese Inhalte übernehmen wir keine Gewähr.
-            Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter
-            oder Betreiber verantwortlich.
-            Zum Zeitpunkt der Verlinkung waren keine rechtswidrigen Inhalte erkennbar.
+            Our website contains links to external websites of third parties,
+            over whose content we have no influence.
+            We cannot accept any liability for this external content.
+            The respective provider or operator of the linked pages is always responsible
+            for the content of the linked pages.
+            At the time of linking, no illegal content was recognizable.
           </p>
         </div>
 
-        <!-- Urheberrecht -->
+        <!-- Copyright -->
         <div>
           <h3 class="text-white font-bold text-base mb-2">
-            Urheberrecht
+            Copyright
           </h3>
           <p>
-            Die auf dieser Website veröffentlichten Inhalte, Bilder und Grafiken
-            unterliegen dem deutschen Urheberrecht.
-            Eine Vervielfältigung, Bearbeitung oder Verbreitung
-            ist ohne ausdrückliche Zustimmung des Rechteinhabers nicht gestattet.
+            The content, images, and graphics published on this website
+            are subject to German copyright law.
+            Reproduction, editing, distribution, or any kind of use
+            requires the express consent of the respective rights holder.
           </p>
         </div>
 
@@ -1134,8 +1219,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 
     
-    <!-- Footer -->
-    <footer class="bg-black/90 py-8 px-4 text-center border-t border-red-700/20">
+<!-- Footer -->
+<footer class="bg-black/90 py-8 px-4 text-center border-t border-red-700/20">
 
   <!-- SOCIAL ICONS -->
   <div class="flex justify-center gap-3 mb-6 flex-wrap">
@@ -1150,7 +1235,7 @@ document.addEventListener('DOMContentLoaded', function() {
       </svg>
     </a>
 
-    <!-- INSTAGRAM (KONSISTENT) -->
+    <!-- INSTAGRAM -->
     <a href="https://www.instagram.com/from.graceofficial"
        target="_blank" rel="noopener noreferrer"
        class="w-10 h-10 flex items-center justify-center bg-zinc-900 text-white rounded-full hover:bg-red-700 transition-all"
@@ -1205,132 +1290,108 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- FOOTER NAV -->
   <div class="mb-6 flex justify-center gap-4 flex-wrap">
 
-  <a href="#home" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Home</a>
-  <a href="#band" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Band</a>
-  <a href="#tour" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Tour</a>
-  <a href="#impressum" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Impressum</a>
-  <a href="#contact" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Contact</a>
+    <a href="#home" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Home</a>
+    <a href="#band" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Band</a>
+    <a href="#tour" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Tour</a>
+    <a href="#impressum" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Imprint</a>
+    <a href="#contact" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Contact</a>
 
-  <!-- Neue Seiten -->
-  <a href="datenschutz.html"
-     class="text-gray-500 hover:text-red-700 elegant-text text-sm">
-    Datenschutzerklärung
-  </a>
+    <!-- Additional Pages -->
+    <a href="datenschutz.html"
+       class="text-gray-500 hover:text-red-700 elegant-text text-sm">
+      Privacy Policy (DE)
+    </a>
 
-  <a href="privacy.html"
-     class="text-gray-500 hover:text-red-700 elegant-text text-sm">
-    Privacy Policy
-  </a>
+    <a href="privacy.html"
+       class="text-gray-500 hover:text-red-700 elegant-text text-sm">
+      Privacy Policy (EN)
+    </a>
 
-</div>
+  </div>
 
 </footer>
   </div>
   
-  <script>
-    const defaultConfig = {
-      band_name: "From Grace",
-      tagline: "Death Metal forged in fire and despair",
-      band_intro: "Five souls bound by darkness, channeling rage and despair into sonic devastation. From Grace emerged from the shadows to deliver uncompromising death metal."
-    };
+<script>
+// ===== MOBILE MENU =====
+const menuToggle = document.getElementById('menuToggle');
+const mobileNav = document.getElementById('mobileNav');
 
-    async function onConfigChange(config) {
-      const bandName = config.band_name || defaultConfig.band_name;
-      const tagline = config.tagline || defaultConfig.tagline;
-      const bandIntro = config.band_intro || defaultConfig.band_intro;
+function closeMenu() {
+  if (mobileNav && menuToggle) {
+    mobileNav.classList.remove('active');
+    menuToggle.classList.remove('active');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    mobileNav.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+}
 
-      document.getElementById('band-name').textContent = bandName;
-      document.getElementById('tagline').textContent = tagline;
-      document.getElementById('band-intro').textContent = bandIntro;
+if (menuToggle && mobileNav) {
+  menuToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = mobileNav.classList.contains('active');
+    
+    if (isOpen) {
+      closeMenu();
+    } else {
+      mobileNav.classList.add('active');
+      menuToggle.classList.add('active');
+      menuToggle.setAttribute('aria-expanded', 'true');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
     }
+  });
 
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
-        mapToCapabilities: (config) => ({
-          recolorables: [],
-          borderables: [],
-          fontEditable: undefined,
-          fontSizeable: undefined
-        }),
-        mapToEditPanelValues: (config) => new Map([
-          ["band_name", config.band_name || defaultConfig.band_name],
-          ["tagline", config.tagline || defaultConfig.tagline],
-          ["band_intro", config.band_intro || defaultConfig.band_intro]
-        ])
-      });
+  // Close menu when clicking on links
+  mobileNav.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (mobileNav.classList.contains('active') && 
+        !mobileNav.contains(e.target) && 
+        e.target !== menuToggle) {
+      closeMenu();
     }
+  });
 
-    // ===== Mobile Menu Toggle =====
-    const menuToggle = document.getElementById('menuToggle');
-    const mobileNav = document.getElementById('mobileNav');
-
-    function closeMenu() {
-      mobileNav.classList.remove('active');
-      menuToggle.classList.remove('active');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      mobileNav.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
+  // Close menu with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+      closeMenu();
     }
+  });
+}
 
-    if (menuToggle && mobileNav) {
-      menuToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        
-        const isOpen = mobileNav.classList.contains('active');
-        
-        mobileNav.classList.toggle('active');
-        menuToggle.classList.toggle('active');
-        
-        menuToggle.setAttribute('aria-expanded', !isOpen);
-        mobileNav.setAttribute('aria-hidden', isOpen);
-        document.body.style.overflow = !isOpen ? 'hidden' : '';
-      });
-      
-      // Close on link click
-      mobileNav.querySelectorAll('.mobile-nav-link').forEach(link => {
-        link.addEventListener('click', closeMenu);
-      });
-      
-      // Close on ESC
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-          closeMenu();
-        }
-      });
-      
-      // Close on outside click
-      document.addEventListener('click', (e) => {
-        if (!mobileNav.contains(e.target) && !menuToggle.contains(e.target)) {
-          closeMenu();
-        }
-      });
-    }
-
-  // ===== Smooth Scroll für Anchor Links =====
+// ===== SMOOTH SCROLL =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
     e.preventDefault();
     const targetId = this.getAttribute('href');
     if (targetId === '#') return;
-
-    const targetElement = document.querySelector(targetId);
-    if (targetElement) {
-      const scroller = document.querySelector('.content-container');
-
-      scroller.scrollTo({
-        top: targetElement.offsetTop - 70,
+    
+    const target = document.querySelector(targetId);
+    if (!target) return;
+    
+    const container = document.querySelector('.content-container');
+    if (container) {
+      container.scrollTo({
+        top: target.offsetTop - 70,
         behavior: 'smooth'
       });
-
-      if (window.innerWidth <= 768 && mobileNav.classList.contains('active')) {
-        closeMenu();
-      }
+    } else {
+      // Fallback to regular scroll if container not found
+      window.scrollTo({
+        top: target.offsetTop - 70,
+        behavior: 'smooth'
+      });
     }
+    
+    closeMenu();
   });
 });
-
 
 // ===== SIMPLE MUSIC PLAYER =====
 const player = document.getElementById("fg-player");
@@ -1341,23 +1402,62 @@ if (player && playBtn) {
     if (player.paused) {
       player.play();
       playBtn.textContent = "⏸ PAUSE";
-      playBtn.setAttribute('aria-pressed', 'true');
+      playBtn.setAttribute("aria-pressed", "true");
     } else {
       player.pause();
       playBtn.textContent = "▶ PLAY TRACK";
-      playBtn.setAttribute('aria-pressed', 'false');
+      playBtn.setAttribute("aria-pressed", "false");
+    }
+  });
+
+  player.addEventListener("ended", () => {
+    playBtn.textContent = "▶ PLAY TRACK";
+    playBtn.setAttribute("aria-pressed", "false");
+  });
+
+  player.addEventListener("pause", () => {
+    if (!player.ended) {
+      playBtn.textContent = "▶ PLAY TRACK";
+      playBtn.setAttribute("aria-pressed", "false");
     }
   });
 }
 
-// Wenn Audio beendet wird
-if (player) {
-  player.addEventListener('ended', () => {
-    playBtn.textContent = "▶ PLAY TRACK";
-  playBtn.setAttribute('aria-pressed', 'false');
-});
-}
-</script>
+// ===== BAND MEMBER ACCORDION =====
+document.querySelectorAll('.member-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const id = card.dataset.member;
+    if (!id) return;
 
+    const target = document.getElementById('member-' + id);
+    if (!target) return;
+
+    // Close all other member details
+    document.querySelectorAll('.member-details').forEach(d => {
+      if (d !== target) {
+        d.classList.add('hidden');
+        // Also update aria-expanded on corresponding card
+        const cardId = d.id.replace('member-', '');
+        const otherCard = document.querySelector(`[data-member="${cardId}"]`);
+        if (otherCard) {
+          otherCard.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+
+    // Toggle current member details
+    const isHidden = target.classList.contains('hidden');
+    target.classList.toggle('hidden');
+    
+    // Update aria-expanded on clicked card
+    card.setAttribute('aria-expanded', !isHidden);
+    
+    // Scroll into view if opening
+    if (!isHidden) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+});
+</script>
 </body>
 </html>
