@@ -579,6 +579,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </head>
 <body class="h-full">
+<audio id="fg-player" preload="none" style="display:none">
+  <source src="audio/01_FromGrace.mp3" type="audio/mpeg">
+</audio>
   <!-- Background Logo -->
   <div class="background-logo" aria-hidden="true"></div>
   <div class="background-overlay" aria-hidden="true"></div>
@@ -732,12 +735,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </a>
 
           <div class="flex flex-col items-center">
-            <audio id="fg-player" src="audio/01_FromGrace.mp3"></audio>
-
-            <button id="fg-play-btn"
-              class="bg-zinc-900 border border-red-700 text-white
-                     px-5 py-2 rounded font-bold elegant-text
-                     hover:bg-red-700 transition-colors">
+                        <button class="fg-play-btn bg-zinc-900 border border-red-700 text-white px-5 py-2 rounded font-bold elegant-text hover:bg-red-700 transition-colors">
               ▶ PLAY TRACK
             </button>
 
@@ -774,10 +772,7 @@ document.addEventListener('DOMContentLoaded', function() {
       </a>
 
       <div class="flex flex-col items-center">
-        <button id="fg-play-btn"
-          class="bg-zinc-900 border border-red-700 text-white
-                 px-5 py-2 rounded font-bold elegant-text
-                 hover:bg-red-700 transition-colors">
+        <button class="fg-play-btn bg-zinc-900 border border-red-700 text-white px-5 py-2 rounded font-bold elegant-text hover:bg-red-700 transition-colors">
           ▶ PLAY TRACK
         </button>
 
@@ -1445,33 +1440,32 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // ===== SIMPLE MUSIC PLAYER =====
 const player = document.getElementById("fg-player");
-const playBtn = document.getElementById("fg-play-btn");
+const playButtons = document.querySelectorAll(".fg-play-btn");
 
-if (player && playBtn) {
-  playBtn.addEventListener("click", () => {
+playButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
     if (player.paused) {
       player.play();
-      playBtn.textContent = "⏸ PAUSE";
-      playBtn.setAttribute("aria-pressed", "true");
+      playButtons.forEach(b => {
+        b.textContent = "⏸ PAUSE";
+        b.setAttribute("aria-pressed", "true");
+      });
     } else {
       player.pause();
-      playBtn.textContent = "▶ PLAY TRACK";
-      playBtn.setAttribute("aria-pressed", "false");
+      playButtons.forEach(b => {
+        b.textContent = "▶ PLAY TRACK";
+        b.setAttribute("aria-pressed", "false");
+      });
     }
   });
+});
 
-  player.addEventListener("ended", () => {
-    playBtn.textContent = "▶ PLAY TRACK";
-    playBtn.setAttribute("aria-pressed", "false");
+player.addEventListener("ended", () => {
+  playButtons.forEach(b => {
+    b.textContent = "▶ PLAY TRACK";
+    b.setAttribute("aria-pressed", "false");
   });
-
-  player.addEventListener("pause", () => {
-    if (!player.ended) {
-      playBtn.textContent = "▶ PLAY TRACK";
-      playBtn.setAttribute("aria-pressed", "false");
-    }
-  });
-}
+});
 
 // ===== BAND MEMBER ACCORDION =====
 document.querySelectorAll('.member-card').forEach(card => {
