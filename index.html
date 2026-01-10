@@ -5,6 +5,7 @@
   <title>From Grace – Death Metal Band | Official Website</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <meta name="description" content="Official website of From Grace - German Death Metal band. Brutal riffs, dark melodies, merch, tour dates and music.">
+<meta name="keywords" content="death metal, from grace, metal band, germany, german death metal, merch, tour, music">
   
   <!-- FAVICON -->
   <link rel="icon" href="/favicon.png" type="image/png">
@@ -63,29 +64,6 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- 
-  ============================================================================
-  🍪 COOKIEYES COOKIE CONSENT BANNER - PRODUCTION SETUP
-  ============================================================================
-  
-  ✅ CookieYes-ID ist konfiguriert!
-  ID: 7c88634c424efa288ea74a4df1974814
-  
-  Das Cookie-Banner sollte jetzt auf eurer Website erscheinen.
-  Videos werden nur nach Marketing-Cookie-Consent geladen.
-  
-  ℹ️ Falls ihr die ID ändern müsst:
-  1. Öffnet: https://app.cookieyes.com/
-  2. Settings → Installation → Neue ID kopieren
-  3. Ersetzt die ID unten in der URL
-  
-  ============================================================================
-  -->
-  <!-- Start cookieyes banner -->
-  <script id="cookieyes" type="text/javascript" 
-          src="https://cdn-cookieyes.com/client_data/7c88634c424efa288ea74a4df1974814/script.js"></script>
-  <!-- End cookieyes banner -->
-  
   <style>
     /* CSS Variables */
     :root {
@@ -98,7 +76,7 @@
     /* Optimized Box-Sizing */
     html {
       box-sizing: border-box;
-      /* scroll-behavior: smooth; REMOVED - using JS smooth scroll instead */
+      scroll-behavior: smooth;
     }
     
     *, *::before, *::after {
@@ -344,40 +322,9 @@
       border: 0;
     }
     
-    /* ===== Toast Notification Animation ===== */
-    @keyframes fade-in {
-      from { 
-        opacity: 0; 
-        transform: translateY(20px); 
-      }
-      to { 
-        opacity: 1; 
-        transform: translateY(0); 
-      }
-    }
-    
-    @keyframes fade-out {
-      from { 
-        opacity: 1; 
-        transform: translateY(0); 
-      }
-      to { 
-        opacity: 0; 
-        transform: translateY(20px); 
-      }
-    }
-    
-    .animate-fade-in {
-      animation: fade-in 0.3s ease-out forwards;
-    }
-    
-    .animate-fade-out {
-      animation: fade-out 0.3s ease-out forwards;
-    }
-    
     /* Utility Classes */
-    .fg-hidden {
-      display: none !important;
+    .hidden {
+      display: none;
     }
     
     /* Mobile Optimization */
@@ -408,11 +355,28 @@
         font-size: 0.6rem;
       }
       
+      .band-name-mobile {
+        font-size: 1.6rem !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 180px;
+      }
+      
       section {
         padding-left: 1rem !important;
         padding-right: 1rem !important;
         padding-top: 3rem !important;
         padding-bottom: 3rem !important;
+      }
+      
+      #band-name {
+        font-size: 3.5rem !important;
+        line-height: 1.1;
+      }
+      
+      #tagline {
+        font-size: 1.5rem !important;
       }
       
       h2 {
@@ -473,7 +437,9 @@
         transition: none;
       }
       
-      /* scroll-behavior already removed from html {} above */
+      html {
+        scroll-behavior: auto;
+      }
     }
     
     .header-logo {
@@ -494,319 +460,125 @@
     }
   </style>
 
+<!-- CookieYes -->
+<script id="cookieyes"
+        type="text/javascript"
+        src="https://cdn-cookieyes.com/client_data/7c88634c424efa288ea74a4df1974814/script.js">
+</script>
+
+<!-- YouTube Consent + Click-to-Load -->
 <script>
-<script>
-// ========= ROBUSTE CookieYes + YouTube Integration =========
+// stores whether marketing cookies are allowed
+let fg_hasMarketingConsent = false;
 
-// Globale Flags
-let cookieYesListenerAdded = false;
-
-// Öffnet CookieYes Einstellungen - MEHRERE METHODEN
-function fg_showCookieSettings() {
-    console.log("🍪 Öffne Cookie-Einstellungen...");
+// Wait for DOM to load
+document.addEventListener('DOMContentLoaded', function() {
     
-    // Methode 1: CookieYes API
-    if (window.CookieYes) {
-        if (typeof CookieYes.showPreferences === "function") {
-            CookieYes.showPreferences();
-            return;
-        }
-        if (typeof CookieYes.showSettings === "function") {
-            CookieYes.showSettings();
-            return;
-        }
+    /* CookieYes – when user changes consent */
+    function fg_checkMarketingConsent(e) {
+        // List of possible categories that CookieYes might use
+        const accepted = (e?.detail?.accepted || [])
+            .map(c => c.toLowerCase());
+        
+        fg_hasMarketingConsent = 
+            accepted.includes("marketing") ||
+            accepted.includes("advertisement") ||
+            accepted.includes("ads") ||
+            accepted.includes("targeting");
+        
+        console.log("Marketing Consent:", fg_hasMarketingConsent); // Debug
     }
     
-    // Methode 2: Banner-Button finden und klicken
-    const settingsButtons = [
-        document.querySelector('[data-cli-action="settings"]'),
-        document.querySelector('.cky-btn-settings'),
-        document.querySelector('[id*="cookie-settings"]'),
-        document.querySelector('.cookie-settings'),
-    ];
-    
-    for (let btn of settingsButtons) {
-        if (btn) {
-            console.log("✅ Settings-Button gefunden, klicke...");
-            btn.click();
-            return;
-        }
-    }
-    
-    // Fallback: Banner wieder anzeigen
-    console.warn("⚠️ Konnte Einstellungen nicht öffnen, versuche Banner neu zu laden...");
-    location.reload();
-}
-
-// Prüft Marketing-Consent - ULTRA-ROBUST
-function fg_hasMarketingConsentNow() {
-    console.log("🔍 === STARTE CONSENT-CHECK ===");
-    
-    try {
-        // METHODE 1: COOKIES DIREKT PRÜFEN (Zuverlässigste Methode!)
-        const allCookies = document.cookie;
-        console.log("🍪 Alle Cookies:", allCookies);
-        
-        if (!allCookies || allCookies === '') {
-            console.log("❌ Keine Cookies gefunden");
-            return false;
-        }
-        
-        const cookies = allCookies.split(';');
-        
-        for (let cookie of cookies) {
-            const trimmed = cookie.trim();
-            const [name, ...valueParts] = trimmed.split('=');
-            const value = valueParts.join('='); // Falls = im Wert vorkommt
-            
-            console.log(`  🍪 ${name}: ${value ? value.substring(0, 80) : 'leer'}`);
-            
-            // CookieYes nutzt diese Cookie-Namen:
-            if (name === 'cookieyes-consent' || 
-                name === 'cky-consent' || 
-                name === 'cookie-consent' ||
-                name.startsWith('cookieyes-')) {
-                
-                console.log(`📊 CookieYes Cookie gefunden: ${name}`);
-                
-                if (!value) {
-                    console.log("  ⚠️ Cookie ist leer");
-                    continue;
-                }
-                
-                try {
-                    const decoded = decodeURIComponent(value);
-                    console.log(`  📄 Dekodiert: ${decoded.substring(0, 200)}`);
-                    
-                    // ALLE MÖGLICHEN CONSENT-CHECKS:
-                    
-                    // Check 1: Einfache "yes" Werte
-                    if (decoded === 'yes' || decoded === 'true' || decoded === 'accepted' || decoded === '1') {
-                        console.log("✅✅✅ ALLE COOKIES AKZEPTIERT (Einfacher Wert)");
-                        return true;
-                    }
-                    
-                    // Check 2: JSON mit marketing:true
-                    if (decoded.match(/["']?marketing["']?\s*:\s*["']?(true|yes|1|accepted)/i)) {
-                        console.log("✅✅✅ MARKETING-COOKIES AKZEPTIERT (JSON Pattern)");
-                        return true;
-                    }
-                    
-                    // Check 3: JSON mit advertisement:true
-                    if (decoded.match(/["']?advertisement["']?\s*:\s*["']?(true|yes|1|accepted)/i)) {
-                        console.log("✅✅✅ ADVERTISEMENT-COOKIES AKZEPTIERT (JSON Pattern)");
-                        return true;
-                    }
-                    
-                    // Check 4: Versuche als JSON zu parsen
-                    try {
-                        const parsed = JSON.parse(decoded);
-                        console.log("  📦 Parsed JSON:", parsed);
-                        
-                        if (parsed.marketing === true || 
-                            parsed.marketing === 'yes' || 
-                            parsed.marketing === '1' ||
-                            parsed.advertisement === true ||
-                            parsed.advertisement === 'yes') {
-                            console.log("✅✅✅ MARKETING-COOKIES AKZEPTIERT (Parsed JSON)");
-                            return true;
-                        }
-                        
-                        // Check nested
-                        if (parsed.consent && typeof parsed.consent === 'object') {
-                            if (parsed.consent.marketing === true || parsed.consent.advertisement === true) {
-                                console.log("✅✅✅ MARKETING-COOKIES AKZEPTIERT (Nested JSON)");
-                                return true;
-                            }
-                        }
-                    } catch (parseError) {
-                        console.log("  ⚠️ Kein JSON oder Parse-Fehler");
-                    }
-                    
-                    // Check 5: Substring-Checks
-                    const lowerDecoded = decoded.toLowerCase();
-                    if ((lowerDecoded.includes('marketing') || lowerDecoded.includes('advertisement')) &&
-                        (lowerDecoded.includes('true') || lowerDecoded.includes('yes') || lowerDecoded.includes('accepted'))) {
-                        console.log("✅✅✅ MARKETING-COOKIES AKZEPTIERT (Substring Match)");
-                        return true;
-                    }
-                    
-                } catch (decodeError) {
-                    console.log("  ❌ Decode-Fehler:", decodeError.message);
-                }
+    /* Load all YouTube videos (if allowed) */
+    function fg_loadAllYouTubeVideos() {
+        document.querySelectorAll(".yt-wrapper").forEach(wrapper => {
+            const videoId = wrapper.dataset.video;
+            // Only show thumbnail, don't load automatically
+            const thumbnail = wrapper.querySelector('img');
+            if (thumbnail) {
+                thumbnail.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
             }
-        }
+        });
+    }
+    
+    /* Load individual YouTube video */
+    function fg_loadYouTubeVideo(wrapper, videoId, autoplay = true) {
+        console.log("Loading video:", videoId, "Consent:", fg_hasMarketingConsent); // Debug
         
-        // METHODE 2: CookieYes API (Falls verfügbar)
-        if (window.CookieYes) {
-            console.log("🔌 CookieYes API verfügbar, versuche getConsent...");
-            
-            if (typeof CookieYes.getConsent === "function") {
-                const consent = CookieYes.getConsent();
-                console.log("  📊 API Response:", consent);
-                
-                if (consent === true) {
-                    console.log("✅✅✅ ALLE COOKIES AKZEPTIERT (API)");
-                    return true;
-                }
-                
-                if (consent && typeof consent === "object") {
-                    if (consent.marketing === true || consent.advertisement === true) {
-                        console.log("✅✅✅ MARKETING-COOKIES AKZEPTIERT (API Object)");
-                        return true;
-                    }
-                }
-            } else {
-                console.log("  ⚠️ getConsent() nicht verfügbar");
-            }
-        } else {
-            console.log("⚠️ window.CookieYes nicht gefunden");
-        }
-        
-        console.log("❌❌❌ KEINE MARKETING-COOKIES GEFUNDEN - Video bleibt blockiert");
-        console.log("=== CONSENT-CHECK ENDE ===\n");
-        return false;
-        
-    } catch (error) {
-        console.error("❌ FEHLER beim Consent-Check:", error);
-        return false;
-    }
-}
-
-// Lädt Video oder zeigt Consent-Hinweis
-function fg_loadYouTubeVideo(wrapper, videoId) {
-    console.log("🎬 === VIDEO-LOAD-VERSUCH ===");
-    console.log("Video-ID:", videoId);
-    
-    if (!fg_hasMarketingConsentNow()) {
-        console.log("⏸️ Video blockiert - Marketing-Cookies fehlen");
-        
-        wrapper.innerHTML = `
-            <div class="w-full h-full flex flex-col items-center justify-center bg-black p-4">
-                <svg class="w-16 h-16 mb-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                </svg>
-                <p class="text-red-700 font-bold mb-3 text-center text-base">
-                    Marketing-Cookies erforderlich
-                </p>
-                <p class="text-gray-400 text-sm mb-4 text-center max-w-xs">
-                    Bitte akzeptiere Marketing-Cookies im Cookie-Banner,<br>um YouTube-Videos anzusehen.
-                </p>
-                <button onclick="fg_showCookieSettings()"
-                    class="px-6 py-3 bg-red-700 hover:bg-red-800 text-white rounded font-bold transition-colors mb-2">
-                    Cookie-Einstellungen öffnen
-                </button>
-                <button onclick="location.reload()" 
-                    class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded text-sm">
-                    Seite neu laden
-                </button>
-                <p class="text-gray-500 text-xs mt-4">
-                    Debug: Öffne F12 Console für Details
-                </p>
-            </div>
-        `;
-        return;
-    }
-
-    // Cookie akzeptiert - lade Video!
-    console.log("✅ Marketing-Cookies akzeptiert - Lade Video...");
-    
-    const iframe = document.createElement("iframe");
-    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
-    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-    iframe.allowFullscreen = true;
-    iframe.className = "w-full h-full";
-    iframe.title = "YouTube video player";
-    iframe.frameBorder = "0";
-    iframe.setAttribute("loading", "lazy");
-
-    wrapper.innerHTML = "";
-    wrapper.appendChild(iframe);
-    
-    console.log("✅✅✅ YouTube Video erfolgreich geladen!");
-    console.log("=== VIDEO-LOAD ENDE ===\n");
-}
-
-// Handler für YouTube-Klicks
-function fg_handleYouTubeClick(e) {
-    const wrapper = e.target.closest(".yt-wrapper");
-    if (!wrapper) return;
-    
-    const btn = e.target.closest(".yt-play-btn");
-    if (!btn) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const videoId = wrapper.dataset.video;
-    if (videoId) {
-        fg_loadYouTubeVideo(wrapper, videoId);
-    } else {
-        console.error("❌ Keine Video-ID gefunden");
-    }
-}
-
-// Initialisiere Event-Listener
-function fg_initYouTubePlayers() {
-    console.log("🎥 Initialisiere YouTube Player...");
-    
-    document.removeEventListener("click", fg_handleYouTubeClick);
-    document.addEventListener("click", fg_handleYouTubeClick);
-    
-    if (!window.CookieYes && !cookieYesListenerAdded) {
-        cookieYesListenerAdded = true;
-        document.addEventListener("cookieyes_loaded", function() {
-            console.log("✅ CookieYes Event: Loaded");
-        }, { once: true });
-    }
-    
-    console.log("✅ YouTube Player initialisiert");
-}
-
-// Initialisiere wenn DOM bereit
-try {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', fg_initYouTubePlayers);
-    } else {
-        fg_initYouTubePlayers();
-    }
-} catch (error) {
-    console.error("❌ Fehler bei Initialisierung:", error);
-}
-
-// Behandle Cookie-Änderungen
-document.addEventListener("cookieyes_consent_update", function(event) {
-    console.log("🔄 Cookie-Einstellungen wurden geändert");
-    console.log("Event:", event);
-    
-    setTimeout(() => {
-        if (fg_hasMarketingConsentNow()) {
-            const toast = document.createElement("div");
-            toast.className = "fixed bottom-4 right-4 bg-green-700 text-white px-6 py-3 rounded shadow-lg z-50 animate-fade-in";
-            toast.setAttribute("role", "status");
-            toast.setAttribute("aria-live", "polite");
-            toast.innerHTML = `
-                <div class="flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
-                    <span>Videos können jetzt geladen werden! Klicke erneut auf Play.</span>
+        // No consent → show message
+        if (!fg_hasMarketingConsent) {
+            wrapper.innerHTML = `
+                <div class="w-full h-full flex items-center justify-center bg-black">
+                    <div class="text-center p-4">
+                        <p class="text-red-700 font-bold mb-2 elegant-text">
+                            This video requires marketing cookies.
+                        </p>
+                        <p class="text-gray-400 text-sm elegant-text">
+                            Allow YouTube cookies to watch the video.
+                        </p>
+                        <button onclick="fg_showCookieSettings()"
+                            class="mt-3 px-4 py-2 bg-red-700 text-white rounded text-sm hover:bg-red-800 transition-colors">
+                            Open cookie settings
+                        </button>
+                    </div>
                 </div>
             `;
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.classList.remove('animate-fade-in');
-                toast.classList.add('animate-fade-out');
-                setTimeout(() => toast.remove(), 300);
-            }, 4000);
+            return;
         }
-    }, 500); // Warte kurz damit Cookie gesetzt ist
+        
+        // Consent given → insert iframe
+        const iframe = document.createElement("iframe");
+        iframe.className = "w-full h-full";
+        iframe.src = 
+            `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1${autoplay ? "&autoplay=1" : ""}`;
+        iframe.title = "YouTube Video Player";
+        iframe.frameBorder = "0";
+        iframe.allow = 
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        iframe.allowFullscreen = true;
+        iframe.loading = "lazy";
+        
+        wrapper.innerHTML = "";
+        wrapper.appendChild(iframe);
+    }
+    
+    /* Open cookie settings */
+    window.fg_showCookieSettings = function() {
+        if (window.CookieYes?.show) window.CookieYes.show();
+    }
+    
+    /* Click event for all PLAY buttons */
+    document.addEventListener("click", function(e) {
+        const btn = e.target.closest(".yt-play-btn");
+        if (!btn) return;
+        
+        const wrapper = btn.closest(".yt-wrapper");
+        if (!wrapper) return;
+        
+        const videoId = wrapper.dataset.video;
+        if (!videoId) return;
+        
+        fg_loadYouTubeVideo(wrapper, videoId, true);
+    });
+    
+    // Initial load thumbnails
+    fg_loadAllYouTubeVideos();
+    
+    /* Initial + Update Cookie Consent */
+    document.addEventListener("cookieyes_consent_initialized", fg_checkMarketingConsent);
+    document.addEventListener("cookieyes_consent_update", fg_checkMarketingConsent);
+    
+    // Fallback: If CookieYes not loaded after 3 seconds
+    setTimeout(() => {
+        if (typeof CookieYes === 'undefined') {
+            console.log("CookieYes not loaded, assuming no consent");
+            fg_hasMarketingConsent = false;
+        }
+    }, 3000);
 });
-
-console.log("✅ CookieYes-Integration geladen");
 </script>
+</head>
+<body class="h-full">
 <audio id="fg-player" preload="none" style="display:none">
   <source src="audio/01_FromGrace.mp3" type="audio/mpeg">
 </audio>
@@ -963,9 +735,7 @@ console.log("✅ CookieYes-Integration geladen");
           </a>
 
           <div class="flex flex-col items-center">
-            <button class="fg-play-btn bg-zinc-900 border border-red-700 text-white px-5 py-2 rounded font-bold elegant-text hover:bg-red-700 transition-colors"
-                    aria-pressed="false"
-                    aria-label="Play demo track">
+                        <button class="fg-play-btn bg-zinc-900 border border-red-700 text-white px-5 py-2 rounded font-bold elegant-text hover:bg-red-700 transition-colors">
               ▶ PLAY TRACK
             </button>
 
@@ -1002,9 +772,7 @@ console.log("✅ CookieYes-Integration geladen");
       </a>
 
       <div class="flex flex-col items-center">
-        <button class="fg-play-btn bg-zinc-900 border border-red-700 text-white px-5 py-2 rounded font-bold elegant-text hover:bg-red-700 transition-colors"
-                aria-pressed="false"
-                aria-label="Play demo track">
+        <button class="fg-play-btn bg-zinc-900 border border-red-700 text-white px-5 py-2 rounded font-bold elegant-text hover:bg-red-700 transition-colors">
           ▶ PLAY TRACK
         </button>
 
@@ -1036,7 +804,7 @@ console.log("✅ CookieYes-Integration geladen");
 
   <!-- Vocals -->
   <div class="w-full max-w-3xl">
-    <div class="member-card flex flex-col items-center" data-member="jan" role="button" tabindex="0" aria-expanded="false">
+    <div class="member-card flex flex-col items-center" data-member="jan">
       <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
         <img src="images/Jan.webp" class="w-full h-full object-cover" alt="Jan - Lead vocalist of From Grace death metal band">
       </div>
@@ -1044,7 +812,7 @@ console.log("✅ CookieYes-Integration geladen");
       <p class="text-red-700 text-[10px] uppercase">Vocals</p>
     </div>
     
-    <div id="member-jan" class="member-details fg-hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
+    <div id="member-jan" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
       <p class="text-gray-400 elegant-text text-sm mb-4">
         Jan – Vocals. Brutal growls, dark lyrics, relentless presence.
       </p>
@@ -1060,7 +828,7 @@ console.log("✅ CookieYes-Integration geladen");
 
   <!-- Rhythm Guitar -->
   <div class="w-full max-w-3xl">
-    <div class="member-card flex flex-col items-center" data-member="jessi" role="button" tabindex="0" aria-expanded="false">
+    <div class="member-card flex flex-col items-center" data-member="jessi">
       <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
         <img src="images/Jessy.webp" class="w-full h-full object-cover" alt="Jessi - Rhythm guitarist of From Grace death metal band">
       </div>
@@ -1068,7 +836,7 @@ console.log("✅ CookieYes-Integration geladen");
       <p class="text-red-700 text-[10px] uppercase">Rhythm Guitar</p>
     </div>
     
-    <div id="member-jessi" class="member-details fg-hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
+    <div id="member-jessi" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
       <p class="text-gray-400 elegant-text text-sm mb-4">
         Jessi – Rhythm Guitar. Crushing riffs and dark foundations.
       </p>
@@ -1086,7 +854,7 @@ console.log("✅ CookieYes-Integration geladen");
   <div class="flex justify-between w-80 sm:w-96 gap-4">
 
     <div class="flex-1">
-      <div class="member-card flex flex-col items-center" data-member="enrico" role="button" tabindex="0" aria-expanded="false">
+      <div class="member-card flex flex-col items-center" data-member="enrico">
         <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
           <img src="images/Rico.webp" class="w-full h-full object-cover" alt="Enrico - Bass player of From Grace death metal band">
         </div>
@@ -1094,7 +862,7 @@ console.log("✅ CookieYes-Integration geladen");
         <p class="text-red-700 text-[10px] uppercase">Bass</p>
       </div>
       
-      <div id="member-enrico" class="member-details fg-hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
+      <div id="member-enrico" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
         <p class="text-gray-400 elegant-text text-sm mb-4">
           Enrico – Bass. Weight, groove and low-end darkness.
         </p>
@@ -1109,7 +877,7 @@ console.log("✅ CookieYes-Integration geladen");
     </div>
 
     <div class="flex-1">
-      <div class="member-card flex flex-col items-center" data-member="martin" role="button" tabindex="0" aria-expanded="false">
+      <div class="member-card flex flex-col items-center" data-member="martin">
         <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
           <img src="images/Martin.webp" class="w-full h-full object-cover" alt="Martin - Drummer of From Grace death metal band">
         </div>
@@ -1117,7 +885,7 @@ console.log("✅ CookieYes-Integration geladen");
         <p class="text-red-700 text-[10px] uppercase">Drums</p>
       </div>
       
-      <div id="member-martin" class="member-details fg-hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
+      <div id="member-martin" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
         <p class="text-gray-400 elegant-text text-sm mb-4">
           Martin – Drums. Precision, power and relentless drive.
         </p>
@@ -1135,7 +903,7 @@ console.log("✅ CookieYes-Integration geladen");
 
   <!-- Lead Guitar -->
   <div class="w-full max-w-3xl">
-    <div class="member-card flex flex-col items-center" data-member="viktor" role="button" tabindex="0" aria-expanded="false">
+    <div class="member-card flex flex-col items-center" data-member="viktor">
       <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
         <img src="images/Viktor.webp" class="w-full h-full object-cover" alt="Viktor - Lead guitarist of From Grace death metal band">
       </div>
@@ -1143,7 +911,7 @@ console.log("✅ CookieYes-Integration geladen");
       <p class="text-red-700 text-[10px] uppercase">Lead Guitar</p>
     </div>
     
-    <div id="member-viktor" class="member-details fg-hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
+    <div id="member-viktor" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
       <p class="text-gray-400 elegant-text text-sm mb-4">
         Viktor – Lead Guitar. Atmosphere, melody and sharp leads.
       </p>
@@ -1160,7 +928,6 @@ console.log("✅ CookieYes-Integration geladen");
 </div>
 
 </section>
-
 <!-- Live Performances Section -->
 <section id="live-performances" class="py-12 md:py-20 px-4 sm:px-6 text-center">
 
@@ -1178,8 +945,7 @@ console.log("✅ CookieYes-Integration geladen");
              src="https://img.youtube.com/vi/PtSvVaCoM9k/hqdefault.jpg"
              alt="Blutadler Seesen"
              loading="lazy">
-        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors"
-                aria-label="Play video: Blutadler performance in Seesen">
+        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors">
           ▶ PLAY
         </button>
       </div>
@@ -1202,8 +968,7 @@ console.log("✅ CookieYes-Integration geladen");
              src="https://img.youtube.com/vi/aiwmarC6qDs/hqdefault.jpg"
              alt="Johnny B. Seesen"
              loading="lazy">
-        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors"
-                aria-label="Play video: Johnny B. performance in Seesen">
+        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors">
           ▶ PLAY
         </button>
       </div>
@@ -1226,8 +991,7 @@ console.log("✅ CookieYes-Integration geladen");
              src="https://img.youtube.com/vi/q9Nexejm-5o/hqdefault.jpg"
              alt="Blutadler Bandbattle Moringen"
              loading="lazy">
-        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors"
-                aria-label="Play video: Blutadler at Bandbattle Moringen">
+        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors">
           ▶ PLAY
         </button>
       </div>
@@ -1250,8 +1014,7 @@ console.log("✅ CookieYes-Integration geladen");
              src="https://img.youtube.com/vi/Pjw2ulJiAPw/hqdefault.jpg"
              alt="Possessed Salzgitter"
              loading="lazy">
-        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors"
-                aria-label="Play video: Possessed performance in Salzgitter">
+        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors">
           ▶ PLAY
         </button>
       </div>
@@ -1274,8 +1037,7 @@ console.log("✅ CookieYes-Integration geladen");
              src="https://img.youtube.com/vi/ImkffSWZFWw/hqdefault.jpg"
              alt="DMA Seesen"
              loading="lazy">
-        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors"
-                aria-label="Play video: DMA performance in Seesen">
+        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors">
           ▶ PLAY
         </button>
       </div>
@@ -1292,6 +1054,7 @@ console.log("✅ CookieYes-Integration geladen");
 
   </div>
 </section>
+
 
 <!-- Tour Section -->
 <section id="tour" class="py-12 md:py-20 px-4 sm:px-6 text-center">
@@ -1369,8 +1132,7 @@ console.log("✅ CookieYes-Integration geladen");
           class="relative z-20 pointer-events-auto
                  bg-red-700 hover:bg-red-800 text-white
                  px-6 py-3 rounded font-bold elegant-text
-                 transition-colors text-sm w-full inline-block"
-          aria-label="Buy From Grace T-Shirt on Bandcamp">
+                 transition-colors text-sm w-full inline-block">
           BUY ON BANDCAMP
         </button>
       </div>
@@ -1599,20 +1361,14 @@ console.log("✅ CookieYes-Integration geladen");
 // ===== MOBILE MENU =====
 const menuToggle = document.getElementById('menuToggle');
 const mobileNav = document.getElementById('mobileNav');
-const contentContainer = document.querySelector('.content-container');
 
 function closeMenu() {
   if (mobileNav && menuToggle) {
     mobileNav.classList.remove('active');
     menuToggle.classList.remove('active');
     menuToggle.setAttribute('aria-expanded', 'false');
-    menuToggle.setAttribute('aria-controls', 'mobileNav');
     mobileNav.setAttribute('aria-hidden', 'true');
-    
-    // Unlock scroll on content container
-    if (contentContainer) {
-      contentContainer.style.overflow = 'auto';
-    }
+    document.body.style.overflow = '';
   }
 }
 
@@ -1627,13 +1383,8 @@ if (menuToggle && mobileNav) {
       mobileNav.classList.add('active');
       menuToggle.classList.add('active');
       menuToggle.setAttribute('aria-expanded', 'true');
-      menuToggle.setAttribute('aria-controls', 'mobileNav');
       mobileNav.setAttribute('aria-hidden', 'false');
-      
-      // Lock scroll on content container (better for iOS)
-      if (contentContainer) {
-        contentContainer.style.overflow = 'hidden';
-      }
+      document.body.style.overflow = 'hidden';
     }
   });
 
@@ -1676,6 +1427,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         behavior: 'smooth'
       });
     } else {
+      // Fallback to regular scroll if container not found
       window.scrollTo({
         top: target.offsetTop - 70,
         behavior: 'smooth'
@@ -1693,11 +1445,7 @@ const playButtons = document.querySelectorAll(".fg-play-btn");
 playButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     if (player.paused) {
-      // Catch autoplay policy violations
-      player.play().catch((error) => {
-        console.warn("Audio autoplay blocked by browser:", error);
-        // Optionally show user message
-      });
+      player.play();
       playButtons.forEach(b => {
         b.textContent = "⏸ PAUSE";
         b.setAttribute("aria-pressed", "true");
@@ -1721,7 +1469,7 @@ player.addEventListener("ended", () => {
 
 // ===== BAND MEMBER ACCORDION =====
 document.querySelectorAll('.member-card').forEach(card => {
-  const handleActivation = () => {
+  card.addEventListener('click', () => {
     const id = card.dataset.member;
     if (!id) return;
 
@@ -1731,7 +1479,8 @@ document.querySelectorAll('.member-card').forEach(card => {
     // Close all other member details
     document.querySelectorAll('.member-details').forEach(d => {
       if (d !== target) {
-        d.classList.add('fg-hidden');
+        d.classList.add('hidden');
+        // Also update aria-expanded on corresponding card
         const cardId = d.id.replace('member-', '');
         const otherCard = document.querySelector(`[data-member="${cardId}"]`);
         if (otherCard) {
@@ -1741,20 +1490,15 @@ document.querySelectorAll('.member-card').forEach(card => {
     });
 
     // Toggle current member details
-    const isHidden = target.classList.contains('fg-hidden');
-    target.classList.toggle('fg-hidden');
+    const isHidden = target.classList.contains('hidden');
+    target.classList.toggle('hidden');
+    
+    // Update aria-expanded on clicked card
     card.setAttribute('aria-expanded', !isHidden);
     
+    // Scroll into view if opening
     if (!isHidden) {
       target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-  };
-  
-  card.addEventListener('click', handleActivation);
-  card.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleActivation();
     }
   });
 });
