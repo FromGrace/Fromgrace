@@ -496,7 +496,8 @@
   </style>
 
 <script>
-// ===== YOUTUBE MIT COOKIEYES - RICHTIGE API! =====
+<script>
+// ===== YOUTUBE MIT COOKIEYES - DSGVO-KONFORM =====
 
 console.log("🎬 YouTube Player lädt...");
 
@@ -515,7 +516,7 @@ document.addEventListener('click', function(e) {
     
     console.log("▶️ Video-Button geklickt:", videoId);
     
-    // RICHTIGE COOKIEYES-API PRÜFUNG!
+    // NUR window.cookieyes_consent prüfen - KEIN Fallback!
     let hasMarketing = false;
     
     if (window.cookieyes_consent) {
@@ -523,16 +524,7 @@ document.addEventListener('click', function(e) {
         hasMarketing = window.cookieyes_consent.marketing === true;
         console.log("Marketing akzeptiert?", hasMarketing ? "✅ JA" : "❌ NEIN");
     } else {
-        console.log("⚠️ window.cookieyes_consent nicht vorhanden");
-        
-        // Fallback: Prüfe Cookie direkt
-        const cookies = document.cookie;
-        console.log("🍪 Cookies:", cookies);
-        
-        if (cookies.includes('cookieyes') || cookies.includes('cky-consent')) {
-            console.log("✅ CookieYes Cookie gefunden - erlaube Video");
-            hasMarketing = true;
-        }
+        console.log("⚠️ window.cookieyes_consent nicht vorhanden - Video blockiert");
     }
     
     if (!hasMarketing) {
@@ -589,7 +581,6 @@ document.addEventListener("cookieyes_consent_update", function(event) {
     if (window.cookieyes_consent && window.cookieyes_consent.marketing === true) {
         console.log("✅ Marketing-Cookies jetzt akzeptiert!");
         
-        // Toast-Benachrichtigung
         const toast = document.createElement("div");
         toast.style.cssText = "position:fixed; bottom:20px; right:20px; background:#16a34a; color:#fff; padding:16px 24px; border-radius:8px; z-index:9999; box-shadow:0 4px 6px rgba(0,0,0,0.3);";
         toast.innerHTML = `
