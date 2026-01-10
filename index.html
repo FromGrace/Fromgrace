@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <title>From Grace – Death Metal Band | Official Website</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <meta name="description" content="Official website of From Grace - Death Metal band. Brutal riffs, dark melodies, merch, tour dates and music.">
-  <meta name="keywords" content="death metal, from grace, metal band, merch, tour, music">
+  <meta name="description" content="Official website of From Grace - German Death Metal band. Brutal  riffs, dark melodies, merch, tour dates and music.">
+  <meta name="keywords" content="death metal, from grace, metal band, germany, german death metal, merch, tour, music">
+
 
   <!-- FAVICON -->
   <link rel="icon" href="/favicon.png" type="image/png">
@@ -38,6 +39,13 @@
     "name": "From Grace",
     "genre": "Death Metal",
     "url": "https://from-grace.com",
+"foundingLocation": {
+  "@type": "Place",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "DE"
+  }
+},
     "sameAs": [
       "https://www.instagram.com/from.graceofficial",
       "https://www.facebook.com/share/17ioNDJqh5/",
@@ -322,14 +330,15 @@
     
     /* Mobile Optimization */
     @media (max-width: 768px) {
-      .background-logo {
-        opacity: 0.3 !important;
-      }
-      
-      header {
-        padding-top: 5rem;
-        padding-bottom: 2rem;
-      }
+  .background-logo {
+    opacity: 0.3 !important;
+  }
+
+  header {
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+  }
+}
       
       button, .mobile-nav-link, .header-social-icon {
         min-height: 44px;
@@ -697,232 +706,183 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <header id="home" class="relative min-h-screen flex items-center justify-center text-center px-4 pt-16 pb-8 overflow-hidden">
 
-  <div class="relative mb-8 w-full">
+  <div class="relative mb-8">
 
     <!-- LOGO -->
     <img src="images/LogoFromGrace.webp" alt="From Grace Logo"
-      class="w-full max-w-[80vw] max-h-[60vh] sm:max-h-[70vh] lg:max-h-[80vh]
+      class="w-full max-w-[80vw] max-h-[60vh] sm:max-h-[70vh] md:max-h-[80vh]
              object-contain mx-auto float-animation" />
 
-    <!-- OVERLAY (nur Desktop) -->
-    <div class="hidden lg:block absolute inset-0">
-      <div class="flex flex-col items-center h-full">
+    <!-- OVERLAY -->
+    <div class="absolute inset-0 flex flex-col items-center">
 
-        <!-- TEXT OBEN -->
-        <p class="text-3xl xl:text-4xl
-                  text-red-700 metal-text mt-4">
-          Death Metal forged in fire and despair
-        </p>
-
-        <!-- CTA + PLAYER UNTEN -->
-        <div class="absolute left-0 right-0 flex flex-col items-center space-y-6
-                    bottom-4 translate-y-1/2">
-
-          <a href="#live-performances"
-            class="inline-block bg-red-700 hover:bg-red-800 text-white
-                   px-8 py-4 rounded font-bold elegant-text
-                   transition transform hover:scale-105 text-base">
-            ENTER THE DARKNESS
-          </a>
-
-          <div class="flex flex-col items-center">
-            <audio id="fg-player" src="audio/01_FromGrace.mp3"></audio>
-
-            <button id="fg-play-btn"
-              class="bg-zinc-900 border border-red-700 text-white
-                     px-5 py-2 rounded font-bold elegant-text
-                     hover:bg-red-700 transition-colors">
-              ▶ PLAY TRACK
-            </button>
-
-            <p class="text-gray-400 elegant-text text-sm mt-2">
-              Demo Track — From Grace
-            </p>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- MOBILE + TABLET LAYOUT -->
-  <div class="lg:hidden absolute inset-0 flex flex-col justify-between pt-20 pb-8 px-4">
-    
-    <!-- TEXT OBEN -->
-    <p class="text-lg sm:text-xl md:text-2xl text-red-700 metal-text">
+      <!-- TEXT -->
+      <h1 class="text-lg sm:text-xl md:text-2xl text-red-700 metal-text">
       Death Metal forged in fire and despair
-    </p>
+      </h1>
 
-    <!-- SPACER -->
-    <div></div>
+      <!-- CTA + PLAYER -->
+      <div
+        class="absolute left-0 right-0 flex flex-col items-center space-y-6
+               bottom-4 sm:bottom-0
+               translate-y-0 sm:translate-y-1/2">
 
-    <!-- BUTTON + PLAYER UNTEN -->
-    <div class="flex flex-col items-center space-y-4">
-      
-      <a href="#live-performances"
-        class="inline-block bg-red-700 hover:bg-red-800 text-white
-               px-6 py-3 md:px-8 md:py-4 rounded font-bold elegant-text
-               transition transform hover:scale-105 text-sm md:text-base">
-        ENTER THE DARKNESS
-      </a>
+        <a href="#live-performances"
+          class="inline-block bg-red-700 hover:bg-red-800 text-white
+                 px-6 py-3 md:px-8 md:py-4 rounded font-bold elegant-text
+                 transition transform hover:scale-105 text-sm md:text-base">
+          ENTER THE DARKNESS
+        </a>
 
-      <div class="flex flex-col items-center">
-        <button id="fg-play-btn"
-          class="bg-zinc-900 border border-red-700 text-white
-                 px-5 py-2 rounded font-bold elegant-text
-                 hover:bg-red-700 transition-colors">
-          ▶ PLAY TRACK
-        </button>
+        <div class="flex flex-col items-center">
+          <audio id="fg-player" src="audio/01_FromGrace.mp3"></audio>
 
-        <p class="text-gray-400 elegant-text text-sm mt-2">
-          Demo Track — From Grace
-        </p>
+          <button id="fg-play-btn"
+            class="bg-zinc-900 border border-red-700 text-white
+                   px-5 py-2 rounded font-bold elegant-text
+                   hover:bg-red-700 transition-colors">
+            ▶ PLAY TRACK
+          </button>
+
+          <p class="text-gray-400 elegant-text text-sm mt-2">
+            Demo Track — From Grace
+          </p>
+        </div>
+
       </div>
-
     </div>
-
   </div>
-
 </header>
 
-<!-- Band Section -->
-<section id="band" class="py-10 md:py-16 px-4 sm:px-6 text-center">
+<!-- ===== MEMBER LAYOUT ===== -->
+<div class="relative flex flex-col items-center space-y-2 mt-10">
 
-  <h2 class="text-3xl md:text-4xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">
-    THE BAND
-  </h2>
-
-  <p id="band-intro" class="text-sm md:text-base text-gray-400 max-w-2xl mx-auto mt-4 md:mt-6 elegant-text leading-relaxed">
-    Five souls bound by darkness, channeling rage and despair into sonic devastation.
-    From Grace emerged from the shadows to deliver uncompromising death metal.
-  </p>
-
-  <!-- ===== MEMBER LAYOUT ===== -->
-  <div class="relative flex flex-col items-center space-y-2 mt-10">
-
-    <!-- Vocals -->
+  <!-- Vocals -->
+  <div class="w-full max-w-3xl">
     <div class="member-card flex flex-col items-center" data-member="jan">
       <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
-        <img src="images/Jan.webp" class="w-full h-full object-cover" alt="Jan - Vocals">
+        <img src="images/Jan.webp" class="w-full h-full object-cover" alt="Jan - Lead vocalist of From Grace death metal band">
       </div>
       <h3 class="text-white font-bold elegant-text text-sm">Jan</h3>
       <p class="text-red-700 text-[10px] uppercase">Vocals</p>
     </div>
-
-    <!-- Rhythm Guitar -->
-    <div class="member-card flex flex-col items-center" data-member="jessi">
-      <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
-        <img src="images/Jessy.webp" class="w-full h-full object-cover" alt="Jessi - Rhythm Guitar">
-      </div>
-      <h3 class="text-white font-bold elegant-text text-sm">Jessi</h3>
-      <p class="text-red-700 text-[10px] uppercase">Rhythm Guitar</p>
-    </div>
-
-    <!-- Bass & Drums -->
-    <div class="flex justify-between w-80 sm:w-96">
-
-      <div class="member-card flex flex-col items-center" data-member="enrico">
-        <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
-          <img src="images/Rico.webp" class="w-full h-full object-cover" alt="Enrico - Bass">
-        </div>
-        <h3 class="text-white font-bold elegant-text text-sm">Enrico</h3>
-        <p class="text-red-700 text-[10px] uppercase">Bass</p>
-      </div>
-
-      <div class="member-card flex flex-col items-center" data-member="martin">
-        <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
-          <img src="images/Martin.webp" class="w-full h-full object-cover" alt="Martin - Drums">
-        </div>
-        <h3 class="text-white font-bold elegant-text text-sm">Martin</h3>
-        <p class="text-red-700 text-[10px] uppercase">Drums</p>
-      </div>
-
-    </div>
-
-    <!-- Lead Guitar -->
-    <div class="member-card flex flex-col items-center" data-member="viktor">
-      <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
-        <img src="images/Viktor.webp" class="w-full h-full object-cover" alt="Viktor - Lead Guitar">
-      </div>
-      <h3 class="text-white font-bold elegant-text text-sm">Viktor</h3>
-      <p class="text-red-700 text-[10px] uppercase">Lead Guitar</p>
-    </div>
-
-  </div>
-
-  <!-- ===== EXPANDABLE DETAILS ===== -->
-  <div class="max-w-3xl mx-auto mt-10 space-y-6">
-
-    <div id="member-jan" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left">
+    
+    <div id="member-jan" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
       <p class="text-gray-400 elegant-text text-sm mb-4">
         Jan – Vocals. Brutal growls, dark lyrics, relentless presence.
       </p>
       <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
-        <img src="images/Jan/Jan1.jpeg" class="rounded" alt="Jan Image 1">
-        <img src="images/Jan/Jan2.jpeg" class="rounded" alt="Jan Image 2">
-        <img src="images/Jan/Jan3.jpeg" class="rounded" alt="Jan Image 3">
-        <img src="images/Jan/Jan4.jpeg" class="rounded" alt="Jan Image 4">
-        <img src="images/Jan/Jan5.jpeg" class="rounded" alt="Jan Image 5">
+        <img src="images/Jan/Jan1.jpeg" class="rounded" alt="Jan performing aggressive death metal vocals on stage">
+        <img src="images/Jan/Jan2.jpeg" class="rounded" alt="Jan live performance with From Grace">
+        <img src="images/Jan/Jan3.jpeg" class="rounded" alt="Jan fronting From Grace at metal concert">
+        <img src="images/Jan/Jan4.jpeg" class="rounded" alt="Jan death metal vocalist intense stage presence">
+        <img src="images/Jan/Jan5.jpeg" class="rounded" alt="Jan From Grace vocalist band photo">
       </div>
     </div>
+  </div>
 
-    <div id="member-jessi" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left">
+  <!-- Rhythm Guitar -->
+  <div class="w-full max-w-3xl">
+    <div class="member-card flex flex-col items-center" data-member="jessi">
+      <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
+        <img src="images/Jessy.webp" class="w-full h-full object-cover" alt="Jessi - Rhythm guitarist of From Grace death metal band">
+      </div>
+      <h3 class="text-white font-bold elegant-text text-sm">Jessi</h3>
+      <p class="text-red-700 text-[10px] uppercase">Rhythm Guitar</p>
+    </div>
+    
+    <div id="member-jessi" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
       <p class="text-gray-400 elegant-text text-sm mb-4">
         Jessi – Rhythm Guitar. Crushing riffs and dark foundations.
       </p>
       <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
-        <img src="images/Jessi/Jessi1.jpeg" class="rounded" alt="Jessi Image 1">
-        <img src="images/Jessi/Jessi2.jpeg" class="rounded" alt="Jessi Image 2">
-        <img src="images/Jessi/Jessi3.jpeg" class="rounded" alt="Jessi Image 3">
-        <img src="images/Jessi/Jessi4.jpeg" class="rounded" alt="Jessi Image 4">
-        <img src="images/Jessi/Jessi5.jpeg" class="rounded" alt="Jessi Image 5">
+        <img src="images/Jessi/Jessi1.jpeg" class="rounded" alt="Jessi playing rhythm guitar live with From Grace">
+        <img src="images/Jessi/Jessi2.jpeg" class="rounded" alt="Jessi rhythm guitarist crushing riffs on stage">
+        <img src="images/Jessi/Jessi3.jpeg" class="rounded" alt="Jessi performing death metal rhythm guitar">
+        <img src="images/Jessi/Jessi4.jpeg" class="rounded" alt="Jessi From Grace guitarist live performance">
+        <img src="images/Jessi/Jessi5.jpeg" class="rounded" alt="Jessi rhythm guitar player band photo">
+      </div>
+    </div>
+  </div>
+
+  <!-- Bass & Drums -->
+  <div class="flex justify-between w-80 sm:w-96 gap-4">
+
+    <div class="flex-1">
+      <div class="member-card flex flex-col items-center" data-member="enrico">
+        <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
+          <img src="images/Rico.webp" class="w-full h-full object-cover" alt="Enrico - Bass player of From Grace death metal band">
+        </div>
+        <h3 class="text-white font-bold elegant-text text-sm">Enrico</h3>
+        <p class="text-red-700 text-[10px] uppercase">Bass</p>
+      </div>
+      
+      <div id="member-enrico" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
+        <p class="text-gray-400 elegant-text text-sm mb-4">
+          Enrico – Bass. Weight, groove and low-end darkness.
+        </p>
+        <div class="grid grid-cols-2 gap-2">
+          <img src="images/Enrico/Enrico1.jpeg" class="rounded" alt="Enrico playing bass guitar live with From Grace">
+          <img src="images/Enrico/Enrico2.jpeg" class="rounded" alt="Enrico bassist delivering heavy low end grooves">
+          <img src="images/Enrico/Enrico3.jpeg" class="rounded" alt="Enrico From Grace bass player on stage">
+          <img src="images/Enrico/Enrico4.jpeg" class="rounded" alt="Enrico death metal bassist live performance">
+          <img src="images/Enrico/Enrico5.jpeg" class="rounded" alt="Enrico bass guitarist band photo">
+        </div>
       </div>
     </div>
 
-    <div id="member-enrico" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left">
-      <p class="text-gray-400 elegant-text text-sm mb-4">
-        Enrico – Bass. Weight, groove and low-end darkness.
-      </p>
-      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
-        <img src="images/Enrico/Enrico1.jpeg" class="rounded" alt="Enrico Image 1">
-        <img src="images/Enrico/Enrico2.jpeg" class="rounded" alt="Enrico Image 2">
-        <img src="images/Enrico/Enrico3.jpeg" class="rounded" alt="Enrico Image 3">
-        <img src="images/Enrico/Enrico4.jpeg" class="rounded" alt="Enrico Image 4">
-        <img src="images/Enrico/Enrico5.jpeg" class="rounded" alt="Enrico Image 5">
+    <div class="flex-1">
+      <div class="member-card flex flex-col items-center" data-member="martin">
+        <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
+          <img src="images/Martin.webp" class="w-full h-full object-cover" alt="Martin - Drummer of From Grace death metal band">
+        </div>
+        <h3 class="text-white font-bold elegant-text text-sm">Martin</h3>
+        <p class="text-red-700 text-[10px] uppercase">Drums</p>
       </div>
-    </div>
-
-    <div id="member-martin" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left">
-      <p class="text-gray-400 elegant-text text-sm mb-4">
-        Martin – Drums. Precision, power and relentless drive.
-      </p>
-      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
-        <img src="images/Martin/Martin1.jpg" class="rounded" alt="Martin Image 1">
-        <img src="images/Martin/Martin2.jpeg" class="rounded" alt="Martin Image 2">
-        <img src="images/Martin/Martin3.jpg" class="rounded" alt="Martin Image 3">
-        <img src="images/Martin/Martin4.jpeg" class="rounded" alt="Martin Image 4">
-        <img src="images/Martin/Martin5.jpeg" class="rounded" alt="Martin Image 5">
-      </div>
-    </div>
-
-    <div id="member-viktor" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left">
-      <p class="text-gray-400 elegant-text text-sm mb-4">
-        Viktor – Lead Guitar. Atmosphere, melody and sharp leads.
-      </p>
-      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
-        <img src="images/Viktor/Viktor1.jpeg" class="rounded" alt="Viktor Image 1">
-        <img src="images/Viktor/Viktor2.jpeg" class="rounded" alt="Viktor Image 2">
-        <img src="images/Viktor/Viktor3.jpeg" class="rounded" alt="Viktor Image 3">
-        <img src="images/Viktor/Viktor4.jpeg" class="rounded" alt="Viktor Image 4">
-        <img src="images/Viktor/Viktor5.jpeg" class="rounded" alt="Viktor Image 5">
+      
+      <div id="member-martin" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
+        <p class="text-gray-400 elegant-text text-sm mb-4">
+          Martin – Drums. Precision, power and relentless drive.
+        </p>
+        <div class="grid grid-cols-2 gap-2">
+          <img src="images/Martin/Martin1.jpg" class="rounded" alt="Martin playing drums with precision and power">
+          <img src="images/Martin/Martin2.jpeg" class="rounded" alt="Martin drummer delivering relentless death metal beats">
+          <img src="images/Martin/Martin3.jpg" class="rounded" alt="Martin From Grace drummer live performance">
+          <img src="images/Martin/Martin4.jpeg" class="rounded" alt="Martin death metal drummer on stage">
+          <img src="images/Martin/Martin5.jpeg" class="rounded" alt="Martin drummer band photo">
+        </div>
       </div>
     </div>
 
   </div>
 
-</section>
+  <!-- Lead Guitar -->
+  <div class="w-full max-w-3xl">
+    <div class="member-card flex flex-col items-center" data-member="viktor">
+      <div class="w-20 h-20 mb-1 rounded-full overflow-hidden border-2 border-red-900 bg-gray-700">
+        <img src="images/Viktor.webp" class="w-full h-full object-cover" alt="Viktor - Lead guitarist of From Grace death metal band">
+      </div>
+      <h3 class="text-white font-bold elegant-text text-sm">Viktor</h3>
+      <p class="text-red-700 text-[10px] uppercase">Lead Guitar</p>
+    </div>
+    
+    <div id="member-viktor" class="member-details hidden bg-zinc-900 p-5 rounded-lg glow-border text-left mt-4">
+      <p class="text-gray-400 elegant-text text-sm mb-4">
+        Viktor – Lead Guitar. Atmosphere, melody and sharp leads.
+      </p>
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+        <img src="images/Viktor/Viktor1.jpeg" class="rounded" alt="Viktor playing lead guitar with atmospheric melodies">
+        <img src="images/Viktor/Viktor2.jpeg" class="rounded" alt="Viktor lead guitarist delivering sharp solos">
+        <img src="images/Viktor/Viktor3.jpeg" class="rounded" alt="Viktor From Grace lead guitarist live performance">
+        <img src="images/Viktor/Viktor4.jpeg" class="rounded" alt="Viktor death metal lead guitar on stage">
+        <img src="images/Viktor/Viktor5.jpeg" class="rounded" alt="Viktor lead guitarist band photo">
+      </div>
+    </div>
+  </div>
 
+</div>
+
+</section>
 <!-- Live Performances Section -->
 <section id="live-performances" class="py-12 md:py-20 px-4 sm:px-6 text-center">
 
