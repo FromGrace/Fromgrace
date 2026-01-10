@@ -494,11 +494,49 @@
       }
     }
   </style>
-<script>
-// ===== YOUTUBE MIT COOKIEYES - DSGVO-KONFORM =====
 
+
+<script>
+// ===== YOUTUBE MIT COOKIEYES - DSGVO-KONFORM (OFFIZIELLE API) =====
 console.log("🎬 YouTube Player lädt...");
 
+// Hilfsfunktion: Prüfe ob CookieYes bereit ist
+function isCookieYesReady() {
+    return typeof CookieYes !== 'undefined' && CookieYes.consent;
+}
+
+// Funktion: Prüfe Marketing-Consent über CookieYes API
+function hasMarketingConsent() {
+    // Warte bis CookieYes geladen ist
+    if (!isCookieYesReady()) {
+        console.log("⏳ CookieYes noch nicht geladen - prüfe Fallback");
+    }
+    
+    // Methode 1: CookieYes.consent Objekt (neuere Version)
+    if (isCookieYesReady() && typeof CookieYes.consent.marketing !== 'undefined') {
+        console.log("✅ CookieYes.consent.marketing gefunden:", CookieYes.consent.marketing);
+        return CookieYes.consent.marketing === true;
+    }
+    
+    // Methode 2: window.cookieyes_consent (ältere Version)
+    if (window.cookieyes_consent && typeof window.cookieyes_consent.marketing !== 'undefined') {
+        console.log("✅ window.cookieyes_consent.marketing gefunden:", window.cookieyes_consent.marketing);
+        return window.cookieyes_consent.marketing === true;
+    }
+    
+    // Fallback: Cookie direkt lesen (nur wenn API nicht verfügbar)
+    const cookieValue = document.cookie.split(';').find(c => c.trim().startsWith('cookieyes-consent='));
+    if (cookieValue) {
+        console.log("⚠️ Fallback: Lese Cookie direkt");
+        const value = cookieValue.split('=')[1];
+        return value.includes('advertisement:yes') || value.includes('marketing:yes');
+    }
+    
+    console.log("❌ Kein Marketing-Consent gefunden");
+    return false;
+}
+
+// Video-Button Click-Handler
 document.addEventListener('click', function(e) {
     const playBtn = e.target.closest('.yt-play-btn');
     if (!playBtn) return;
@@ -514,19 +552,9 @@ document.addEventListener('click', function(e) {
     
     console.log("▶️ Video-Button geklickt:", videoId);
     
-    // NUR window.cookieyes_consent prüfen - KEIN Fallback!
-    let hasMarketing = false;
-    
-    if (window.cookieyes_consent) {
-        console.log("✅ cookieyes_consent gefunden:", window.cookieyes_consent);
-        hasMarketing = window.cookieyes_consent.marketing === true;
-        console.log("Marketing akzeptiert?", hasMarketing ? "✅ JA" : "❌ NEIN");
-    } else {
-        console.log("⚠️ window.cookieyes_consent nicht vorhanden - Video blockiert");
-    }
-    
-    if (!hasMarketing) {
-        console.log("⏸️ Marketing-Cookies nicht akzeptiert - zeige Hinweis");
+    // Prüfe Marketing-Consent
+    if (!hasMarketingConsent()) {
+        console.log("⏸️ Marketing-Cookies nicht akzeptiert");
         wrapper.innerHTML = `
             <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#000; padding:20px; text-align:center;">
                 <svg style="width:64px; height:64px; margin-bottom:16px; color:#b30000;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -537,22 +565,19 @@ document.addEventListener('click', function(e) {
                     Marketing-Cookies erforderlich
                 </p>
                 <p style="color:#999; font-size:14px; margin-bottom:16px;">
-                    Bitte akzeptiere Marketing-Cookies im Banner<br>um YouTube-Videos anzusehen
+                    Um YouTube-Videos anzusehen, müssen Sie Marketing-Cookies akzeptieren.
                 </p>
-                <button onclick="location.reload()" 
+                <button onclick="if(typeof CookieYes !== 'undefined' && typeof CookieYes.showSettings === 'function') { CookieYes.showSettings(); } else { alert('Cookie-Einstellungen können nicht geöffnet werden. Bitte laden Sie die Seite neu.'); location.reload(); }" 
                     style="padding:12px 24px; background:#b30000; color:#fff; border:none; border-radius:4px; font-weight:bold; cursor:pointer;">
-                    Seite neu laden
+                    Cookie-Einstellungen öffnen
                 </button>
-                <p style="color:#666; font-size:12px; margin-top:16px;">
-                    Debug: Öffne F12 Console für Details
-                </p>
             </div>
         `;
         return;
     }
     
     // Marketing akzeptiert - lade Video!
-    console.log("✅✅✅ MARKETING AKZEPTIERT - LADE VIDEO!");
+    console.log("✅ Marketing-Consent vorhanden - lade Video!");
     
     const iframe = document.createElement("iframe");
     iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
@@ -568,17 +593,17 @@ document.addEventListener('click', function(e) {
     wrapper.innerHTML = "";
     wrapper.appendChild(iframe);
     
-    console.log("✅✅✅ VIDEO ERFOLGREICH GELADEN!");
+    console.log("✅ Video erfolgreich geladen!");
 });
 
-// Reagiere auf Cookie-Updates
+// Event: Cookie-Einstellungen wurden geändert
 document.addEventListener("cookieyes_consent_update", function(event) {
-    console.log("🔄 Cookie-Consent wurde aktualisiert!");
-    console.log("Neuer Consent:", window.cookieyes_consent);
+    console.log("🔄 Cookie-Consent aktualisiert!");
     
-    if (window.cookieyes_consent && window.cookieyes_consent.marketing === true) {
-        console.log("✅ Marketing-Cookies jetzt akzeptiert!");
+    if (hasMarketingConsent()) {
+        console.log("✅ Marketing-Cookies jetzt akzeptiert - Videos können geladen werden");
         
+        // Optional: Toast-Benachrichtigung
         const toast = document.createElement("div");
         toast.style.cssText = "position:fixed; bottom:20px; right:20px; background:#16a34a; color:#fff; padding:16px 24px; border-radius:8px; z-index:9999; box-shadow:0 4px 6px rgba(0,0,0,0.3);";
         toast.innerHTML = `
@@ -596,14 +621,7 @@ document.addEventListener("cookieyes_consent_update", function(event) {
 });
 
 console.log("✅ YouTube Player bereit!");
-console.log("💡 Tipp: Tippe 'window.cookieyes_consent' in Console um Consent zu sehen");
 </script>
-<body class="h-full">
-<audio id="fg-player" preload="none" style="display:none">
-  <source src="audio/01_FromGrace.mp3" type="audio/mpeg">
-</audio>
-  <!-- Background Logo -->
-  <div class="background-logo" aria-hidden="true"></div>
   <div class="background-overlay" aria-hidden="true"></div>
   
   <!-- Main Content -->
