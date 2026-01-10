@@ -495,65 +495,191 @@
   </style>
 
 <script>
-// ========= YouTube mit CookieYes-Integration =========
+<script>
+// ========= ROBUSTE CookieYes + YouTube Integration =========
 
 // Globale Flags
 let cookieYesListenerAdded = false;
 
-// Öffnet CookieYes Einstellungen
+// Öffnet CookieYes Einstellungen - MEHRERE METHODEN
 function fg_showCookieSettings() {
-    if (window.CookieYes && typeof CookieYes.showPreferences === "function") {
-        CookieYes.showPreferences();
-    } else {
-        console.warn("⚠️ CookieYes.showPreferences() nicht verfügbar");
-        console.warn("Stellt sicher, dass die CookieYes-ID im <head> korrekt eingetragen ist!");
+    console.log("🍪 Öffne Cookie-Einstellungen...");
+    
+    // Methode 1: CookieYes API
+    if (window.CookieYes) {
+        if (typeof CookieYes.showPreferences === "function") {
+            CookieYes.showPreferences();
+            return;
+        }
+        if (typeof CookieYes.showSettings === "function") {
+            CookieYes.showSettings();
+            return;
+        }
     }
+    
+    // Methode 2: Banner-Button finden und klicken
+    const settingsButtons = [
+        document.querySelector('[data-cli-action="settings"]'),
+        document.querySelector('.cky-btn-settings'),
+        document.querySelector('[id*="cookie-settings"]'),
+        document.querySelector('.cookie-settings'),
+    ];
+    
+    for (let btn of settingsButtons) {
+        if (btn) {
+            console.log("✅ Settings-Button gefunden, klicke...");
+            btn.click();
+            return;
+        }
+    }
+    
+    // Fallback: Banner wieder anzeigen
+    console.warn("⚠️ Konnte Einstellungen nicht öffnen, versuche Banner neu zu laden...");
+    location.reload();
 }
 
-// Prüft Marketing-Consent
+// Prüft Marketing-Consent - ULTRA-ROBUST
 function fg_hasMarketingConsentNow() {
+    console.log("🔍 === STARTE CONSENT-CHECK ===");
+    
     try {
-        // Prüfe ob CookieYes geladen ist
-        if (!window.CookieYes || typeof CookieYes.getConsent !== "function") {
-            console.log("⚠️ CookieYes noch nicht geladen");
+        // METHODE 1: COOKIES DIREKT PRÜFEN (Zuverlässigste Methode!)
+        const allCookies = document.cookie;
+        console.log("🍪 Alle Cookies:", allCookies);
+        
+        if (!allCookies || allCookies === '') {
+            console.log("❌ Keine Cookies gefunden");
             return false;
         }
-
-        const consent = CookieYes.getConsent();
-        console.log("✅ Cookie Consent Status:", consent);
-
-        // Expliziter Consent für alle Kategorien
-        if (consent === true) {
-            console.log("✅ Alle Cookies akzeptiert");
-            return true;
-        }
-
-        // Objektbasierter Consent - NUR marketing prüfen
-        if (typeof consent === "object" && consent !== null) {
-            if (consent.marketing === true) {
-                console.log("✅ Marketing-Cookies akzeptiert");
-                return true;
+        
+        const cookies = allCookies.split(';');
+        
+        for (let cookie of cookies) {
+            const trimmed = cookie.trim();
+            const [name, ...valueParts] = trimmed.split('=');
+            const value = valueParts.join('='); // Falls = im Wert vorkommt
+            
+            console.log(`  🍪 ${name}: ${value ? value.substring(0, 80) : 'leer'}`);
+            
+            // CookieYes nutzt diese Cookie-Namen:
+            if (name === 'cookieyes-consent' || 
+                name === 'cky-consent' || 
+                name === 'cookie-consent' ||
+                name.startsWith('cookieyes-')) {
+                
+                console.log(`📊 CookieYes Cookie gefunden: ${name}`);
+                
+                if (!value) {
+                    console.log("  ⚠️ Cookie ist leer");
+                    continue;
+                }
+                
+                try {
+                    const decoded = decodeURIComponent(value);
+                    console.log(`  📄 Dekodiert: ${decoded.substring(0, 200)}`);
+                    
+                    // ALLE MÖGLICHEN CONSENT-CHECKS:
+                    
+                    // Check 1: Einfache "yes" Werte
+                    if (decoded === 'yes' || decoded === 'true' || decoded === 'accepted' || decoded === '1') {
+                        console.log("✅✅✅ ALLE COOKIES AKZEPTIERT (Einfacher Wert)");
+                        return true;
+                    }
+                    
+                    // Check 2: JSON mit marketing:true
+                    if (decoded.match(/["']?marketing["']?\s*:\s*["']?(true|yes|1|accepted)/i)) {
+                        console.log("✅✅✅ MARKETING-COOKIES AKZEPTIERT (JSON Pattern)");
+                        return true;
+                    }
+                    
+                    // Check 3: JSON mit advertisement:true
+                    if (decoded.match(/["']?advertisement["']?\s*:\s*["']?(true|yes|1|accepted)/i)) {
+                        console.log("✅✅✅ ADVERTISEMENT-COOKIES AKZEPTIERT (JSON Pattern)");
+                        return true;
+                    }
+                    
+                    // Check 4: Versuche als JSON zu parsen
+                    try {
+                        const parsed = JSON.parse(decoded);
+                        console.log("  📦 Parsed JSON:", parsed);
+                        
+                        if (parsed.marketing === true || 
+                            parsed.marketing === 'yes' || 
+                            parsed.marketing === '1' ||
+                            parsed.advertisement === true ||
+                            parsed.advertisement === 'yes') {
+                            console.log("✅✅✅ MARKETING-COOKIES AKZEPTIERT (Parsed JSON)");
+                            return true;
+                        }
+                        
+                        // Check nested
+                        if (parsed.consent && typeof parsed.consent === 'object') {
+                            if (parsed.consent.marketing === true || parsed.consent.advertisement === true) {
+                                console.log("✅✅✅ MARKETING-COOKIES AKZEPTIERT (Nested JSON)");
+                                return true;
+                            }
+                        }
+                    } catch (parseError) {
+                        console.log("  ⚠️ Kein JSON oder Parse-Fehler");
+                    }
+                    
+                    // Check 5: Substring-Checks
+                    const lowerDecoded = decoded.toLowerCase();
+                    if ((lowerDecoded.includes('marketing') || lowerDecoded.includes('advertisement')) &&
+                        (lowerDecoded.includes('true') || lowerDecoded.includes('yes') || lowerDecoded.includes('accepted'))) {
+                        console.log("✅✅✅ MARKETING-COOKIES AKZEPTIERT (Substring Match)");
+                        return true;
+                    }
+                    
+                } catch (decodeError) {
+                    console.log("  ❌ Decode-Fehler:", decodeError.message);
+                }
             }
         }
-
-        console.log("❌ Marketing-Cookies nicht akzeptiert");
+        
+        // METHODE 2: CookieYes API (Falls verfügbar)
+        if (window.CookieYes) {
+            console.log("🔌 CookieYes API verfügbar, versuche getConsent...");
+            
+            if (typeof CookieYes.getConsent === "function") {
+                const consent = CookieYes.getConsent();
+                console.log("  📊 API Response:", consent);
+                
+                if (consent === true) {
+                    console.log("✅✅✅ ALLE COOKIES AKZEPTIERT (API)");
+                    return true;
+                }
+                
+                if (consent && typeof consent === "object") {
+                    if (consent.marketing === true || consent.advertisement === true) {
+                        console.log("✅✅✅ MARKETING-COOKIES AKZEPTIERT (API Object)");
+                        return true;
+                    }
+                }
+            } else {
+                console.log("  ⚠️ getConsent() nicht verfügbar");
+            }
+        } else {
+            console.log("⚠️ window.CookieYes nicht gefunden");
+        }
+        
+        console.log("❌❌❌ KEINE MARKETING-COOKIES GEFUNDEN - Video bleibt blockiert");
+        console.log("=== CONSENT-CHECK ENDE ===\n");
         return false;
         
     } catch (error) {
-        console.error("❌ Fehler beim Prüfen des Cookie-Consents:", error);
+        console.error("❌ FEHLER beim Consent-Check:", error);
         return false;
     }
 }
 
 // Lädt Video oder zeigt Consent-Hinweis
 function fg_loadYouTubeVideo(wrapper, videoId) {
-    console.log("🎬 Versuche Video zu laden:", videoId);
+    console.log("🎬 === VIDEO-LOAD-VERSUCH ===");
+    console.log("Video-ID:", videoId);
     
     if (!fg_hasMarketingConsentNow()) {
         console.log("⏸️ Video blockiert - Marketing-Cookies fehlen");
-        
-        // Prüfe ob CookieYes überhaupt vorhanden ist
-        const hasCookieYes = window.CookieYes && typeof CookieYes.showPreferences === "function";
         
         wrapper.innerHTML = `
             <div class="w-full h-full flex flex-col items-center justify-center bg-black p-4">
@@ -562,14 +688,11 @@ function fg_loadYouTubeVideo(wrapper, videoId) {
                           d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                 </svg>
                 <p class="text-red-700 font-bold mb-3 text-center text-base">
-                    ${hasCookieYes ? 'Marketing-Cookies erforderlich' : 'CookieYes nicht konfiguriert'}
+                    Marketing-Cookies erforderlich
                 </p>
                 <p class="text-gray-400 text-sm mb-4 text-center max-w-xs">
-                    ${hasCookieYes 
-                        ? 'Bitte akzeptiere Marketing-Cookies in den Cookie-Einstellungen, um YouTube-Videos anzusehen.' 
-                        : 'Das CookieYes-Script ist nicht korrekt eingebunden. Bitte prüft die CookieYes-ID im HTML <head>.'}
+                    Bitte akzeptiere Marketing-Cookies im Cookie-Banner,<br>um YouTube-Videos anzusehen.
                 </p>
-                ${hasCookieYes ? `
                 <button onclick="fg_showCookieSettings()"
                     class="px-6 py-3 bg-red-700 hover:bg-red-800 text-white rounded font-bold transition-colors mb-2">
                     Cookie-Einstellungen öffnen
@@ -578,18 +701,16 @@ function fg_loadYouTubeVideo(wrapper, videoId) {
                     class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded text-sm">
                     Seite neu laden
                 </button>
-                ` : `
-                <p class="text-gray-500 text-xs mt-2">
-                    Für Entwickler: Siehe Kommentare im HTML-Code
+                <p class="text-gray-500 text-xs mt-4">
+                    Debug: Öffne F12 Console für Details
                 </p>
-                `}
             </div>
         `;
         return;
     }
 
-    // Cookie akzeptiert - lade Video mit Privacy-Enhanced Mode
-    console.log("✅ Lade YouTube-Video...");
+    // Cookie akzeptiert - lade Video!
+    console.log("✅ Marketing-Cookies akzeptiert - Lade Video...");
     
     const iframe = document.createElement("iframe");
     iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
@@ -603,7 +724,8 @@ function fg_loadYouTubeVideo(wrapper, videoId) {
     wrapper.innerHTML = "";
     wrapper.appendChild(iframe);
     
-    console.log("✅ YouTube Video erfolgreich geladen:", videoId);
+    console.log("✅✅✅ YouTube Video erfolgreich geladen!");
+    console.log("=== VIDEO-LOAD ENDE ===\n");
 }
 
 // Handler für YouTube-Klicks
@@ -621,7 +743,7 @@ function fg_handleYouTubeClick(e) {
     if (videoId) {
         fg_loadYouTubeVideo(wrapper, videoId);
     } else {
-        console.error("❌ Keine Video-ID gefunden für Wrapper:", wrapper);
+        console.error("❌ Keine Video-ID gefunden");
     }
 }
 
@@ -629,21 +751,17 @@ function fg_handleYouTubeClick(e) {
 function fg_initYouTubePlayers() {
     console.log("🎥 Initialisiere YouTube Player...");
     
-    // Event-Listener registrieren
     document.removeEventListener("click", fg_handleYouTubeClick);
     document.addEventListener("click", fg_handleYouTubeClick);
     
-    // CookieYes-Listener nur einmal hinzufügen
     if (!window.CookieYes && !cookieYesListenerAdded) {
         cookieYesListenerAdded = true;
-        console.log("⏳ Warte auf CookieYes-Event...");
-        
         document.addEventListener("cookieyes_loaded", function() {
-            console.log("✅ CookieYes wurde geladen");
+            console.log("✅ CookieYes Event: Loaded");
         }, { once: true });
-    } else if (window.CookieYes) {
-        console.log("✅ CookieYes bereits verfügbar");
     }
+    
+    console.log("✅ YouTube Player initialisiert");
 }
 
 // Initialisiere wenn DOM bereit
@@ -654,41 +772,41 @@ try {
         fg_initYouTubePlayers();
     }
 } catch (error) {
-    console.error("❌ Fehler bei YouTube-Player-Initialisierung:", error);
+    console.error("❌ Fehler bei Initialisierung:", error);
 }
 
 // Behandle Cookie-Änderungen
 document.addEventListener("cookieyes_consent_update", function(event) {
-    console.log("🔄 Cookie-Einstellungen wurden aktualisiert", event);
+    console.log("🔄 Cookie-Einstellungen wurden geändert");
+    console.log("Event:", event);
     
-    if (fg_hasMarketingConsentNow()) {
-        console.log("✅ Marketing-Cookies jetzt aktiv");
-        
-        // Zeige Success-Toast
-        const toast = document.createElement("div");
-        toast.className = "fixed bottom-4 right-4 bg-green-700 text-white px-6 py-3 rounded shadow-lg z-50 animate-fade-in";
-        toast.setAttribute("role", "status");
-        toast.setAttribute("aria-live", "polite");
-        toast.innerHTML = `
-            <div class="flex items-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                <span>Videos können jetzt geladen werden! Klicke erneut auf Play.</span>
-            </div>
-        `;
-        document.body.appendChild(toast);
-        
-        setTimeout(() => {
-            toast.classList.remove('animate-fade-in');
-            toast.classList.add('animate-fade-out');
-            setTimeout(() => toast.remove(), 300);
-        }, 4000);
-    }
+    setTimeout(() => {
+        if (fg_hasMarketingConsentNow()) {
+            const toast = document.createElement("div");
+            toast.className = "fixed bottom-4 right-4 bg-green-700 text-white px-6 py-3 rounded shadow-lg z-50 animate-fade-in";
+            toast.setAttribute("role", "status");
+            toast.setAttribute("aria-live", "polite");
+            toast.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Videos können jetzt geladen werden! Klicke erneut auf Play.</span>
+                </div>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('animate-fade-in');
+                toast.classList.add('animate-fade-out');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+    }, 500); // Warte kurz damit Cookie gesetzt ist
 });
+
+console.log("✅ CookieYes-Integration geladen");
 </script>
-</head>
-<body class="h-full">
 <audio id="fg-player" preload="none" style="display:none">
   <source src="audio/01_FromGrace.mp3" type="audio/mpeg">
 </audio>
