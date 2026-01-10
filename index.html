@@ -468,113 +468,69 @@
 
 <!-- YouTube Consent + Click-to-Load -->
 <script>
-// stores whether marketing cookies are allowed
-let fg_hasMarketingConsent = false;
-
-// Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
-    
-    /* CookieYes – when user changes consent */
-    function fg_checkMarketingConsent(e) {
-        // List of possible categories that CookieYes might use
-        const accepted = (e?.detail?.accepted || [])
-            .map(c => c.toLowerCase());
-        
-        fg_hasMarketingConsent = 
-            accepted.includes("marketing") ||
-            accepted.includes("advertisement") ||
-            accepted.includes("ads") ||
-            accepted.includes("targeting");
-        
-        console.log("Marketing Consent:", fg_hasMarketingConsent); // Debug
+
+    // ✅ Consent-Funktion
+    function fg_hasMarketingConsentNow() {
+        if (window.CookieYes && CookieYes.getConsent) {
+            const consent = CookieYes.getConsent();
+            return consent && consent.marketing === true;
+        }
+        return false;
     }
-    
-    /* Load all YouTube videos (if allowed) */
+
+    /* Load all YouTube thumbnails */
     function fg_loadAllYouTubeVideos() {
         document.querySelectorAll(".yt-wrapper").forEach(wrapper => {
             const videoId = wrapper.dataset.video;
-            // Only show thumbnail, don't load automatically
-            const thumbnail = wrapper.querySelector('img');
-            if (thumbnail) {
-                thumbnail.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+            const img = wrapper.querySelector("img");
+            if (img) {
+                img.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
             }
         });
     }
-    
-    /* Load individual YouTube video */
-    function fg_loadYouTubeVideo(wrapper, videoId, autoplay = true) {
-        console.log("Loading video:", videoId, "Consent:", fg_hasMarketingConsent); // Debug
-        
-        // No consent → show message
-        if (!fg_hasMarketingConsent) {
+
+    function fg_loadYouTubeVideo(wrapper, videoId) {
+
+        if (!fg_hasMarketingConsentNow()) {
             wrapper.innerHTML = `
-                <div class="w-full h-full flex items-center justify-center bg-black">
-                    <div class="text-center p-4">
-                        <p class="text-red-700 font-bold mb-2 elegant-text">
-                            This video requires marketing cookies.
-                        </p>
-                        <p class="text-gray-400 text-sm elegant-text">
-                            Allow YouTube cookies to watch the video.
-                        </p>
-                        <button onclick="fg_showCookieSettings()"
-                            class="mt-3 px-4 py-2 bg-red-700 text-white rounded text-sm hover:bg-red-800 transition-colors">
-                            Open cookie settings
-                        </button>
-                    </div>
+              <div class="w-full h-full flex items-center justify-center bg-black">
+                <div class="text-center p-4">
+                  <p class="text-red-700 font-bold mb-2">
+                    Dieses Video braucht Cookies.
+                  </p>
+                  <button onclick="fg_showCookieSettings()"
+                    class="mt-3 px-4 py-2 bg-red-700 text-white rounded">
+                    Cookies erlauben
+                  </button>
                 </div>
+              </div>
             `;
             return;
         }
-        
-        // Consent given → insert iframe
+
         const iframe = document.createElement("iframe");
-        iframe.className = "w-full h-full";
-        iframe.src = 
-            `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1${autoplay ? "&autoplay=1" : ""}`;
-        iframe.title = "YouTube Video Player";
-        iframe.frameBorder = "0";
-        iframe.allow = 
-            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        iframe.src = "https://www.youtube-nocookie.com/embed/" + videoId + "?autoplay=1&rel=0";
+        iframe.allow = "autoplay; encrypted-media";
         iframe.allowFullscreen = true;
-        iframe.loading = "lazy";
-        
+        iframe.className = "w-full h-full";
+
         wrapper.innerHTML = "";
         wrapper.appendChild(iframe);
     }
-    
-    /* Open cookie settings */
-    window.fg_showCookieSettings = function() {
-        if (window.CookieYes?.show) window.CookieYes.show();
-    }
-    
-    /* Click event for all PLAY buttons */
+
     document.addEventListener("click", function(e) {
         const btn = e.target.closest(".yt-play-btn");
         if (!btn) return;
-        
+
         const wrapper = btn.closest(".yt-wrapper");
         if (!wrapper) return;
-        
-        const videoId = wrapper.dataset.video;
-        if (!videoId) return;
-        
-        fg_loadYouTubeVideo(wrapper, videoId, true);
+
+        fg_loadYouTubeVideo(wrapper, wrapper.dataset.video);
     });
-    
-    // Initial load thumbnails
+
     fg_loadAllYouTubeVideos();
-    
-    /* Initial + Update Cookie Consent */
-    document.addEventListener("cookieyes_consent_initialized", fg_checkMarketingConsent);
-    document.addEventListener("cookieyes_consent_update", fg_checkMarketingConsent);
-    
-    // Fallback: If CookieYes not loaded after 3 seconds
-    setTimeout(() => {
-        if (typeof CookieYes === 'undefined') {
-            console.log("CookieYes not loaded, assuming no consent");
-            fg_hasMarketingConsent = false;
-        }
-    }, 3000);
+
 });
 </script>
 </head>
@@ -1502,6 +1458,13 @@ document.querySelectorAll('.member-card').forEach(card => {
     }
   });
 });
+</script>
+<script>
+function fg_showCookieSettings() {
+  if (window.CookieYes && CookieYes.showPreferences) {
+    CookieYes.showPreferences();
+  }
+}
 </script>
 </body>
 </html>
