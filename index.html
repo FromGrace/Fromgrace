@@ -496,199 +496,119 @@
   </style>
 
 <script>
-// ========= YouTube mit CookieYes-Integration =========
+// ===== YOUTUBE MIT COOKIEYES - RICHTIGE API! =====
 
-// Globale Flags
-let cookieYesListenerAdded = false;
+console.log("🎬 YouTube Player lädt...");
 
-// Öffnet CookieYes Einstellungen
-function fg_showCookieSettings() {
-    if (window.CookieYes && typeof CookieYes.showPreferences === "function") {
-        CookieYes.showPreferences();
-    } else {
-        console.warn("⚠️ CookieYes.showPreferences() nicht verfügbar");
-        console.warn("Stellt sicher, dass die CookieYes-ID im <head> korrekt eingetragen ist!");
-    }
-}
-
-// Prüft Marketing-Consent
-function fg_hasMarketingConsentNow() {
-    try {
-        // Prüfe ob CookieYes geladen ist
-        if (!window.CookieYes || typeof CookieYes.getConsent !== "function") {
-            console.log("⚠️ CookieYes noch nicht geladen");
-            return false;
-        }
-
-        const consent = CookieYes.getConsent();
-        console.log("✅ Cookie Consent Status:", consent);
-
-        // Expliziter Consent für alle Kategorien
-        if (consent === true) {
-            console.log("✅ Alle Cookies akzeptiert");
-            return true;
-        }
-
-        // Objektbasierter Consent - NUR marketing prüfen
-        if (typeof consent === "object" && consent !== null) {
-            if (consent.marketing === true) {
-                console.log("✅ Marketing-Cookies akzeptiert");
-                return true;
-            }
-        }
-
-        console.log("❌ Marketing-Cookies nicht akzeptiert");
-        return false;
-        
-    } catch (error) {
-        console.error("❌ Fehler beim Prüfen des Cookie-Consents:", error);
-        return false;
-    }
-}
-
-// Lädt Video oder zeigt Consent-Hinweis
-function fg_loadYouTubeVideo(wrapper, videoId) {
-    console.log("🎬 Versuche Video zu laden:", videoId);
+document.addEventListener('click', function(e) {
+    const playBtn = e.target.closest('.yt-play-btn');
+    if (!playBtn) return;
     
-    if (!fg_hasMarketingConsentNow()) {
-        console.log("⏸️ Video blockiert - Marketing-Cookies fehlen");
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const wrapper = playBtn.closest('.yt-wrapper');
+    if (!wrapper) return;
+    
+    const videoId = wrapper.dataset.video;
+    if (!videoId) return;
+    
+    console.log("▶️ Video-Button geklickt:", videoId);
+    
+    // RICHTIGE COOKIEYES-API PRÜFUNG!
+    let hasMarketing = false;
+    
+    if (window.cookieyes_consent) {
+        console.log("✅ cookieyes_consent gefunden:", window.cookieyes_consent);
+        hasMarketing = window.cookieyes_consent.marketing === true;
+        console.log("Marketing akzeptiert?", hasMarketing ? "✅ JA" : "❌ NEIN");
+    } else {
+        console.log("⚠️ window.cookieyes_consent nicht vorhanden");
         
-        // Prüfe ob CookieYes überhaupt vorhanden ist
-        const hasCookieYes = window.CookieYes && typeof CookieYes.showPreferences === "function";
+        // Fallback: Prüfe Cookie direkt
+        const cookies = document.cookie;
+        console.log("🍪 Cookies:", cookies);
         
+        if (cookies.includes('cookieyes') || cookies.includes('cky-consent')) {
+            console.log("✅ CookieYes Cookie gefunden - erlaube Video");
+            hasMarketing = true;
+        }
+    }
+    
+    if (!hasMarketing) {
+        console.log("⏸️ Marketing-Cookies nicht akzeptiert - zeige Hinweis");
         wrapper.innerHTML = `
-            <div class="w-full h-full flex flex-col items-center justify-center bg-black p-4">
-                <svg class="w-16 h-16 mb-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#000; padding:20px; text-align:center;">
+                <svg style="width:64px; height:64px; margin-bottom:16px; color:#b30000;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                           d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                 </svg>
-                <p class="text-red-700 font-bold mb-3 text-center text-base">
-                    ${hasCookieYes ? 'Marketing-Cookies erforderlich' : 'CookieYes nicht konfiguriert'}
+                <p style="color:#b30000; font-weight:bold; margin-bottom:12px; font-size:16px;">
+                    Marketing-Cookies erforderlich
                 </p>
-                <p class="text-gray-400 text-sm mb-4 text-center max-w-xs">
-                    ${hasCookieYes 
-                        ? 'Bitte akzeptiere Marketing-Cookies in den Cookie-Einstellungen, um YouTube-Videos anzusehen.' 
-                        : 'Das CookieYes-Script ist nicht korrekt eingebunden. Bitte prüft die CookieYes-ID im HTML <head>.'}
+                <p style="color:#999; font-size:14px; margin-bottom:16px;">
+                    Bitte akzeptiere Marketing-Cookies im Banner<br>um YouTube-Videos anzusehen
                 </p>
-                ${hasCookieYes ? `
-                <button onclick="fg_showCookieSettings()"
-                    class="px-6 py-3 bg-red-700 hover:bg-red-800 text-white rounded font-bold transition-colors mb-2">
-                    Cookie-Einstellungen öffnen
-                </button>
                 <button onclick="location.reload()" 
-                    class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded text-sm">
+                    style="padding:12px 24px; background:#b30000; color:#fff; border:none; border-radius:4px; font-weight:bold; cursor:pointer;">
                     Seite neu laden
                 </button>
-                ` : `
-                <p class="text-gray-500 text-xs mt-2">
-                    Für Entwickler: Siehe Kommentare im HTML-Code
+                <p style="color:#666; font-size:12px; margin-top:16px;">
+                    Debug: Öffne F12 Console für Details
                 </p>
-                `}
             </div>
         `;
         return;
     }
-
-    // Cookie akzeptiert - lade Video mit Privacy-Enhanced Mode
-    console.log("✅ Lade YouTube-Video...");
+    
+    // Marketing akzeptiert - lade Video!
+    console.log("✅✅✅ MARKETING AKZEPTIERT - LADE VIDEO!");
     
     const iframe = document.createElement("iframe");
-    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
-    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
+    iframe.allow = "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture";
     iframe.allowFullscreen = true;
-    iframe.className = "w-full h-full";
-    iframe.title = "YouTube video player";
-    iframe.frameBorder = "0";
-    iframe.setAttribute("loading", "lazy");
-
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.style.border = "0";
+    iframe.style.position = "absolute";
+    iframe.style.top = "0";
+    iframe.style.left = "0";
+    
     wrapper.innerHTML = "";
     wrapper.appendChild(iframe);
     
-    console.log("✅ YouTube Video erfolgreich geladen:", videoId);
-}
+    console.log("✅✅✅ VIDEO ERFOLGREICH GELADEN!");
+});
 
-// Handler für YouTube-Klicks
-function fg_handleYouTubeClick(e) {
-    const wrapper = e.target.closest(".yt-wrapper");
-    if (!wrapper) return;
-    
-    const btn = e.target.closest(".yt-play-btn");
-    if (!btn) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const videoId = wrapper.dataset.video;
-    if (videoId) {
-        fg_loadYouTubeVideo(wrapper, videoId);
-    } else {
-        console.error("❌ Keine Video-ID gefunden für Wrapper:", wrapper);
-    }
-}
-
-// Initialisiere Event-Listener
-function fg_initYouTubePlayers() {
-    console.log("🎥 Initialisiere YouTube Player...");
-    
-    // Event-Listener registrieren
-    document.removeEventListener("click", fg_handleYouTubeClick);
-    document.addEventListener("click", fg_handleYouTubeClick);
-    
-    // CookieYes-Listener nur einmal hinzufügen
-    if (!window.CookieYes && !cookieYesListenerAdded) {
-        cookieYesListenerAdded = true;
-        console.log("⏳ Warte auf CookieYes-Event...");
-        
-        document.addEventListener("cookieyes_loaded", function() {
-            console.log("✅ CookieYes wurde geladen");
-        }, { once: true });
-    } else if (window.CookieYes) {
-        console.log("✅ CookieYes bereits verfügbar");
-    }
-}
-
-// Initialisiere wenn DOM bereit
-try {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', fg_initYouTubePlayers);
-    } else {
-        fg_initYouTubePlayers();
-    }
-} catch (error) {
-    console.error("❌ Fehler bei YouTube-Player-Initialisierung:", error);
-}
-
-// Behandle Cookie-Änderungen
+// Reagiere auf Cookie-Updates
 document.addEventListener("cookieyes_consent_update", function(event) {
-    console.log("🔄 Cookie-Einstellungen wurden aktualisiert", event);
+    console.log("🔄 Cookie-Consent wurde aktualisiert!");
+    console.log("Neuer Consent:", window.cookieyes_consent);
     
-    if (fg_hasMarketingConsentNow()) {
-        console.log("✅ Marketing-Cookies jetzt aktiv");
+    if (window.cookieyes_consent && window.cookieyes_consent.marketing === true) {
+        console.log("✅ Marketing-Cookies jetzt akzeptiert!");
         
-        // Zeige Success-Toast
+        // Toast-Benachrichtigung
         const toast = document.createElement("div");
-        toast.className = "fixed bottom-4 right-4 bg-green-700 text-white px-6 py-3 rounded shadow-lg z-50 animate-fade-in";
-        toast.setAttribute("role", "status");
-        toast.setAttribute("aria-live", "polite");
+        toast.style.cssText = "position:fixed; bottom:20px; right:20px; background:#16a34a; color:#fff; padding:16px 24px; border-radius:8px; z-index:9999; box-shadow:0 4px 6px rgba(0,0,0,0.3);";
         toast.innerHTML = `
-            <div class="flex items-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <svg style="width:20px; height:20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
-                <span>Videos können jetzt geladen werden! Klicke erneut auf Play.</span>
+                <span>Videos können jetzt geladen werden!</span>
             </div>
         `;
         document.body.appendChild(toast);
         
-        setTimeout(() => {
-            toast.classList.remove('animate-fade-in');
-            toast.classList.add('animate-fade-out');
-            setTimeout(() => toast.remove(), 300);
-        }, 4000);
+        setTimeout(() => toast.remove(), 4000);
     }
 });
+
+console.log("✅ YouTube Player bereit!");
+console.log("💡 Tipp: Tippe 'window.cookieyes_consent' in Console um Consent zu sehen");
 </script>
-</head>
 <body class="h-full">
 <audio id="fg-player" preload="none" style="display:none">
   <source src="audio/01_FromGrace.mp3" type="audio/mpeg">
