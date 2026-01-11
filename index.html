@@ -495,30 +495,36 @@
     }
   </style>
 
+
 <script>
-// ===== YOUTUBE MIT COOKIEYES - DSGVO-KONFORM (VERBESSERT) =====
+// ===== YOUTUBE MIT COOKIEYES - DSGVO-KONFORM (OFFIZIELLE API) =====
 console.log("🎬 YouTube Player lädt...");
 
-// Prüfe ob CookieYes bereit ist
+// Hilfsfunktion: Prüfe ob CookieYes bereit ist
 function isCookieYesReady() {
     return typeof CookieYes !== 'undefined' && CookieYes.consent;
 }
 
-// Prüfe Marketing-Consent (MEHRFACH-PRÜFUNG)
+// Funktion: Prüfe Marketing-Consent über CookieYes API
 function hasMarketingConsent() {
-    // Methode 1: CookieYes.consent Objekt (neueste Version)
+    // Warte bis CookieYes geladen ist
+    if (!isCookieYesReady()) {
+        console.log("⏳ CookieYes noch nicht geladen - prüfe Fallback");
+    }
+    
+    // Methode 1: CookieYes.consent Objekt (neuere Version)
     if (isCookieYesReady() && typeof CookieYes.consent.marketing !== 'undefined') {
-        console.log("✅ CookieYes.consent.marketing:", CookieYes.consent.marketing);
+        console.log("✅ CookieYes.consent.marketing gefunden:", CookieYes.consent.marketing);
         return CookieYes.consent.marketing === true;
     }
     
     // Methode 2: window.cookieyes_consent (ältere Version)
     if (window.cookieyes_consent && typeof window.cookieyes_consent.marketing !== 'undefined') {
-        console.log("✅ window.cookieyes_consent.marketing:", window.cookieyes_consent.marketing);
+        console.log("✅ window.cookieyes_consent.marketing gefunden:", window.cookieyes_consent.marketing);
         return window.cookieyes_consent.marketing === true;
     }
     
-    // Methode 3: Cookie direkt lesen (Fallback)
+    // Fallback: Cookie direkt lesen (nur wenn API nicht verfügbar)
     const cookieValue = document.cookie.split(';').find(c => c.trim().startsWith('cookieyes-consent='));
     if (cookieValue) {
         console.log("⚠️ Fallback: Lese Cookie direkt");
@@ -561,7 +567,7 @@ document.addEventListener('click', function(e) {
                 <p style="color:#999; font-size:14px; margin-bottom:16px;">
                     Um YouTube-Videos anzusehen, müssen Sie Marketing-Cookies akzeptieren.
                 </p>
-                <button onclick="if(typeof CookieYes !== 'undefined' && typeof CookieYes.showSettings === 'function') { CookieYes.showSettings(); } else { location.reload(); }" 
+                <button onclick="if(typeof CookieYes !== 'undefined' && typeof CookieYes.showSettings === 'function') { CookieYes.showSettings(); } else { alert('Cookie-Einstellungen können nicht geöffnet werden. Bitte laden Sie die Seite neu.'); location.reload(); }" 
                     style="padding:12px 24px; background:#b30000; color:#fff; border:none; border-radius:4px; font-weight:bold; cursor:pointer;">
                     Cookie-Einstellungen öffnen
                 </button>
@@ -577,7 +583,12 @@ document.addEventListener('click', function(e) {
     iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
     iframe.allow = "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture";
     iframe.allowFullscreen = true;
-    iframe.style.cssText = "width:100%; height:100%; border:0; position:absolute; top:0; left:0;";
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.style.border = "0";
+    iframe.style.position = "absolute";
+    iframe.style.top = "0";
+    iframe.style.left = "0";
     
     wrapper.innerHTML = "";
     wrapper.appendChild(iframe);
@@ -590,8 +601,9 @@ document.addEventListener("cookieyes_consent_update", function(event) {
     console.log("🔄 Cookie-Consent aktualisiert!");
     
     if (hasMarketingConsent()) {
-        console.log("✅ Marketing-Cookies jetzt akzeptiert!");
+        console.log("✅ Marketing-Cookies jetzt akzeptiert - Videos können geladen werden");
         
+        // Optional: Toast-Benachrichtigung
         const toast = document.createElement("div");
         toast.style.cssText = "position:fixed; bottom:20px; right:20px; background:#16a34a; color:#fff; padding:16px 24px; border-radius:8px; z-index:9999; box-shadow:0 4px 6px rgba(0,0,0,0.3);";
         toast.innerHTML = `
@@ -603,16 +615,13 @@ document.addEventListener("cookieyes_consent_update", function(event) {
             </div>
         `;
         document.body.appendChild(toast);
+        
         setTimeout(() => toast.remove(), 4000);
     }
 });
+
+console.log("✅ YouTube Player bereit!");
 </script>
-<body class="h-full">
-<audio id="fg-player" preload="none" style="display:none">
-  <source src="audio/01_FromGrace.mp3" type="audio/mpeg">
-</audio>
-  <!-- Background Logo -->
-  <div class="background-logo" aria-hidden="true"></div>
   <div class="background-overlay" aria-hidden="true"></div>
   
   <!-- Main Content -->
@@ -727,7 +736,7 @@ document.addEventListener("cookieyes_consent_update", function(event) {
         <a href="#merch" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 font-bold text-xs elegant-text rounded border border-red-900/30 py-3">MERCHANDISE</a>
         <a href="#past" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 font-bold text-xs elegant-text rounded border border-red-900/30 py-3">THE PAST</a>
         <a href="#contact" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 font-bold text-xs elegant-text rounded border border-red-900/30 py-3">CONTACT</a>
-        <a href="#impressum" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 font-bold text-xs elegant-text rounded border border-red-900/30 py-3">IMPRINT</a>
+        <a href="#impressum" class="mobile-nav-link bg-zinc-900/80 hover:bg-zinc-800 text-gray-300 hover:text-red-500 font-bold text-xs elegant-text rounded border border-red-900/30 py-3">IMPRESSUM</a>
       </div>
 
     </div>
@@ -961,7 +970,6 @@ document.addEventListener("cookieyes_consent_update", function(event) {
 </div>
 
 </section>
-
 <!-- Live Performances Section -->
 <section id="live-performances" class="py-12 md:py-20 px-4 sm:px-6 text-center">
 
@@ -1217,11 +1225,11 @@ document.addEventListener("cookieyes_consent_update", function(event) {
   <div class="section-divider mt-10 md:mt-16"></div>
 </section>
   
-<!-- Imprint Section -->
+<!-- Impressum Section -->
 <section id="impressum" class="py-12 md:py-20 px-4 sm:px-6 text-center">
 
   <h2 class="text-3xl md:text-4xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">
-    IMPRINT
+    IMPRESSUM
   </h2>
 
   <div class="max-w-3xl mx-auto mt-10">
@@ -1377,7 +1385,7 @@ document.addEventListener("cookieyes_consent_update", function(event) {
     <a href="#home" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Home</a>
     <a href="#band" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Band</a>
     <a href="#tour" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Tour</a>
-    <a href="#impressum" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Imprint</a>
+    <a href="#impressum" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Impressum</a>
     <a href="#contact" class="text-gray-500 hover:text-red-700 elegant-text text-sm">Contact</a>
 
     <!-- Additional Pages -->
