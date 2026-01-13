@@ -622,6 +622,12 @@ document.addEventListener("cookieyes_consent_update", function(event) {
 
 console.log("✅ YouTube Player bereit!");
 </script>
+<body class="h-full">
+<audio id="fg-player" preload="none" style="display:none">
+  <source src="audio/01_FromGrace.mp3" type="audio/mpeg">
+</audio>
+  <!-- Background Logo -->
+  <div class="background-logo" aria-hidden="true"></div>
   <div class="background-overlay" aria-hidden="true"></div>
   
   <!-- Main Content -->
@@ -631,7 +637,6 @@ console.log("✅ YouTube Player bereit!");
 <nav class="fixed top-0 w-full z-50 bg-black/95 backdrop-blur-sm border-b border-red-900/30">
   <div class="mobile-nav">
     <div class="flex justify-between items-center px-3 py-2">
-
       <!-- Band Logo -->
       <div class="flex items-center gap-2">
         <img 
