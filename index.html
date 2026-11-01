@@ -622,6 +622,7 @@ document.addEventListener("cookieyes_consent_update", function(event) {
 
 console.log("✅ YouTube Player bereit!");
 </script>
+</head>
 <body class="h-full">
 <audio id="fg-player" preload="none" style="display:none">
   <source src="audio/01_FromGrace.mp3" type="audio/mpeg">
@@ -720,6 +721,7 @@ console.log("✅ YouTube Player bereit!");
         <!-- HAMBURGER -->
         <button class="hamburger p-2 focus:outline-none focus:ring-2 focus:ring-red-700 rounded ml-1"
                 id="menuToggle"
+                aria-controls="mobileNav"
                 aria-label="Open or close main menu"
                 aria-expanded="false">
           <span class="hamburger-line block w-5 h-0.5 bg-gray-300 mb-1.5 transition-all duration-300"></span>
@@ -981,14 +983,41 @@ console.log("✅ YouTube Player bereit!");
     LIVE PERFORMANCES
   </h2>
 
+  <p class="mt-4"><a href="https://www.youtube.com/@FromGraceBand/videos" target="_blank" rel="noopener noreferrer" class="text-gray-300 underline elegant-text">ALL VIDEOS ON YOUTUBE</a></p>
+
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mt-10">
+
+    <!-- Campusrock 2026 -->
+    <div class="bg-zinc-900 rounded-lg overflow-hidden glow-border">
+      <div class="yt-wrapper w-full h-48 md:h-64 bg-black flex items-center justify-center relative"
+           data-video="yWrJ9GFr7cg">
+        <img class="w-full h-full object-cover opacity-70"
+             src="https://img.youtube.com/vi/yWrJ9GFr7cg/hqdefault.jpg"
+             alt="Scars of Pain Live Campusrock 2026"
+             loading="lazy">
+        <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors"
+                aria-label="Play video: Scars of Pain Live Campusrock 2026">
+          ▶ PLAY
+        </button>
+      </div>
+      <div class="p-4">
+        <a href="https://www.youtube.com/watch?v=yWrJ9GFr7cg" target="_blank" rel="noopener noreferrer" class="inline-block mb-3 text-gray-300 underline elegant-text text-sm">WATCH ON YOUTUBE</a>
+        <h3 class="text-xl font-bold text-white metal-text mb-2">
+          Scars of Pain – Live Campusrock 2026
+        </h3>
+        <p class="text-red-700 elegant-text mb-2">19.09.2026</p>
+        <p class="text-gray-400 text-sm elegant-text">
+          Live at Campusrock, Seesen.
+        </p>
+      </div>
+    </div>
 
     <!-- Video NEU 1 -->
     <div class="bg-zinc-900 rounded-lg overflow-hidden glow-border">
       <div class="yt-wrapper w-full h-48 md:h-64 bg-black flex items-center justify-center relative"
-           data-video="nJspoTySU3E">
+           data-video="6XGpdzwdsBs">
         <img class="w-full h-full object-cover opacity-70"
-             src="https://img.youtube.com/vi/nJspoTySU3E/hqdefault.jpg"
+             src="https://img.youtube.com/vi/6XGpdzwdsBs/hqdefault.jpg"
              alt="Help Me Live Christmas Rock 2025"
              loading="lazy">
         <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors"
@@ -997,6 +1026,7 @@ console.log("✅ YouTube Player bereit!");
         </button>
       </div>
       <div class="p-4">
+        <a href="https://www.youtube.com/watch?v=6XGpdzwdsBs" target="_blank" rel="noopener noreferrer" class="inline-block mb-3 text-gray-300 underline elegant-text text-sm">WATCH ON YOUTUBE</a>
         <h3 class="text-xl font-bold text-white metal-text mb-2">
           Help Me – Live Christmas Rock 2025
         </h3>
@@ -1010,9 +1040,9 @@ console.log("✅ YouTube Player bereit!");
     <!-- Video NEU 2 -->
     <div class="bg-zinc-900 rounded-lg overflow-hidden glow-border">
       <div class="yt-wrapper w-full h-48 md:h-64 bg-black flex items-center justify-center relative"
-           data-video="6XGpdzwdsBs">
+           data-video="nJspoTySU3E">
         <img class="w-full h-full object-cover opacity-70"
-             src="https://img.youtube.com/vi/6XGpdzwdsBs/hqdefault.jpg"
+             src="https://img.youtube.com/vi/nJspoTySU3E/hqdefault.jpg"
              alt="Endless feat. Lycanthropia Live Christmas Rock 2025"
              loading="lazy">
         <button class="yt-play-btn absolute text-white text-2xl bg-black/70 px-4 py-2 rounded hover:bg-red-700 transition-colors"
@@ -1021,6 +1051,7 @@ console.log("✅ YouTube Player bereit!");
         </button>
       </div>
       <div class="p-4">
+        <a href="https://www.youtube.com/watch?v=nJspoTySU3E" target="_blank" rel="noopener noreferrer" class="inline-block mb-3 text-gray-300 underline elegant-text text-sm">WATCH ON YOUTUBE</a>
         <h3 class="text-xl font-bold text-white metal-text mb-2">
           Endless feat. Lycanthropia – Live Christmas Rock 2025
         </h3>
@@ -1044,6 +1075,7 @@ console.log("✅ YouTube Player bereit!");
         </button>
       </div>
       <div class="p-4">
+        <a href="https://www.youtube.com/watch?v=PtSvVaCoM9k" target="_blank" rel="noopener noreferrer" class="inline-block mb-3 text-gray-300 underline elegant-text text-sm">WATCH ON YOUTUBE</a>
         <h3 class="text-xl font-bold text-white metal-text mb-2">
           Blutadler – Seesen
         </h3>
@@ -1068,6 +1100,7 @@ console.log("✅ YouTube Player bereit!");
         </button>
       </div>
       <div class="p-4">
+        <a href="https://www.youtube.com/watch?v=aiwmarC6qDs" target="_blank" rel="noopener noreferrer" class="inline-block mb-3 text-gray-300 underline elegant-text text-sm">WATCH ON YOUTUBE</a>
         <h3 class="text-xl font-bold text-white metal-text mb-2">
           Johnny B. – Seesen
         </h3>
@@ -1092,6 +1125,7 @@ console.log("✅ YouTube Player bereit!");
         </button>
       </div>
       <div class="p-4">
+        <a href="https://www.youtube.com/watch?v=q9Nexejm-5o" target="_blank" rel="noopener noreferrer" class="inline-block mb-3 text-gray-300 underline elegant-text text-sm">WATCH ON YOUTUBE</a>
         <h3 class="text-xl font-bold text-white metal-text mb-2">
           Blutadler – Bandbattle Moringen
         </h3>
@@ -1116,6 +1150,7 @@ console.log("✅ YouTube Player bereit!");
         </button>
       </div>
       <div class="p-4">
+        <a href="https://www.youtube.com/watch?v=Pjw2ulJiAPw" target="_blank" rel="noopener noreferrer" class="inline-block mb-3 text-gray-300 underline elegant-text text-sm">WATCH ON YOUTUBE</a>
         <h3 class="text-xl font-bold text-white metal-text mb-2">
           Possessed – Salzgitter
         </h3>
@@ -1140,6 +1175,7 @@ console.log("✅ YouTube Player bereit!");
         </button>
       </div>
       <div class="p-4">
+        <a href="https://www.youtube.com/watch?v=ImkffSWZFWw" target="_blank" rel="noopener noreferrer" class="inline-block mb-3 text-gray-300 underline elegant-text text-sm">WATCH ON YOUTUBE</a>
         <h3 class="text-xl font-bold text-white metal-text mb-2">
           DMA – Seesen
         </h3>
@@ -1157,6 +1193,7 @@ console.log("✅ YouTube Player bereit!");
 <section id="tour" class="py-12 md:py-20 px-4 sm:px-6 text-center">
   <h2 class="text-4xl md:text-5xl mb-6 metal-text text-white inline-block border-b-4 border-red-700 pb-2">UPCOMING SHOWS</h2>
 
+  <p class="text-gray-400 elegant-text mt-6">New dates will be announced here.</p>
   <div class="section-divider mt-10 md:mt-16"></div>
 </section>
 
@@ -1197,16 +1234,16 @@ console.log("✅ YouTube Player bereit!");
         </p>
 
         <!-- GUARANTEED CLICK VERSION -->
-        <button
-          type="button"
-          onclick="window.open('https://fromgrace.bandcamp.com/merch/from-grace-t-shirt','_blank');"
+        <a
+          href="https://fromgrace.bandcamp.com/merch/from-grace-t-shirt"
+          target="_blank" rel="noopener noreferrer"
           class="relative z-20 pointer-events-auto
                  bg-red-700 hover:bg-red-800 text-white
                  px-6 py-3 rounded font-bold elegant-text
                  transition-colors text-sm w-full inline-block"
           aria-label="Buy From Grace T-Shirt on Bandcamp">
           BUY ON BANDCAMP
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -1503,34 +1540,33 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const player = document.getElementById("fg-player");
 const playButtons = document.querySelectorAll(".fg-play-btn");
 
-playButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    if (player.paused) {
-      // Catch autoplay policy violations
-      player.play().catch((error) => {
-        console.warn("Audio autoplay blocked by browser:", error);
-        // Optionally show user message
-      });
-      playButtons.forEach(b => {
-        b.textContent = "⏸ PAUSE";
-        b.setAttribute("aria-pressed", "true");
-      });
-    } else {
-      player.pause();
-      playButtons.forEach(b => {
-        b.textContent = "▶ PLAY TRACK";
-        b.setAttribute("aria-pressed", "false");
-      });
-    }
+function syncAudioButtons() {
+  const playing = player && !player.paused && !player.ended;
+  playButtons.forEach(button => {
+    button.textContent = playing ? "⏸ PAUSE" : "▶ PLAY TRACK";
+    button.setAttribute("aria-pressed", String(Boolean(playing)));
+    button.setAttribute("aria-label", playing ? "Pause demo track" : "Play demo track");
   });
-});
-
-player.addEventListener("ended", () => {
-  playButtons.forEach(b => {
-    b.textContent = "▶ PLAY TRACK";
-    b.setAttribute("aria-pressed", "false");
+}
+if (player) {
+  const audioStatus = document.createElement('p');
+  audioStatus.setAttribute('role', 'status');
+  audioStatus.className = 'text-gray-300 text-sm text-center';
+  player.after(audioStatus);
+  playButtons.forEach(button => {
+    button.addEventListener('click', async () => {
+      audioStatus.textContent = '';
+      if (player.paused) {
+        try { await player.play(); }
+        catch (error) {
+          syncAudioButtons();
+          audioStatus.textContent = 'The demo could not be played. Please try again.';
+        }
+      } else { player.pause(); }
+    });
   });
-});
+  ['play', 'pause', 'ended', 'error'].forEach(event => player.addEventListener(event, syncAudioButtons));
+}
 
 // ===== BAND MEMBER ACCORDION =====
 document.querySelectorAll('.member-card').forEach(card => {
@@ -1556,9 +1592,9 @@ document.querySelectorAll('.member-card').forEach(card => {
     // Toggle current member details
     const isHidden = target.classList.contains('fg-hidden');
     target.classList.toggle('fg-hidden');
-    card.setAttribute('aria-expanded', !isHidden);
+    card.setAttribute('aria-expanded', String(isHidden));
     
-    if (!isHidden) {
+    if (isHidden) {
       target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   };
