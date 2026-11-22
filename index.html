@@ -622,6 +622,11 @@ document.addEventListener("cookieyes_consent_update", function(event) {
 
 console.log("✅ YouTube Player bereit!");
 </script>
+<style>
+#home > #fgIntroVideo {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;opacity:0;transition:opacity .35s ease}
+#home > #fgIntroVideo.is-playing {opacity:.25}
+@media(prefers-reduced-motion:reduce){#home > #fgIntroVideo{display:none}}
+</style>
 </head>
 <body class="h-full">
 <audio id="fg-player" preload="none" style="display:none">
@@ -750,6 +755,7 @@ console.log("✅ YouTube Player bereit!");
 </nav>
 
 <header id="home" class="relative min-h-screen flex items-center justify-center text-center px-4 pt-16 pb-8 overflow-hidden">
+  <video id="fgIntroVideo" muted playsinline preload="none" aria-hidden="true"></video>
 
   <div class="relative mb-8 w-full">
 
@@ -1607,6 +1613,22 @@ document.querySelectorAll('.member-card').forEach(card => {
     }
   });
 });
+</script>
+<script>
+(() => {
+ const v=document.getElementById('fgIntroVideo');
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+ if(reduce.matches)return;
+ let timer;
+ const stop=()=>{clearTimeout(timer);v.classList.remove('is-playing');v.pause()};
+ reduce.addEventListener('change',()=>{if(reduce.matches)stop()});
+ v.addEventListener('playing',()=>{if(reduce.matches){stop();return}v.classList.add('is-playing');timer=setTimeout(stop,4500)},{once:true});
+ v.addEventListener('ended',stop);
+ v.addEventListener('error',stop);
+ v.muted=true;
+ v.src='videos/From%20Grace%20Die%20For%20Me.mp4';
+ v.play().catch(stop);
+})();
 </script>
 </body>
 </html>
