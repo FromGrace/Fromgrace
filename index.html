@@ -758,6 +758,7 @@ console.log("✅ YouTube Player bereit!");
 
 <header id="home" class="relative min-h-screen flex items-center justify-center text-center px-4 pt-16 pb-8 overflow-hidden">
   <video id="fgIntroVideo" muted playsinline preload="none" aria-hidden="true"></video>
+  <button id="fgIntroStart" type="button" hidden style="position:absolute;bottom:5rem;left:50%;transform:translateX(-50%);z-index:10;background:#18181b;color:white;border:1px solid #a1a1aa;border-radius:.4rem;padding:.65rem 1rem">Play intro</button>
 
   <div class="relative mb-8 w-full">
 
@@ -1619,18 +1620,20 @@ document.querySelectorAll('.member-card').forEach(card => {
 <script>
 (() => {
  const home=document.getElementById('home'), video=document.getElementById('fgIntroVideo');
+ const button=document.getElementById('fgIntroStart');
  const reduce=matchMedia('(prefers-reduced-motion: reduce)');
  if(reduce.matches)return;
  let finished=false;
  const hide=()=>home.classList.remove('fg-intro-playing');
- const stop=()=>{finished=true;hide();if(!video.paused)video.pause()};
+ const stop=()=>{finished=true;button.hidden=true;hide();if(!video.paused)video.pause()};
  reduce.addEventListener('change',()=>{if(reduce.matches)stop()});
- video.addEventListener('playing',()=>{if(finished||reduce.matches){stop();return}home.classList.add('fg-intro-playing')});
+ video.addEventListener('playing',()=>{if(finished||reduce.matches){stop();return}button.hidden=true;home.classList.add('fg-intro-playing')});
  video.addEventListener('waiting',hide);
  for(const event of ['ended','error','pause'])video.addEventListener(event,stop);
  video.muted=true;
  video.src='videos/From%20Grace%20Die%20For%20Me.mp4';
- video.play().catch(stop);
+ button.addEventListener('click',()=>{button.hidden=true;video.play().catch(stop)});
+ video.play().catch(error=>{if(!finished && !reduce.matches && error.name==='NotAllowedError')button.hidden=false;else stop()});
 })();
 </script>
 </body>
